@@ -41,6 +41,92 @@ async function handleSignInWithGoogle(response) {
   }
 }
 
+document
+  .getElementById('signupForm')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+    }
+  });
+
+document
+  .getElementById('signinForm')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+    }
+  });
+
+document
+  .getElementById('forgotPasswordForm')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const forgotEmail = document.getElementById('forgotEmail').value;
+
+    const { data, error } = await supabaseClient.auth.resetPasswordForEmail(
+      forgotEmail
+    );
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+    }
+  });
+
+document
+  .getElementById('updatePasswordForm')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const newPassword = document.getElementById('newPassword').value;
+
+    const { data, error } = await supabaseClient.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+    }
+  });
+
+async function signOut() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.error('Error', error.message);
+  } else {
+    console.log('Successful!');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   fetchTodos();
 });
