@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch Data Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  </head>
+  <body>
+    <h1>Welcome<span id="userEmail"></span></h1>
+    <h1>Sign In</h1>
+    <form id="signinForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required /><br />
+      <button type="submit">Sign In</button>
+    </form>
+    <h1>Sign Up</h1>
+    <form id="signupForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required /><br />
+      <button type="submit">Sign Up</button>
+    </form>
+    <h1>Or</h1>
+    <button onclick="handleSignInWithGoogle()">Login with Google</button>
+    <button onclick="signOut()">Log out</button>
+
+    <h1>Forgot Password</h1>
+    <form id="forgotPasswordForm">
+      <label for="forgotEmail">Email:</label>
+      <input type="email" id="forgotEmail" name="forgotEmail" required /><br />
+      <button type="submit">Send Reset Email</button>
+    </form>
+
+    <h1>Update Password</h1>
+    <form id="updatePasswordForm">
+      <label for="newPassword">Password:</label>
+      <input
+        type="password"
+        id="newPassword"
+        name="newPassword"
+        required
+      /><br />
+      <button type="submit">Update Now</button>
+    </form>
+
+    <h1>Update Details</h1>
+    <form id="updateUserDetailsForm">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required /><br />
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required /><br />
+      <button type="submit">Update Now</button>
+    </form>
+
+    <h1>My Todo List</h1>
+    <ul id="todoList"></ul>
+    <script src="js/index.js"></script>
+  </body>
+</html>
