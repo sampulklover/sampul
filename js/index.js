@@ -61,6 +61,8 @@ document
     }
   });
 
+var myUserId = null;
+
 document
   .getElementById('signinForm')
   .addEventListener('submit', async function (event) {
@@ -78,6 +80,7 @@ document
       console.error('Error', error.message);
     } else {
       console.log('Successful!', data);
+      myUserId = data.user.id;
     }
   });
 
@@ -117,6 +120,60 @@ document
     }
   });
 
+async function getUserDetails() {
+  return new Promise(async (resolve, reject) => {
+    const { data, error } = await supabaseClient.auth.getUser();
+
+    if (error) {
+      console.error('Error', error.message);
+      reject(error);
+    } else {
+      resolve(data.user);
+    }
+  });
+}
+
+function getUserUUID() {
+  if (myUserId) {
+    return myUserId;
+  } else {
+    getUserDetails()
+      .then((userDetails) => {
+        myUserId = userDetails.id;
+        console.log('retrieved id', myUserId);
+        alert('Something went wrong, please try again.');
+      })
+      .catch((error) => {
+        alert('User not authenticated. Please login.');
+      });
+  }
+}
+
+document
+  .getElementById('updateUserDetailsForm')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+
+    const { data, error } = await supabaseClient
+      .from(dbName.profiles) // Replace 'your_table_name' with your actual table name
+      .upsert([
+        {
+          id: getUserUUID(),
+          first_name: firstName,
+          last_name: lastName,
+        },
+      ]);
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+    }
+  });
+
 async function signOut() {
   const { error } = await supabaseClient.auth.signOut();
 
@@ -127,6 +184,20 @@ async function signOut() {
   }
 }
 
+async function getUserEmail() {
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error) {
+    console.error('Error', error.message);
+  } else {
+    myUserId = data.user.id;
+    const userEmail = data.user.email;
+    const emailHeading = document.getElementById('userEmail');
+    emailHeading.textContent = `, ${userEmail}`;
+  }
+}
+
+getUserEmail();
 document.addEventListener('DOMContentLoaded', function () {
   fetchTodos();
 });
