@@ -27,6 +27,6 @@ document
     if (error) {
       console.error('Error', error.message);
     } else {
-      console.log('Successful!', data);
+      location.href = pageName.user_account;
     }
   });
