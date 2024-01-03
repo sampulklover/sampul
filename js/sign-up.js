@@ -29,13 +29,6 @@ document
     const { data, error } = await supabaseClient.auth.signUp({
       email: email,
       password: password,
-      options: {
-        data: {
-          username: username,
-          accept_tnc: accept_tnc == 'on' ? true : false,
-          accept_marketing: accept_marketing == 'on' ? true : false,
-        },
-      },
     });
 
     if (error) {
