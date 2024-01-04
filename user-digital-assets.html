@@ -155,7 +155,8 @@
                         </div>
                       </div>
                       <div
-                        data-w-id="bf650ab0-7da9-a778-d583-965956f40843"
+                        data-toggle="modal"
+                        data-target="#add-digital-assets-modal"
                         class="button-digital-assets-copy"
                       >
                         <div class="beloved-block">
@@ -166,6 +167,15 @@
                           </div>
                         </div>
                       </div>
+
+                      <div id="add-digital-assets-form-container">
+                        <!-- auto generate -->
+                      </div>
+
+                      <div id="edit-digital-assets-form-container">
+                        <!-- auto generate -->
+                      </div>
+
                       <div style="opacity: 0; display: none" class="popup">
                         <div class="popup-wrap">
                           <div class="scrollbar">
@@ -2322,205 +2332,6 @@
                       <div class="spacer-30"></div>
                       <div class="form-2">
                         <div class="form_digital-accounts w-form">
-                          <form
-                            id="addDigitalAssetForm"
-                            name="wf-form-Digital-Account-form"
-                            data-name="Digital Account form"
-                            method="get"
-                            class="form-digital-account"
-                          >
-                            <div
-                              id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b339a6-e2e93042"
-                              class="form-content-2"
-                            >
-                              <div class="form-field-wrapper">
-                                <label for="Username-4" class="field-label"
-                                  >Username<span class="text-span-9"
-                                    >*</span
-                                  ></label
-                                ><input
-                                  type="text"
-                                  class="form_input w-input"
-                                  maxlength="256"
-                                  name="Username-2"
-                                  data-name="Username 2"
-                                  placeholder="abc123"
-                                  id="input-username"
-                                  required=""
-                                />
-                              </div>
-                              <div class="form-field-wrapper">
-                                <label for="email-4" class="field-label"
-                                  >Email<span class="text-span-10"
-                                    >*</span
-                                  ></label
-                                ><input
-                                  type="email"
-                                  class="form_input w-input"
-                                  maxlength="256"
-                                  name="email-2"
-                                  data-name="Email 2"
-                                  placeholder="you@example.com"
-                                  id="input-email"
-                                  required=""
-                                />
-                              </div>
-                            </div>
-                            <div
-                              id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b339b6-e2e93042"
-                              class="form-content-2"
-                            >
-                              <div class="form-field-wrapper">
-                                <label
-                                  for="Service-Platform-5"
-                                  class="field-label"
-                                  >Service Platform<span class="text-span-8"
-                                    >*</span
-                                  ></label
-                                ><select
-                                  id="select-service-platform"
-                                  name="Service-Platform-4"
-                                  data-name="Service Platform 4"
-                                  required=""
-                                  class="form_input w-select"
-                                >
-                                  <!-- auto generate -->
-                                </select>
-                              </div>
-                              <div class="form-field-wrapper">
-                                <label
-                                  for="Declared-value-4"
-                                  class="field-label"
-                                  >Type<span class="text-span-7">*</span></label
-                                ><select
-                                  id="select-type"
-                                  name="Declared-value-3"
-                                  data-name="Declared Value 3"
-                                  class="form_input w-select"
-                                >
-                                  <!-- auto generate -->
-                                </select>
-                              </div>
-                            </div>
-                            <div
-                              id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b339c5-e2e93042"
-                              class="form-content-2"
-                            >
-                              <div class="form-field-wrapper">
-                                <label
-                                  for="Declared-value-4"
-                                  class="field-label"
-                                  >Frequency<span class="text-span-7"
-                                    >*</span
-                                  ></label
-                                ><select
-                                  id="select-frequency"
-                                  name="Declared-value-3"
-                                  data-name="Declared Value 3"
-                                  required=""
-                                  class="form_input w-select"
-                                >
-                                  <!-- auto generate -->
-                                </select>
-                              </div>
-                              <div class="form-field-wrapper">
-                                <label
-                                  for="Declared-value-4"
-                                  class="field-label"
-                                  >Declared Value (MYR)<span class="text-span-6"
-                                    >*</span
-                                  ></label
-                                ><select
-                                  id="select-declared-value"
-                                  name="Declared-value-3"
-                                  data-name="Declared Value 3"
-                                  required=""
-                                  class="form_input w-select"
-                                >
-                                  <!-- auto generate -->
-                                </select>
-                              </div>
-                            </div>
-                            <div class="form-field-wrapper">
-                              <label for="field-3" class="field-label"
-                                >Instructions After Death<span
-                                  class="text-span-11"
-                                  >*</span
-                                ></label
-                              ><select
-                                id="select-instructions-after-death"
-                                name="field-2"
-                                data-name="Field 2"
-                                required=""
-                                class="form_input w-select"
-                              >
-                                <!-- auto generate -->
-                              </select>
-                            </div>
-                            <div class="form-field-wrapper">
-                              <label for="field-3" class="field-label"
-                                >Beneficiary<span class="text-span-11"
-                                  >*</span
-                                ></label
-                              ><select
-                                id="select-beneficiary"
-                                name="field-2"
-                                data-name="Field 2"
-                                required=""
-                                class="form_input w-select"
-                              >
-                                <!-- auto generate -->
-                              </select>
-                            </div>
-                            <div class="form-field-wrapper">
-                              <label
-                                for="Contact03-message-2"
-                                class="field-label"
-                                >Remarks</label
-                              ><textarea
-                                id="input-remarks"
-                                name="Contact-03-message"
-                                maxlength="5000"
-                                data-name="Contact 03 message"
-                                placeholder="Type your message..."
-                                required=""
-                                class="form_input_text-area text-area w-input"
-                              ></textarea>
-                            </div>
-                            <label
-                              id="Contact03-checkbox"
-                              class="w-checkbox form-checkbox w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b33a2a-e2e93042"
-                            >
-                              <div
-                                class="w-checkbox-input w-checkbox-input--inputType-custom uui-form-checkbox-icon-3"
-                              ></div>
-                              <input
-                                type="checkbox"
-                                id="Contact03-checkbox"
-                                name="Contact-03-checkbox"
-                                data-name="Contact 03 checkbox"
-                                required=""
-                                style="
-                                  opacity: 0;
-                                  position: absolute;
-                                  z-index: -1;
-                                "
-                              /><span
-                                for="Contact-03-checkbox"
-                                class="text-size-small w-form-label"
-                                >You agree to our friendly
-                                <a href="legal.html" class="text-style-link"
-                                  >privacy policy</a
-                                >.</span
-                              > </label
-                            ><input
-                              type="submit"
-                              value="Submit"
-                              data-wait="Please wait..."
-                              id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b33a31-e2e93042"
-                              class="button w-button"
-                            />
-                          </form>
                           <div class="success-message-5 w-form-done">
                             <div class="w-users-userformheader header-pswrd">
                               <div class="header-6">
@@ -3364,6 +3175,12 @@
     <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
     <!-- our functions -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="component/global-component.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/global-functions.js"></script>
