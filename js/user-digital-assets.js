@@ -1,52 +1,51 @@
-async function fetchBeneficiaries() {
-  const userId = await getUserUUID();
+document.getElementById('add-digital-assets-form-container').innerHTML =
+  digitalAssetsForm(typeName.add.key);
 
-  if (userId) {
-    const { data, error } = await supabaseClient
-      .from(dbName.beneficiaries)
-      .select('id, name, nickname')
-      .eq('uuid', userId);
-    if (error) {
-      console.error('Error', error.message);
-    } else {
-      if (data.length === 0) {
-        mapToSelect(addNew(), 'select-beneficiary');
-        document
-          .getElementById('select-beneficiary')
-          .addEventListener('change', (event) => {
-            const selectedValue = event.target.value;
-            console.log(selectedValue);
-            if (selectedValue === 'add_new') {
-              location.href = pageName.beloved;
-            }
-          });
-      } else {
-        const modifiedData = data.map((item) => ({
-          value: item.id,
-          name: item.name,
-        }));
-        mapToSelect(modifiedData, 'select-beneficiary');
-      }
-    }
+document.getElementById('edit-digital-assets-form-container').innerHTML =
+  digitalAssetsForm(typeName.edit.key);
+
+var assetData = [];
+
+const editUsernameInput = document.getElementById('input-edit-username');
+const editEmailInput = document.getElementById('input-edit-email');
+const editServicePlatformSelect = document.getElementById(
+  'select-edit-service-platform'
+);
+const editAccountTypeSelect = document.getElementById('select-edit-type');
+const editFrequencySelect = document.getElementById('select-edit-frequency');
+const editDeclaredValueSelect = document.getElementById(
+  'select-edit-declared-value'
+);
+const editInstructionsAfterDeathSelect = document.getElementById(
+  'select-edit-instructions-after-death'
+);
+const editBeneficiarySelect = document.getElementById(
+  'select-edit-beneficiary'
+);
+const editRemarksInput = document.getElementById('input-edit-remarks');
+
+var editCurrentId = null;
+
+function populateToEdit(id) {
+  editCurrentId = id;
+  $('#edit-digital-assets-modal').modal('show');
+  var selectedCard = assetData.find((item) => item.id === id);
+  if (selectedCard) {
+    editUsernameInput.value = selectedCard.username;
+    editEmailInput.value = selectedCard.email;
+    editServicePlatformSelect.value = selectedCard.service_platform;
+    editAccountTypeSelect.value = selectedCard.account_type;
+    editFrequencySelect.value = selectedCard.frequency;
+    editDeclaredValueSelect.value = selectedCard.declared_value_myr;
+    editInstructionsAfterDeathSelect.value =
+      selectedCard.instructions_after_death;
+    editBeneficiarySelect.value = selectedCard.beneficiaries_id;
+    editRemarksInput.value = selectedCard.remarks;
   }
 }
 
-const input_username = document.getElementById('input-username');
-const input_email = document.getElementById('input-email');
-const select_service_platform = document.getElementById(
-  'select-service-platform'
-);
-const select_type = document.getElementById('select-type');
-const select_frequency = document.getElementById('select-frequency');
-const select_declared_value = document.getElementById('select-declared-value');
-const select_instructions_after_death = document.getElementById(
-  'select-instructions-after-death'
-);
-const select_beneficiary = document.getElementById('select-beneficiary');
-const input_remarks = document.getElementById('input-remarks');
-
 document
-  .getElementById('addDigitalAssetForm')
+  .getElementById('add-digital-assets-form')
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -56,15 +55,20 @@ document
       .from(dbName.digital_assets)
       .insert({
         uuid: userId,
-        username: input_username.value,
-        email: input_email.value,
-        service_platform: select_service_platform.value,
-        account_type: select_type.value,
-        frequency: select_frequency.value,
-        declared_value_myr: select_declared_value.value,
-        instructions_after_death: select_instructions_after_death.value,
-        beneficiaries_id: select_beneficiary.value,
-        remarks: input_remarks.value,
+        username: document.getElementById('input-add-username').value,
+        email: document.getElementById('input-add-email').value,
+        service_platform: document.getElementById('select-add-service-platform')
+          .value,
+        account_type: document.getElementById('select-add-type').value,
+        frequency: document.getElementById('select-add-frequency').value,
+        declared_value_myr: document.getElementById('select-add-declared-value')
+          .value,
+        instructions_after_death: document.getElementById(
+          'select-add-instructions-after-death'
+        ).value,
+        beneficiaries_id: document.getElementById('select-add-beneficiary')
+          .value,
+        remarks: document.getElementById('input-add-remarks').value,
       });
 
     if (error) {
@@ -72,10 +76,42 @@ document
     } else {
       console.log('Successful!', data);
       fetchAssets();
+      $('#add-digital-assets-modal').modal('hide');
     }
   });
 
-var assetData = [];
+document
+  .getElementById('edit-digital-assets-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const userId = await getUserUUID();
+
+    const { data, error } = await supabaseClient
+      .from(dbName.digital_assets)
+      .update({
+        username: editUsernameInput.value,
+        email: editEmailInput.value,
+        service_platform: editServicePlatformSelect.value,
+        account_type: editAccountTypeSelect.value,
+        frequency: editFrequencySelect.value,
+        declared_value_myr: editDeclaredValueSelect.value,
+        instructions_after_death: editInstructionsAfterDeathSelect.value,
+        beneficiaries_id: editBeneficiarySelect.value,
+        remarks: editRemarksInput.value,
+      })
+      .eq('uuid', userId)
+      .eq('id', editCurrentId);
+
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      console.log('Successful!', data);
+      fetchAssets();
+      $('#edit-digital-assets-modal').modal('hide');
+    }
+  });
+
 async function fetchAssets() {
   const userId = await getUserUUID();
 
@@ -83,7 +119,8 @@ async function fetchAssets() {
     const { data, error } = await supabaseClient
       .from(dbName.digital_assets)
       .select('*')
-      .eq('uuid', userId);
+      .eq('uuid', userId)
+      .order('created_at', { ascending: false });
     if (error) {
       console.error('Error', error.message);
     } else {
@@ -139,6 +176,10 @@ function populateAssets(allData = [], tabName = 'tab_1') {
     title[1].innerText = iadObject.name;
     title[2].innerText = dvObject.name;
 
+    divs[0].addEventListener('click', function () {
+      populateToEdit(item.id);
+    });
+
     records.push(card);
   });
 
@@ -170,13 +211,64 @@ tabLinks.forEach(function (tabLink) {
   });
 });
 
-$(document).ready(function () {
-  mapToSelect(servicePlatforms(), 'select-service-platform');
-  mapToSelect(servicePlatformAccountTypes(), 'select-type');
-  mapToSelect(servicePlatformFrequencies(), 'select-frequency');
-  mapToSelect(declaredValues(), 'select-declared-value');
-  mapToSelect(instructionsAfterDeath(), 'select-instructions-after-death');
+function mapElements() {
+  for (let key in typeName) {
+    mapToSelect(
+      servicePlatforms(),
+      `select-${typeName[key].key}-service-platform`
+    );
+    mapToSelect(
+      servicePlatformAccountTypes(),
+      `select-${typeName[key].key}-type`
+    );
+    mapToSelect(
+      servicePlatformFrequencies(),
+      `select-${typeName[key].key}-frequency`
+    );
+    mapToSelect(declaredValues(), `select-${typeName[key].key}-declared-value`);
+    mapToSelect(
+      instructionsAfterDeath(),
+      `select-${typeName[key].key}-instructions-after-death`
+    );
+  }
+}
 
-  fetchBeneficiaries();
+async function fetchBeneficiaries() {
+  const userId = await getUserUUID();
+
+  if (userId) {
+    const { data, error } = await supabaseClient
+      .from(dbName.beneficiaries)
+      .select('id, name, nickname')
+      .eq('uuid', userId);
+    if (error) {
+      console.error('Error', error.message);
+    } else {
+      for (let key in typeName) {
+        if (data.length === 0) {
+          mapToSelect(addNew(), `select-${typeName[key].key}-beneficiary`);
+          document
+            .getElementById(`select-${typeName[key].key}-beneficiary`)
+            .addEventListener('change', (event) => {
+              const selectedValue = event.target.value;
+              if (selectedValue === 'add_new') {
+                location.href = pageName.beloved;
+              }
+            });
+        } else {
+          const modifiedData = data.map((item) => ({
+            value: item.id,
+            name: item.name,
+          }));
+          mapToSelect(modifiedData, `select-${typeName[key].key}-beneficiary`);
+        }
+      }
+    }
+  }
+}
+
+$(document).ready(function () {
+  mapElements();
   fetchAssets();
+  fetchBeneficiaries();
 });

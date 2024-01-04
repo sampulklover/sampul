@@ -1,4 +1,7 @@
 const { createClient } = supabase;
+
+const AppVersion = 'v1.0.10';
+
 const dbName = {
   profiles: 'profiles',
   beneficiaries: 'beneficiaries',
