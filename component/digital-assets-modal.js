@@ -2,10 +2,12 @@ const typeName = {
   add: {
     key: 'add',
     buttonTitle: 'Submit',
+    allow_delete: false,
   },
   edit: {
     key: 'edit',
     buttonTitle: 'Update',
+    allow_delete: true,
   },
 };
 
@@ -119,7 +121,7 @@ function digitalAssetsForm(type) {
                   maxlength="256"
                   name="Username-2"
                   data-name="Username 2"
-                  placeholder="abc123"
+                  placeholder=""
                   id="input-${typeName[type].key}-username"
                   required=""
                 />
@@ -133,7 +135,7 @@ function digitalAssetsForm(type) {
                   maxlength="256"
                   name="email-2"
                   data-name="Email 2"
-                  placeholder="you@example.com"
+                  placeholder=""
                   id="input-${typeName[type].key}-email"
                   required=""
                 />
@@ -262,9 +264,20 @@ function digitalAssetsForm(type) {
                 >
               </label>
             </div>
+            ${
+              typeName[type].allow_delete
+                ? `<button
+              type="button"
+              class="w-button button btn-secondary"
+              id="delete-digital-assets-btn"
+            >
+              Delete
+            </button>`
+                : ''
+            }
             <button
               type="submit"
-              class="w-button button"
+              class="w-button button custom-btn"
               id="${typeName[type].key}-digital-assets-btn"
             >
             ${typeName[type].buttonTitle}

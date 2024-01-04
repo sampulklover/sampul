@@ -77,6 +77,39 @@ function populateToEdit(id) {
 }
 
 document
+  .getElementById('delete-digital-assets-btn')
+  .addEventListener('click', async function (event) {
+    if (confirm(`Are you sure you want to delete this record?`)) {
+      var selectedCard = assetData.find((item) => item.id === editCurrentId);
+
+      let useBtn = document.getElementById('delete-digital-assets-btn');
+      let defaultBtnText = useBtn.innerHTML;
+      useBtn.disabled = true;
+      useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+      const userId = await getUserUUID();
+
+      const { data, error } = await supabaseClient
+        .from(dbName.digital_assets)
+        .delete()
+        .eq('uuid', userId)
+        .eq('id', selectedCard.id);
+
+      if (error) {
+        console.error('Error', error.message);
+        showToast('alert-toast-container', error.message, 'danger');
+      } else {
+        fetchAssets();
+        $('#edit-digital-assets-modal').modal('hide');
+        showToast('alert-toast-container', 'Deleted!', 'success');
+      }
+
+      useBtn.disabled = false;
+      useBtn.innerHTML = defaultBtnText;
+    }
+  });
+
+document
   .getElementById('add-digital-assets-form')
   .addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -110,8 +143,8 @@ document
 
     if (error) {
       console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
     } else {
-      console.log('Successful!', data);
       fetchAssets();
       document
         .getElementById('add-success-body-container')
@@ -119,6 +152,7 @@ document
       document
         .getElementById('add-form-body-container')
         .classList.add('hidden');
+      showToast('alert-toast-container', 'Submitted!', 'success');
     }
 
     useBtn.disabled = false;
@@ -129,6 +163,11 @@ document
   .getElementById('edit-digital-assets-form')
   .addEventListener('submit', async function (event) {
     event.preventDefault();
+
+    let useBtn = document.getElementById('edit-digital-assets-btn');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
     const userId = await getUserUUID();
 
@@ -150,11 +189,15 @@ document
 
     if (error) {
       console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
     } else {
-      console.log('Successful!', data);
       fetchAssets();
       $('#edit-digital-assets-modal').modal('hide');
+      showToast('alert-toast-container', 'Updated!', 'success');
     }
+
+    useBtn.disabled = false;
+    useBtn.innerHTML = defaultBtnText;
   });
 
 async function fetchAssets() {
@@ -168,6 +211,7 @@ async function fetchAssets() {
       .order('created_at', { ascending: false });
     if (error) {
       console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
     } else {
       populateAssets(data);
       assetData = data;
@@ -288,6 +332,7 @@ async function fetchBeneficiaries() {
       .eq('uuid', userId);
     if (error) {
       console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
     } else {
       for (let key in typeName) {
         if (data.length === 0) {
