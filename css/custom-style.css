@@ -11,3 +11,20 @@
   -webkit-box-orient: vertical;
 }
 
+a {
+  font-size: 14px;
+  line-height: 20px;
+  color:blue
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.modal-backdrop {
+  background-color: white
+}
+
+.modal-content {
+  border-radius: 15px; 
+}
