@@ -8,3 +8,9 @@ function mapToSelect(list, elementId) {
     });
   }
 }
+
+function spinnerLoading(text) {
+  return (
+    text + `<div class="spinner-border spinner-border-sm" role="status"></div>`
+  );
+}

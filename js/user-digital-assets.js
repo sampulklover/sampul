@@ -4,7 +4,39 @@ document.getElementById('add-digital-assets-form-container').innerHTML =
 document.getElementById('edit-digital-assets-form-container').innerHTML =
   digitalAssetsForm(typeName.edit.key);
 
+document
+  .getElementById('new-digital-assets-btn')
+  .addEventListener('click', function () {
+    $('#add-digital-assets-modal').modal('show');
+    document
+      .getElementById('add-success-body-container')
+      .classList.add('hidden');
+    document
+      .getElementById('add-form-body-container')
+      .classList.remove('hidden');
+  });
+
 var assetData = [];
+
+document.getElementById('input-search').addEventListener('input', function () {
+  const userInput = this.value.toLowerCase();
+
+  const filteredData = assetData.filter((item) => {
+    const searchableProperties = [
+      'account_type',
+      'email',
+      'service_platform',
+      'username',
+      'instructions_after_death',
+    ];
+
+    return searchableProperties.some((prop) =>
+      item[prop].toLowerCase().includes(userInput)
+    );
+  });
+
+  populateAssets(filteredData);
+});
 
 const editUsernameInput = document.getElementById('input-edit-username');
 const editEmailInput = document.getElementById('input-edit-email');
@@ -49,6 +81,11 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
+    let useBtn = document.getElementById('add-digital-assets-btn');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
     const userId = await getUserUUID();
 
     const { data, error } = await supabaseClient
@@ -76,8 +113,16 @@ document
     } else {
       console.log('Successful!', data);
       fetchAssets();
-      $('#add-digital-assets-modal').modal('hide');
+      document
+        .getElementById('add-success-body-container')
+        .classList.remove('hidden');
+      document
+        .getElementById('add-form-body-container')
+        .classList.add('hidden');
     }
+
+    useBtn.disabled = false;
+    useBtn.innerHTML = defaultBtnText;
   });
 
 document
