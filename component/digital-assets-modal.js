@@ -1,17 +1,17 @@
 const typeName = {
   add: {
     key: 'add',
-    buttonTitle: 'Submit',
+    button_title: 'Submit',
     allow_delete: false,
   },
   edit: {
     key: 'edit',
-    buttonTitle: 'Update',
+    button_title: 'Update',
     allow_delete: true,
   },
 };
 
-function sucsessModal() {
+function successModal() {
   return `
         <div class="content-56">
           <img
@@ -50,7 +50,7 @@ function sucsessModal() {
         </div>`;
 }
 
-function digitalAssetsForm(type) {
+function digitalAssetsModalForm(type) {
   if (!(type in typeName)) {
     console.error(`Invalid type: ${type}`);
     return;
@@ -68,7 +68,7 @@ function digitalAssetsForm(type) {
         </div>
         <div class="hidden" id="${
           typeName[type].key
-        }-success-body-container">${sucsessModal()}</div>
+        }-success-body-container">${successModal()}</div>
         <div id="${typeName[type].key}-form-body-container">
           <div class="modal-header-2">
             <div class="content-32">
@@ -221,7 +221,7 @@ function digitalAssetsForm(type) {
               <label for="field-3" class="field-label"
                 >Beneficiary<span class="text-span-11">*</span></label
               ><select
-                id="select-${typeName[type].key}-beneficiary"
+                id="select-${typeName[type].key}-beloved"
                 name="field-2"
                 data-name="Field 2"
                 required=""
@@ -266,22 +266,32 @@ function digitalAssetsForm(type) {
             </div>
             ${
               typeName[type].allow_delete
-                ? `<button
-              type="button"
-              class="w-button button btn-secondary"
-              id="delete-digital-assets-btn"
-            >
-              Delete
-            </button>`
-                : ''
-            }
-            <button
+                ? `
+            <div class="content-22 p-0">
+              <button
+                type="button"
+                class="button-secondary-gray size-w142"
+                id="delete-digital-assets-btn"
+              >
+                Delete
+              </button>
+              <button
+                type="submit"
+                class="button size-w142"
+                id="${typeName[type].key}-digital-assets-btn"
+              >
+              ${typeName[type].button_title}
+              </button>
+            </div>
+            `
+                : `<button
               type="submit"
               class="w-button button custom-btn"
               id="${typeName[type].key}-digital-assets-btn"
             >
-            ${typeName[type].buttonTitle}
-            </button>
+              ${typeName[type].button_title}</button
+            >`
+            }
           </form>
         </div>
       </div>

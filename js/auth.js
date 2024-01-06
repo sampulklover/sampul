@@ -1,17 +1,22 @@
 const { createClient } = supabase;
 
-const AppVersion = 'v1.0.13';
+const AppVersion = 'v1.0.14';
 
 const dbName = {
   profiles: 'profiles',
-  beneficiaries: 'beneficiaries',
+  beloved: 'beloved',
   digital_assets: 'digital_assets',
 };
+
+const bucketName = 'images';
 
 const pageName = {
   user_account: 'user-account',
   beloved: 'beloved',
 };
+
+const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
+const addUserImg = `https://iriedoc.wu.ac.th/support/img/user.png`;
 
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmemJsYWlhbmxkcmZ3ZHFkaWpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQwMDM5OTMsImV4cCI6MjAxOTU3OTk5M30.QOxPgVvOV0Efon8aleoAnlNKgkI2XwEPgIgz76_oIBU';

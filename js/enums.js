@@ -199,3 +199,20 @@ function addNew() {
 
   return options;
 }
+
+function relationships() {
+  const options = [
+    { name: 'Friend', value: 'friend' },
+    { name: 'Partner', value: 'partner' },
+    { name: 'Sibling', value: 'sibling' },
+    { name: 'Parent', value: 'parent' },
+    { name: 'Child', value: 'child' },
+    { name: 'Colleague', value: 'colleague' },
+    { name: 'Acquaintance', value: 'acquaintance' },
+    { name: 'Spouse', value: 'spouse' },
+    { name: 'Relative', value: 'relative' },
+    { name: 'Others', value: 'others' },
+  ];
+
+  return options;
+}
