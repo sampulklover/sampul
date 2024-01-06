@@ -1,8 +1,8 @@
 document.getElementById('add-digital-assets-form-container').innerHTML =
-  digitalAssetsForm(typeName.add.key);
+  digitalAssetsModalForm(typeName.add.key);
 
 document.getElementById('edit-digital-assets-form-container').innerHTML =
-  digitalAssetsForm(typeName.edit.key);
+  digitalAssetsModalForm(typeName.edit.key);
 
 document
   .getElementById('new-digital-assets-btn')
@@ -51,9 +51,7 @@ const editDeclaredValueSelect = document.getElementById(
 const editInstructionsAfterDeathSelect = document.getElementById(
   'select-edit-instructions-after-death'
 );
-const editBeneficiarySelect = document.getElementById(
-  'select-edit-beneficiary'
-);
+const editBelovedSelect = document.getElementById('select-edit-beloved');
 const editRemarksInput = document.getElementById('input-edit-remarks');
 
 var editCurrentId = null;
@@ -71,7 +69,7 @@ function populateToEdit(id) {
     editDeclaredValueSelect.value = selectedCard.declared_value_myr;
     editInstructionsAfterDeathSelect.value =
       selectedCard.instructions_after_death;
-    editBeneficiarySelect.value = selectedCard.beneficiaries_id;
+    editBelovedSelect.value = selectedCard.beloved_id;
     editRemarksInput.value = selectedCard.remarks;
   }
 }
@@ -136,8 +134,7 @@ document
         instructions_after_death: document.getElementById(
           'select-add-instructions-after-death'
         ).value,
-        beneficiaries_id: document.getElementById('select-add-beneficiary')
-          .value,
+        beloved_id: document.getElementById('select-add-beloved').value,
         remarks: document.getElementById('input-add-remarks').value,
       });
 
@@ -181,7 +178,7 @@ document
         frequency: editFrequencySelect.value,
         declared_value_myr: editDeclaredValueSelect.value,
         instructions_after_death: editInstructionsAfterDeathSelect.value,
-        beneficiaries_id: editBeneficiarySelect.value,
+        beloved_id: editBelovedSelect.value,
         remarks: editRemarksInput.value,
       })
       .eq('uuid', userId)
@@ -199,25 +196,6 @@ document
     useBtn.disabled = false;
     useBtn.innerHTML = defaultBtnText;
   });
-
-async function fetchAssets() {
-  const userId = await getUserUUID();
-
-  if (userId) {
-    const { data, error } = await supabaseClient
-      .from(dbName.digital_assets)
-      .select('*')
-      .eq('uuid', userId)
-      .order('created_at', { ascending: false });
-    if (error) {
-      console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-    } else {
-      populateAssets(data);
-      assetData = data;
-    }
-  }
-}
 
 function populateAssets(allData = [], tabName = 'tab_1') {
   const listLoader = document.getElementById('asset-list-loader');
@@ -290,6 +268,25 @@ function populateAssets(allData = [], tabName = 'tab_1') {
   }
 }
 
+async function fetchAssets() {
+  const userId = await getUserUUID();
+
+  if (userId) {
+    const { data, error } = await supabaseClient
+      .from(dbName.digital_assets)
+      .select('*')
+      .eq('uuid', userId)
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
+    } else {
+      populateAssets(data);
+      assetData = data;
+    }
+  }
+}
+
 var tabLinks = document.querySelectorAll('.tab-link');
 
 tabLinks.forEach(function (tabLink) {
@@ -322,12 +319,12 @@ function mapElements() {
   }
 }
 
-async function fetchBeneficiaries() {
+async function fetchbeloved() {
   const userId = await getUserUUID();
 
   if (userId) {
     const { data, error } = await supabaseClient
-      .from(dbName.beneficiaries)
+      .from(dbName.beloved)
       .select('id, name, nickname')
       .eq('uuid', userId);
     if (error) {
@@ -336,9 +333,9 @@ async function fetchBeneficiaries() {
     } else {
       for (let key in typeName) {
         if (data.length === 0) {
-          mapToSelect(addNew(), `select-${typeName[key].key}-beneficiary`);
+          mapToSelect(addNew(), `select-${typeName[key].key}-beloved`);
           document
-            .getElementById(`select-${typeName[key].key}-beneficiary`)
+            .getElementById(`select-${typeName[key].key}-beloved`)
             .addEventListener('change', (event) => {
               const selectedValue = event.target.value;
               if (selectedValue === 'add_new') {
@@ -350,7 +347,7 @@ async function fetchBeneficiaries() {
             value: item.id,
             name: item.name,
           }));
-          mapToSelect(modifiedData, `select-${typeName[key].key}-beneficiary`);
+          mapToSelect(modifiedData, `select-${typeName[key].key}-beloved`);
         }
       }
     }
@@ -360,5 +357,5 @@ async function fetchBeneficiaries() {
 $(document).ready(function () {
   mapElements();
   fetchAssets();
-  fetchBeneficiaries();
+  fetchbeloved();
 });

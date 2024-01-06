@@ -72,15 +72,14 @@ document
   });
 
 const fileName = 'avatar.png';
-const defaultUserImg =
-  'https://cdn-icons-png.flaticon.com/512/6469/6469169.png';
+const defaultUserImg = 'https://iriedoc.wu.ac.th/support/img/user.png';
 
 async function deleteImage() {
   const userId = await getUserUUID();
   const imagePath = userId + '/avatar/' + fileName;
 
   const { error: deleteError } = await supabaseClient.storage
-    .from('images')
+    .from(bucketName)
     .remove(imagePath);
 
   if (deleteError) {
@@ -108,7 +107,7 @@ async function uploadImage() {
 
     // Check if there's an existing image
     const { data: existingImageData, error: existingImageError } =
-      await supabaseClient.storage.from('images').getPublicUrl(imagePath);
+      await supabaseClient.storage.from(bucketName).getPublicUrl(imagePath);
 
     if (existingImageError) {
       console.error(
@@ -121,7 +120,7 @@ async function uploadImage() {
     // Delete existing image if it exists
     if (existingImageData) {
       const { error: deleteError } = await supabaseClient.storage
-        .from('images')
+        .from(bucketName)
         .remove([imagePath]);
 
       if (deleteError) {
@@ -132,7 +131,7 @@ async function uploadImage() {
 
     // Upload the new image
     const { data, error } = await supabaseClient.storage
-      .from('images')
+      .from(bucketName)
       .upload(imagePath, file);
 
     if (error) {
@@ -148,7 +147,7 @@ const selectedImageElement = document.getElementById('selectedImage');
 async function getImageUrl() {
   const userId = await getUserUUID();
   const { data } = await supabaseClient.storage
-    .from('images')
+    .from(bucketName)
     .list(userId + '/' + 'avatar' + '/');
 
   var privateImgUrl = CDNURL + userId + '/' + 'avatar' + '/' + data[0].name;

@@ -42,7 +42,7 @@ function showToast(parentContainerId = '', message, type = '') {
 
   $('.toast').toast({
     autohide: true,
-    delay: 3000,
+    delay: 5000,
   });
   $('.toast').toast('show');
 }
