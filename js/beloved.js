@@ -114,6 +114,7 @@ document
         nickname: editNicknameInput.value,
         phone_number: editPhoneNumberInput.value,
         email: editEmailInput.value,
+        relationship: editRelationshipSelect.value,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId)
