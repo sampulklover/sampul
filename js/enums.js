@@ -216,3 +216,12 @@ function relationships() {
 
   return options;
 }
+
+function beneficiaryTypes() {
+  const options = [
+    { name: 'Co-Sampul', value: 'co_sampul' },
+    { name: 'Future owner', value: 'future_owner' },
+  ];
+
+  return options;
+}
