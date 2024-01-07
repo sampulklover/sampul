@@ -5,10 +5,27 @@ document.getElementById('edit-beloved-form-container').innerHTML =
   belovedModalForm(typeName.edit.key);
 
 document
-  .getElementById('open-beneficiary-modal-btn')
+  .getElementById('open-co-sampul-modal-btn')
   .addEventListener('click', function () {
     $('#add-beloved-modal').modal('show');
+    changeModalType('co_sampul', typeName.add.key);
+    document.getElementById('select-add-type').value = typeName;
   });
+
+document
+  .getElementById('open-future-owner-modal-btn')
+  .addEventListener('click', function () {
+    $('#add-beloved-modal').modal('show');
+    changeModalType('future_owner', typeName.add.key);
+    document.getElementById('select-add-type').value = typeName;
+  });
+
+function changeModalType(typeName, type) {
+  document.getElementById(`modal-${type}-title-beloved`).innerText =
+    type_title[typeName].title;
+  document.getElementById(`modal-${type}-subtitle-beloved`).innerText =
+    type_title[typeName].subtitle;
+}
 
 var editCurrentId = null;
 const editNameInput = document.getElementById('input-edit-name');
@@ -18,9 +35,25 @@ const editEmailInput = document.getElementById('input-edit-email');
 const editRelationshipSelect = document.getElementById(
   'select-edit-relationship'
 );
+const editTypeSelect = document.getElementById('select-edit-type');
 const editPreviewImage = document.getElementById('preview-edit-image');
 
-var assetData = [];
+var belovedData = [];
+
+document.getElementById('input-search').addEventListener('input', function () {
+  const userInput = this.value.toLowerCase();
+
+  const filteredData = belovedData.filter((item) => {
+    const searchableProperties = ['name', 'nickname', 'email'];
+
+    return searchableProperties.some((prop) =>
+      item[prop].toLowerCase().includes(userInput)
+    );
+  });
+
+  populateBeloved(filteredData, typeList.co_sampul);
+  populateBeloved(filteredData, typeList.future_owner);
+});
 
 document
   .getElementById('add-beloved-form')
@@ -44,6 +77,7 @@ document
         phone_number: document.getElementById('input-add-phone-number').value,
         email: document.getElementById('input-add-email').value,
         relationship: document.getElementById('select-add-relationship').value,
+        type: document.getElementById('select-add-type').value,
       })
       .select();
 
@@ -115,6 +149,7 @@ document
         phone_number: editPhoneNumberInput.value,
         email: editEmailInput.value,
         relationship: editRelationshipSelect.value,
+        type: editTypeSelect.value,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId)
@@ -227,6 +262,7 @@ function populateToEdit(id) {
     editPhoneNumberInput.value = selectedCard.phone_number;
     editEmailInput.value = selectedCard.email;
     editRelationshipSelect.value = selectedCard.relationship;
+    editTypeSelect.value = selectedCard.type;
     const imageUrl = selectedCard.image_path
       ? `${CDNURL}${selectedCard.image_path}`
       : addUserImg;
@@ -234,11 +270,18 @@ function populateToEdit(id) {
   }
 }
 
-function populateBeloved(allData = []) {
-  const listLoader = document.getElementById('beloved-list-loader');
-  const listEmpty = document.getElementById('beloved-list-empty');
-  const listContainer = document.getElementById('beloved-list-container');
-  const listBody = document.getElementById('beloved-list-body');
+const typeList = {
+  co_sampul: { pre_text: 'co-sampul', key: 'co_sampul' },
+  future_owner: { pre_text: 'future-owner', key: 'future_owner' },
+};
+
+function populateBeloved(allData = [], type) {
+  const listLoader = document.getElementById(`${type.pre_text}-list-loader`);
+  const listEmpty = document.getElementById(`${type.pre_text}-list-empty`);
+  const listContainer = document.getElementById(
+    `${type.pre_text}-list-container`
+  );
+  const listBody = document.getElementById(`${type.pre_text}-list-body`);
 
   var records = [];
 
@@ -249,19 +292,23 @@ function populateBeloved(allData = []) {
     const title = divs[0].getElementsByTagName('span');
 
     const rObject = relationships().find((x) => x.value === item.relationship);
-    const imageUrl = item.image_path
-      ? `${CDNURL}${item.image_path}`
-      : emptyUserImg;
 
-    image[0].src = imageUrl;
-    title[0].innerText = item.name;
-    title[1].innerText = rObject.name;
+    if (item.type == type.key) {
+      const imageUrl = item.image_path
+        ? `${CDNURL}${item.image_path}`
+        : emptyUserImg;
 
-    card.addEventListener('click', function () {
-      populateToEdit(item.id);
-    });
+      image[0].src = imageUrl;
+      title[0].innerText = item.name;
+      title[1].innerText = rObject.name;
 
-    records.push(card);
+      card.addEventListener('click', function () {
+        populateToEdit(item.id);
+        changeModalType(type.key, typeName.edit.key);
+      });
+
+      records.push(card);
+    }
   });
 
   listLoader.classList.add('hidden');
@@ -326,6 +373,8 @@ document
 function mapElements() {
   for (let key in typeName) {
     mapToSelect(relationships(), `select-${typeName[key].key}-relationship`);
+    mapToSelect(beneficiaryTypes(), `select-${typeName[key].key}-type`);
+    document.getElementById('select-add-type').value == 'future_owner';
   }
 }
 
@@ -343,7 +392,8 @@ async function fetchbeloved() {
       console.error('Error', error.message);
       showToast('alert-toast-container', error.message, 'danger');
     } else {
-      populateBeloved(data);
+      populateBeloved(data, typeList.co_sampul);
+      populateBeloved(data, typeList.future_owner);
       belovedData = data;
     }
   }

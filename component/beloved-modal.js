@@ -1,19 +1,17 @@
 const type_title = {
-  type: {
-    co_sampul: {
-      title: 'Appoint your Co-Sampul',
-      subtitle: `Co-Sampul is your trusted person for
+  co_sampul: {
+    title: 'Appoint your Co-Sampul',
+    subtitle: `Co-Sampul is your trusted person for
       whom which all information in this
       Sampul will be passed on. He/she must
       be 18 years old and above, will be
       responsible to ensure the proper
       managementof your assets distribution
       after your demise.`,
-    },
-    beneficiary: {
-      title: 'Appoint your Beneficiary',
-      subtitle: 'The future owner of your assets',
-    },
+  },
+  future_owner: {
+    title: 'Appoint your Beneficiary',
+    subtitle: 'The future owner of your assets',
   },
 };
 
@@ -22,54 +20,13 @@ const typeName = {
     key: 'add',
     button_title: 'Submit',
     allow_delete: false,
-    type: type_title,
   },
   edit: {
     key: 'edit',
     button_title: 'Update',
     allow_delete: true,
-    type: type_title,
   },
 };
-
-function successModal() {
-  return `
-        <div class="content-56">
-          <img
-            src="images/Digital-coins.png"
-            loading="lazy"
-            sizes="(max-width: 479px) 80vw, 351.9921875px"
-            srcset="
-              images/Digital-coins-p-500.png   500w,
-              images/Digital-coins-p-800.png   800w,
-              images/Digital-coins-p-1080.png 1080w,
-              images/Digital-coins.png        1417w
-            "
-            alt=""
-            class="image-12"
-          />
-        </div>
-        <div class="modal-header-3">
-          <div class="content-57">
-            <div class="text-and-supporting-text-28">
-              <div class="text-lg-semibold-6">
-                Digital Asset <br />successfully registered
-              </div>
-              <div class="text-sm-regular-12">
-                The account has been registered <br />and ready for your
-                wasiat/will
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-actions-3">
-          <div class="content-58">
-            <a class="button-30" type="button" data-dismiss="modal">
-              <div class="text-md-semibold-9">Finish</div>
-            </a>
-          </div>
-        </div>`;
-}
 
 function belovedModalForm(type) {
   if (!(type in typeName)) {
@@ -86,12 +43,6 @@ function belovedModalForm(type) {
           <button type="button" class="close" data-dismiss="modal">
             &times;
           </button>
-        </div>
-        <div
-          class="hidden"
-          id="${typeName[type].key}-success-body-container"
-        >
-          ${successModal()}
         </div>
         <div id="${typeName[type].key}-form-body-container">
           <div class="modal-header-2">
@@ -116,12 +67,12 @@ function belovedModalForm(type) {
                 </div>
               </div>
               <div class="text-and-supporting-text-18">
-                <div class="text-lg-semibold-4">
-                  Appoint your Beneficiary
-                </div>
-                <div class="text-sm-regular-6">
-                  The future owner of your assets
-                </div>
+                <div class="text-lg-semibold-4" id="modal-${
+                  typeName[type].key
+                }-title-beloved">...</div>
+                <div class="text-sm-regular-6" id="modal-${
+                  typeName[type].key
+                }-subtitle-beloved">...</div>
               </div>
             </div>
             <div class="padding-bottom-3"></div>
@@ -193,10 +144,7 @@ function belovedModalForm(type) {
                 />
               </div>
             </div>
-            <div
-              id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b339b6-e2e93042"
-              class="form-content-2"
-            >
+            <div class="form-content-2">
               <div class="form-field-wrapper">
                 <label for="relationship" class="field-label"
                   >Relationship<span class="text-span-8">*</span></label
@@ -209,61 +157,72 @@ function belovedModalForm(type) {
                   <!-- auto generate -->
                 </select>
               </div>
+              <div class="form-field-wrapper hidden">
+                <label for="type" class="field-label"
+                  >Beneficiary Type<span class="text-span-8">*</span></label
+                ><select
+                  id="select-${typeName[type].key}-type"
+                  name="type"
+                  required=""
+                  class="form_input w-select"
+                >
+                  <!-- auto generate -->
+                </select>
+              </div>
             </div>
             <div class="w-layout-grid settings_component">
-            <div class="text-and-supporting-text-14">
-              <div class="field-label">Profile photo</div>
-              <div class="text-size-tiny">
-                This will be displayed on profile.
+              <div class="text-and-supporting-text-14">
+                <div class="field-label">Profile photo</div>
+                <div class="text-size-tiny">
+                  This will be displayed on profile.
+                </div>
+              </div>
+              <div class="avatar-and-actions">
+                <img
+                  loading="lazy"
+                  src="https://iriedoc.wu.ac.th/support/img/user.png"
+                  alt=""
+                  class="avatar-7"
+                  id="preview-${typeName[type].key}-image"
+                />
+                <input
+                  type="file"
+                  id="input-${typeName[type].key}-image"
+                  name=""
+                  accept="image/*"
+                  style="display: none"
+                />
               </div>
             </div>
-            <div class="avatar-and-actions">
-              <img
-                loading="lazy"
-                src="https://iriedoc.wu.ac.th/support/img/user.png"
-                alt=""
-                class="avatar-7"
-                id="preview-${typeName[type].key}-image"
-              />
-              <input
-                type="file"
-                id="input-${typeName[type].key}-image"
-                name=""
-                accept="image/*"
-                style="display: none"
-              />
-            </div>
-          </div>
-
             <div class="spacer-30"></div>
-              ${
-                typeName[type].allow_delete
-                  ? `
-              <div class="content-22 p-0">
-                <button
-                  type="button"
-                  class="button-secondary-gray size-w142"
-                  id="delete-beloved-btn"
-                >
-                  Delete
-                </button>
-                <button
-                  type="submit"
-                  class="button size-w142"
-                  id="${typeName[type].key}-beloved-btn"
-                >
-                ${typeName[type].button_title}
-                </button>
-              </div>
-              `
-                  : `<button
+            ${
+              typeName[type].allow_delete
+                ? `
+            <div class="content-22 p-0">
+              <button
+                type="button"
+                class="button-secondary-gray size-w142"
+                id="delete-beloved-btn"
+              >
+                Delete
+              </button>
+              <button
                 type="submit"
-                class="w-button button custom-btn"
+                class="button size-w142"
                 id="${typeName[type].key}-beloved-btn"
               >
-                ${typeName[type].button_title}</button
-              >`
-              }
+                ${typeName[type].button_title}
+              </button>
+            </div>
+            `
+                : `<button
+              type="submit"
+              class="w-button button custom-btn"
+              id="${typeName[type].key}-beloved-btn"
+            >
+              ${typeName[type].button_title}</button
+            >`
+            }
           </form>
         </div>
       </div>
