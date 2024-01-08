@@ -1,14 +1,3 @@
-function maritalStatus() {
-  const items = [
-    { name: 'Single', value: 'single' },
-    { name: 'Married', value: 'married' },
-    { name: 'Widowed', value: 'widowed' },
-    { name: 'Divorced', value: 'divorced' },
-  ];
-
-  return items;
-}
-
 function servicePlatforms() {
   const items = [
     {
@@ -143,6 +132,17 @@ function servicePlatforms() {
   return items;
 }
 
+function maritalStatus() {
+  const items = [
+    { name: 'Single', value: 'single' },
+    { name: 'Married', value: 'married' },
+    { name: 'Widowed', value: 'widowed' },
+    { name: 'Divorced', value: 'divorced' },
+  ];
+
+  return items;
+}
+
 function servicePlatformAccountTypes() {
   const items = [
     { name: 'Digital Account', value: 'digital_account' },
@@ -221,6 +221,19 @@ function beneficiaryTypes() {
   const options = [
     { name: 'Co-Sampul', value: 'co_sampul' },
     { name: 'Future owner', value: 'future_owner' },
+  ];
+
+  return options;
+}
+
+function religions() {
+  const options = [
+    { name: 'Islam', value: 'islam' },
+    { name: 'Christianity', value: 'christianity' },
+    { name: 'Hinduism', value: 'hinduism' },
+    { name: 'Buddhism', value: 'buddhism' },
+    { name: 'Sikhism', value: 'sikhism' },
+    { name: 'Others', value: 'others' },
   ];
 
   return options;
