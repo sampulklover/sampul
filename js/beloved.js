@@ -168,17 +168,18 @@ document
 
     if (imageInput.files.length > 0 && returnData.id) {
       if (returnData.image_path) {
-        const imagePath = `${CDNURL}${returnData.image_path}`;
-
         const { error } = await supabaseClient.storage
           .from(bucketName)
-          .remove([imagePath]);
+          .remove([returnData.image_path]);
 
         if (error) {
           showToast('alert-toast-container', error.message, 'danger');
           console.error('Error', error.message);
           fetchbeloved();
           $('#edit-beloved-modal').modal('hide');
+
+          useBtn.disabled = false;
+          useBtn.innerHTML = defaultBtnText;
           return;
         }
       }
