@@ -239,20 +239,6 @@
                                 accept="image/*"
                                 style="display: none"
                               />
-                              <!-- <div class="actions-6">
-                                <a href="#" target="_blank" class="button-14">
-                                  <div class="smpl_text-sm-semibold">
-                                    Delete
-                                  </div>
-                                </a>
-                                <a href="#" target="_blank" class="button-14">
-                                  <div
-                                    class="smpl_text-sm-semibold text-color-primary700"
-                                  >
-                                    Update
-                                  </div>
-                                </a>
-                              </div> -->
                             </div>
                           </div>
                           <div class="w-layout-grid settings_component-copy">
@@ -354,6 +340,7 @@
                                 placeholder=""
                                 id="input-email"
                                 required=""
+                                disabled
                               />
                             </div>
                           </div>
@@ -425,6 +412,7 @@
                                 data-name="Name 2"
                                 placeholder="Address 1"
                                 id="input-address-1"
+                                required=""
                               /><input
                                 type="text"
                                 class="field-box w-input"
@@ -443,6 +431,7 @@
                                   data-name="City"
                                   placeholder="City"
                                   id="input-city"
+                                  required=""
                                 /><input
                                   type="text"
                                   class="field-box inside w-input"
@@ -472,302 +461,198 @@
                   </div>
                   <div data-w-tab="Tab 3" class="tab-pane w-tab-pane">
                     <div class="container-large">
-                      <div class="padding-vertical-small">
-                        <div class="setting_content">
-                          <div class="page-header">
-                            <div class="content-2">
-                              <div class="text-and-supporting-text-3">
-                                <div class="smpl_text-sm-semibold">
-                                  Password
-                                </div>
-                                <div class="smpl_text-sm-regular">
-                                  Please enter your current password to change
-                                  your password
-                                </div>
-                              </div>
-                              <div class="actions-2">
-                                <a
-                                  href="#"
-                                  target="_blank"
-                                  class="button-secondary-gray"
-                                >
+                      <form id="password-form">
+                        <div class="padding-vertical-small">
+                          <div class="setting_content">
+                            <div class="page-header">
+                              <div class="content-2">
+                                <div class="text-and-supporting-text-3">
                                   <div class="smpl_text-sm-semibold">
-                                    Cancel
+                                    Password
                                   </div>
-                                </a>
-                                <a href="#" class="button">Update passwords</a>
+                                  <div class="smpl_text-sm-regular">
+                                    Please enter your current password to change
+                                    your password
+                                  </div>
+                                </div>
+                                <div class="actions-2">
+                                  <button
+                                    type="button"
+                                    class="button-secondary-gray custom-btn"
+                                    id="cancel-password-btn"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    type="submit"
+                                    class="w-button button custom-btn"
+                                    id="save-password-btn"
+                                  >
+                                    Update password
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                            <img
-                              loading="lazy"
-                              src="images/Vectors-Wrapper_2.svg"
-                              alt=""
-                              class="vectors-wrapper-5"
-                            />
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Current password
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                New password
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-c8e70505-4b70-454f-1d6a-3f784daf75df-193402d0"
-                            class="form-block-6 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-c8e70505-4b70-454f-1d6a-3f784daf75f4-193402d0"
+                              class="form-block-7 w-form"
                             >
                               <input
-                                type="email"
+                                type="password"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
                                 placeholder="*******"
-                                id="email-3"
+                                id="input-new-password"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">New password</div>
-                          </div>
-                          <div
-                            id="w-node-c8e70505-4b70-454f-1d6a-3f784daf75f4-193402d0"
-                            class="form-block-7 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Confirm new password
+                              </div>
+                            </div>
+                            <div
+                              id="w-node-c8e70505-4b70-454f-1d6a-3f784daf7609-193402d0"
+                              class="form-block-8 w-form"
                             >
                               <input
-                                type="email"
+                                type="password"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
                                 placeholder="*******"
-                                id="email-3"
+                                id="input-confirm-new-password"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
                         </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Confirm new password
-                            </div>
-                          </div>
-                          <div
-                            id="w-node-c8e70505-4b70-454f-1d6a-3f784daf7609-193402d0"
-                            class="form-block-8 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
-                            >
-                              <input
-                                type="email"
-                                class="field-box _560 w-input"
-                                maxlength="256"
-                                name="email-3"
-                                data-name="Email 3"
-                                placeholder="*******"
-                                id="email-3"
-                                required=""
-                              />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                   <div data-w-tab="Tab 4" class="tab-pane w-tab-pane">
                     <div class="container-large">
-                      <div class="padding-vertical-small">
-                        <div class="setting_content">
-                          <div class="page-header">
-                            <div class="content-2">
-                              <div class="text-and-supporting-text-3">
-                                <div class="smpl_text-sm-semibold">
-                                  Death of Sampul Owner
-                                </div>
-                                <div class="smpl_text-sm-regular">
-                                  Inform and update your co-sampul owner
-                                  information
-                                </div>
-                              </div>
-                              <div class="actions-2">
-                                <a
-                                  href="#"
-                                  target="_blank"
-                                  class="button-secondary-gray"
-                                >
+                      <form id="inform-death-form">
+                        <div class="padding-vertical-small">
+                          <div class="setting_content">
+                            <div class="page-header">
+                              <div class="content-2">
+                                <div class="text-and-supporting-text-3">
                                   <div class="smpl_text-sm-semibold">
-                                    Cancel
+                                    Death of Sampul Owner
                                   </div>
-                                </a>
-                                <a href="#" target="_blank" class="button">
-                                  <div
-                                    class="smpl_text-sm-semibold text-color-white"
+                                  <div class="smpl_text-sm-regular">
+                                    Inform and update your co-sampul owner
+                                    information
+                                  </div>
+                                </div>
+                                <div class="actions-2">
+                                  <button
+                                    type="button"
+                                    class="button-secondary-gray custom-btn"
+                                    id="cancel-inform-death-btn"
+                                  >
+                                    Cancel
+                                  </button>
+                                  <button
+                                    type="submit"
+                                    class="w-button button custom-btn"
+                                    id="save-inform-death-btn"
                                   >
                                     Save
-                                  </div>
-                                </a>
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                            <img
-                              loading="lazy"
-                              src="images/Vectors-Wrapper_2.svg"
-                              alt=""
-                              class="vectors-wrapper-5"
-                            />
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Co-Sampul Name <br />(As Per NRIC)
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Co-Sampul Name <br />(As Per NRIC)
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_67f63931-7aa9-3330-c341-90d181d9034c-193402d0"
-                            class="form-block-4 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_67f63931-7aa9-3330-c341-90d181d9034c-193402d0"
+                              class="form-block-4 w-form"
                             >
                               <input
-                                type="email"
+                                type="text"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
-                                placeholder="Ahmad Mohd"
-                                id="email-3"
+                                placeholder=""
+                                id="input-inform-death-nric-name"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Co-Sampul NRIC
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Co-Sampul NRIC
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_67f63931-7aa9-3330-c341-90d181d90361-193402d0"
-                            class="form-block-5 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_67f63931-7aa9-3330-c341-90d181d90361-193402d0"
+                              class="form-block-5 w-form"
                             >
                               <input
-                                type="email"
+                                type="text"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
-                                placeholder="9123456789"
-                                id="email-3"
+                                placeholder=""
+                                id="input-inform-death-nric-no"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Image verification
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Image verification
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_67f63931-7aa9-3330-c341-90d181d90376-193402d0"
-                            class="w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_67f63931-7aa9-3330-c341-90d181d90376-193402d0"
+                              class="w-form"
                             >
+                              <input
+                                type="file"
+                                id="input-inform-death-image"
+                                name=""
+                                accept="image/*"
+                                style="display: none"
+                                value=""
+                              />
                               <div class="file-upload-base _560">
                                 <div class="content-13">
-                                  <div class="text-and-supporting-text-5">
+                                  <div
+                                    class="text-and-supporting-text-5 drop-area"
+                                    id="dropArea-selfie-container"
+                                    ondragover="handleDragOver(event)"
+                                    ondrop="handleDrop(event)"
+                                  >
+                                    <img
+                                      loading="lazy"
+                                      alt=""
+                                      class="rounded mx-auto d-block"
+                                      id="preview-inform-death-image"
+                                    />
                                     <div class="action-copy">
                                       <a
                                         href="#"
@@ -788,75 +673,39 @@
                                   </div>
                                 </div>
                               </div>
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Death Certification
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Death Certification
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_4bab8fed-7926-c064-4074-cfc87b5b3ad0-193402d0"
-                            class="form-block-3 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_4bab8fed-7926-c064-4074-cfc87b5b3ad0-193402d0"
+                              class="form-block-3 w-form"
                             >
                               <input
-                                type="email"
+                                type="text"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
-                                placeholder="Upload"
-                                id="email-3"
+                                placeholder=""
+                                id="input-inform-death-certification"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid grid-2">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Co-Sampul Contact
+                          <div class="w-layout-grid grid-2">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Co-Sampul Contact
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_30a61ddd-835c-c1aa-c20c-fff39dc8436c-193402d0"
-                            class="w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_30a61ddd-835c-c1aa-c20c-fff39dc8436c-193402d0"
+                              class="w-form"
                             >
                               <input
                                 type="tel"
@@ -864,80 +713,43 @@
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
-                                placeholder="0123456789"
-                                id="email-3"
+                                placeholder=""
+                                id="input-inform-death-phone-no"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Co-Sampul Email
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Co-Sampul Email
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_0f397646-aced-957c-697d-16903179c41f-193402d0"
-                            class="form-block-2 w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
+                            <div
+                              id="w-node-_0f397646-aced-957c-697d-16903179c41f-193402d0"
+                              class="form-block-2 w-form"
                             >
                               <input
-                                type="tel"
+                                type="email"
                                 class="field-box _560 w-input"
                                 maxlength="256"
                                 name="email-3"
                                 data-name="Email 3"
-                                placeholder="email@gmail.com"
-                                id="email-3"
+                                placeholder=""
+                                id="input-inform-death-email"
                                 required=""
                               />
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="w-layout-grid settings_component-copy">
-                          <div class="setting_content">
-                            <div class="smpl_text-sm-regular">
-                              Co-Sampul Mailing Address
+                          <div class="w-layout-grid settings_component-copy">
+                            <div class="setting_content">
+                              <div class="smpl_text-sm-regular">
+                                Co-Sampul Mailing Address
+                              </div>
                             </div>
-                          </div>
-                          <div
-                            id="w-node-_67f63931-7aa9-3330-c341-90d181d903ca-193402d0"
-                            class="form-block w-form"
-                          >
-                            <form
-                              id="email-form"
-                              name="email-form"
-                              data-name="Email Form"
-                              method="get"
-                              class="form-6"
+                            <div
+                              id="w-node-b33f138e-b5ae-bc5e-b871-87997967af99-193402d0"
+                              class="form-block-16 w-form"
                             >
                               <input
                                 type="text"
@@ -945,70 +757,53 @@
                                 maxlength="256"
                                 name="name-2"
                                 data-name="Name 2"
-                                placeholder="No 123"
-                                id="name-2"
-                              /><input
-                                type="text"
-                                class="field-box w-input"
-                                maxlength="256"
-                                name="name-2"
-                                data-name="Name 2"
-                                placeholder="Condominium ABC"
-                                id="name-2"
-                              /><input
-                                type="text"
-                                class="field-box w-input"
-                                maxlength="256"
-                                name="name-2"
-                                data-name="Name 2"
-                                placeholder="Kuala Lumpur"
-                                id="name-2"
-                              /><input
-                                type="email"
-                                class="field-box w-input"
-                                maxlength="256"
-                                name="email-2"
-                                data-name="Email 2"
-                                placeholder="512340"
-                                id="email-2"
+                                placeholder="Address 1"
+                                id="input-inform-death-address-1"
                                 required=""
+                              /><input
+                                type="text"
+                                class="field-box w-input"
+                                maxlength="256"
+                                name="name-2"
+                                data-name="Name 2"
+                                placeholder="Address 2 (optional)"
+                                id="input-inform-death-address-2"
                               />
-                              <div class="input">
-                                <div class="content-4">
-                                  <img
-                                    loading="lazy"
-                                    src="images/MY.png"
-                                    alt=""
-                                    class="vectors-wrapper"
-                                  />
-                                  <div
-                                    class="text-size-tiny text-color-gray400"
-                                  >
-                                    Malaysia
-                                  </div>
-                                </div>
-                                <img
-                                  loading="lazy"
-                                  src="images/Vectors-Wrapper_1.svg"
-                                  alt=""
-                                  class="vectors-wrapper"
+                              <div class="div-block-13">
+                                <input
+                                  type="text"
+                                  class="field-box inside w-input"
+                                  maxlength="256"
+                                  name="City"
+                                  data-name="City"
+                                  placeholder="City"
+                                  id="input-inform-death-city"
+                                  required=""
+                                /><input
+                                  type="text"
+                                  class="field-box inside w-input"
+                                  maxlength="256"
+                                  name="email-2"
+                                  data-name="Email 2"
+                                  placeholder="Zip/Postcode"
+                                  id="input-inform-death-postcode"
+                                  required=""
+                                />
+                                <input
+                                  type="text"
+                                  class="field-box inside w-input"
+                                  maxlength="256"
+                                  name="email-2"
+                                  data-name="Email 2"
+                                  placeholder="Country"
+                                  id="input-inform-death-country"
+                                  required=""
                                 />
                               </div>
-                            </form>
-                            <div class="w-form-done">
-                              <div>
-                                Thank you! Your submission has been received!
-                              </div>
-                            </div>
-                            <div class="w-form-fail">
-                              <div>
-                                Oops! Something went wrong while submitting the
-                                form.
-                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                   <div data-w-tab="Tab 5" class="w-tab-pane">
