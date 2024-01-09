@@ -1,12 +1,13 @@
 const { createClient } = supabase;
 
-const AppVersion = 'v1.0.18';
+const AppVersion = 'v1.0.19';
 
 const dbName = {
   profiles: 'profiles',
   beloved: 'beloved',
   digital_assets: 'digital_assets',
   inform_death: 'inform_death',
+  wills: 'wills',
 };
 
 const bucketName = 'images';
