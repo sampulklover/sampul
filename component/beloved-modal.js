@@ -87,18 +87,18 @@ function belovedModalForm(type) {
           >
             <div class="form-content-2">
               <div class="form-field-wrapper">
-                <label for="name" class="field-label"
-                  >Name<span class="text-span-9 mr-1">*</span
+                <label for="nric-name" class="field-label"
+                  >Name (As Per NRIC)<span class="text-span-9 mr-1">*</span
                   ><span class="text-size-tiny"
-                    >must be &gt; 18 years old</span
-                  ></label
+                  >must be &gt; 18 years old</span
+                ></label
                 ><input
                   type="text"
                   class="form_input w-input"
                   maxlength="256"
-                  name="name"
+                  name="nric-name"
                   placeholder=""
-                  id="input-${typeName[type].key}-name"
+                  id="input-${typeName[type].key}-nric-name"
                   required=""
                 />
               </div>
@@ -118,33 +118,47 @@ function belovedModalForm(type) {
             </div>
             <div class="form-content-2">
               <div class="form-field-wrapper">
-                <label for="phone-number" class="field-label"
+                <label for="nric-no" class="field-label"
+                  >NRIC<span class="text-span-9">*</span></label
+                ><input
+                  type="text"
+                  class="form_input w-input"
+                  maxlength="256"
+                  name="nric-no"
+                  placeholder=""
+                  id="input-${typeName[type].key}-nric-no"
+                  required=""
+                />
+              </div>
+              <div class="form-field-wrapper">
+                <label for="phone-no" class="field-label"
                   >Phone number</label
                 ><input
                   type="text"
                   class="form_input w-input"
                   maxlength="256"
-                  name="phone-number"
+                  name="phone-no"
                   placeholder=""
-                  id="input-${typeName[type].key}-phone-number"
-                  required=""
-                />
-              </div>
-              <div class="form-field-wrapper">
-                <label for="email" class="field-label"
-                  >Email<span class="text-span-10">*</span></label
-                ><input
-                  type="email"
-                  class="form_input w-input"
-                  maxlength="256"
-                  name="email"
-                  placeholder=""
-                  id="input-${typeName[type].key}-email"
+                  id="input-${typeName[type].key}-phone-no"
                   required=""
                 />
               </div>
             </div>
+
             <div class="form-content-2">
+              <div class="form-field-wrapper">
+              <label for="email" class="field-label"
+                >Email<span class="text-span-10">*</span></label
+              ><input
+                type="email"
+                class="form_input w-input"
+                maxlength="256"
+                name="email"
+                placeholder=""
+                id="input-${typeName[type].key}-email"
+                required=""
+              />
+              </div>
               <div class="form-field-wrapper">
                 <label for="relationship" class="field-label"
                   >Relationship<span class="text-span-8">*</span></label
@@ -170,6 +184,22 @@ function belovedModalForm(type) {
                 </select>
               </div>
             </div>
+
+            <div class="form-content-2">
+              <div class="form-field-wrapper">
+              <label for="level" class="field-label"
+                >Beloved level<span class="text-span-8">*</span></label
+              ><select
+                id="select-${typeName[type].key}-level"
+                name="level"
+                required=""
+                class="form_input w-select"
+              >
+                <!-- auto generate -->
+              </select>
+              </div>
+            </div>
+
             <div class="w-layout-grid settings_component">
               <div class="text-and-supporting-text-14">
                 <div class="field-label">Profile photo</div>
