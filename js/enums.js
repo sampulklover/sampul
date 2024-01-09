@@ -226,6 +226,16 @@ function beneficiaryTypes() {
   return options;
 }
 
+function belovedLevel() {
+  const options = [
+    { name: 'Primary', value: 'primary' },
+    { name: 'Secondary', value: 'secondary' },
+    { name: 'Others', value: 'others' },
+  ];
+
+  return options;
+}
+
 function religions() {
   const options = [
     { name: 'Islam', value: 'islam' },

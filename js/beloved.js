@@ -9,7 +9,7 @@ document
   .addEventListener('click', function () {
     $('#add-beloved-modal').modal('show');
     changeModalType('co_sampul', typeName.add.key);
-    document.getElementById('select-add-type').value = typeName;
+    document.getElementById('select-add-type').value = 'co_sampul';
   });
 
 document
@@ -17,7 +17,7 @@ document
   .addEventListener('click', function () {
     $('#add-beloved-modal').modal('show');
     changeModalType('future_owner', typeName.add.key);
-    document.getElementById('select-add-type').value = typeName;
+    document.getElementById('select-add-type').value = 'future_owner';
   });
 
 function changeModalType(typeName, type) {
@@ -28,14 +28,16 @@ function changeModalType(typeName, type) {
 }
 
 var editCurrentId = null;
-const editNameInput = document.getElementById('input-edit-name');
+const editNricNameInput = document.getElementById('input-edit-nric-name');
+const editNricNoInput = document.getElementById('input-edit-nric-no');
 const editNicknameInput = document.getElementById('input-edit-nickname');
-const editPhoneNumberInput = document.getElementById('input-edit-phone-number');
+const editPhoneNoInput = document.getElementById('input-edit-phone-no');
 const editEmailInput = document.getElementById('input-edit-email');
 const editRelationshipSelect = document.getElementById(
   'select-edit-relationship'
 );
 const editTypeSelect = document.getElementById('select-edit-type');
+const editLevelSelect = document.getElementById('select-edit-level');
 const editPreviewImage = document.getElementById('preview-edit-image');
 
 var belovedData = [];
@@ -68,16 +70,52 @@ document
     const userId = await getUserUUID();
     let returnId = null;
 
+    let setStop = false;
+
+    const addTypeSelect = document.getElementById('select-add-type');
+    const addLevelSelect = document.getElementById('select-add-level');
+
+    if (belovedData.length !== 0) {
+      belovedData.map((item) => {
+        if (
+          item.type == addTypeSelect.value &&
+          item.level == addLevelSelect.value
+        ) {
+          if (item.level !== 'others') {
+            var selectedLevel = belovedLevel().find(
+              (item) => item.value === addLevelSelect.value
+            );
+
+            showToast(
+              'alert-toast-container',
+              `Beloved level "${selectedLevel.name}" already been assigned to a different person.`,
+              'danger'
+            );
+
+            setStop = true;
+            useBtn.disabled = false;
+            useBtn.innerHTML = defaultBtnText;
+          }
+        }
+      });
+    }
+
+    if (setStop) {
+      return;
+    }
+
     const { data, error } = await supabaseClient
       .from(dbName.beloved)
       .insert({
         uuid: userId,
-        name: document.getElementById('input-add-name').value,
+        nric_name: document.getElementById('input-add-nric-name').value,
+        nric_no: document.getElementById('input-add-nric-no').value,
         nickname: document.getElementById('input-add-nickname').value,
-        phone_number: document.getElementById('input-add-phone-number').value,
+        phone_no: document.getElementById('input-add-phone-no').value,
         email: document.getElementById('input-add-email').value,
         relationship: document.getElementById('select-add-relationship').value,
         type: document.getElementById('select-add-type').value,
+        level: document.getElementById('select-add-level').value,
       })
       .select();
 
@@ -141,15 +179,49 @@ document
     const userId = await getUserUUID();
     let returnData = null;
 
+    let setStop = false;
+
+    if (belovedData.length !== 0) {
+      belovedData.map((item) => {
+        if (
+          item.type == editTypeSelect.value &&
+          item.level == editLevelSelect.value &&
+          item.id !== editCurrentId
+        ) {
+          if (item.level !== 'others') {
+            var selectedLevel = belovedLevel().find(
+              (item) => item.value === editLevelSelect.value
+            );
+
+            showToast(
+              'alert-toast-container',
+              `Beloved level "${selectedLevel.name}" already been assigned to a different person.`,
+              'danger'
+            );
+
+            setStop = true;
+            useBtn.disabled = false;
+            useBtn.innerHTML = defaultBtnText;
+          }
+        }
+      });
+    }
+
+    if (setStop) {
+      return;
+    }
+
     const { data, error } = await supabaseClient
       .from(dbName.beloved)
       .update({
-        name: editNameInput.value,
+        nric_name: editNricNameInput.value,
+        nric_no: editNricNoInput.value,
         nickname: editNicknameInput.value,
-        phone_number: editPhoneNumberInput.value,
+        phone_no: editPhoneNoInput.value,
         email: editEmailInput.value,
         relationship: editRelationshipSelect.value,
         type: editTypeSelect.value,
+        level: editLevelSelect.value,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId)
@@ -258,12 +330,14 @@ function populateToEdit(id) {
   $('#edit-beloved-modal').modal('show');
   var selectedCard = belovedData.find((item) => item.id === id);
   if (selectedCard) {
-    editNameInput.value = selectedCard.name;
+    editNricNameInput.value = selectedCard.nric_name;
+    editNricNoInput.value = selectedCard.nric_no;
     editNicknameInput.value = selectedCard.nickname;
-    editPhoneNumberInput.value = selectedCard.phone_number;
+    editPhoneNoInput.value = selectedCard.phone_no;
     editEmailInput.value = selectedCard.email;
     editRelationshipSelect.value = selectedCard.relationship;
     editTypeSelect.value = selectedCard.type;
+    editLevelSelect.value = selectedCard.level;
     const imageUrl = selectedCard.image_path
       ? `${CDNURL}${selectedCard.image_path}`
       : addUserImg;
@@ -291,8 +365,10 @@ function populateBeloved(allData = [], type) {
     const divs = card.getElementsByTagName('div');
     const image = divs[0].getElementsByTagName('img');
     const title = divs[0].getElementsByTagName('span');
+    const tagTitle = divs[5].getElementsByTagName('span');
 
     const rObject = relationships().find((x) => x.value === item.relationship);
+    const lObject = belovedLevel().find((x) => x.value === item.level);
 
     if (item.type == type.key) {
       const imageUrl = item.image_path
@@ -300,8 +376,9 @@ function populateBeloved(allData = [], type) {
         : emptyUserImg;
 
       image[0].src = imageUrl;
-      title[0].innerText = item.name;
+      title[0].innerText = item.nickname;
       title[1].innerText = rObject.name;
+      tagTitle[0].innerText = lObject.name;
 
       card.addEventListener('click', function () {
         populateToEdit(item.id);
@@ -375,6 +452,7 @@ function mapElements() {
   for (let key in typeName) {
     mapToSelect(relationships(), `select-${typeName[key].key}-relationship`);
     mapToSelect(beneficiaryTypes(), `select-${typeName[key].key}-type`);
+    mapToSelect(belovedLevel(), `select-${typeName[key].key}-level`);
     document.getElementById('select-add-type').value == 'future_owner';
   }
 }
