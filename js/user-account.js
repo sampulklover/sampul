@@ -11,19 +11,21 @@ const displayElements = {
   username: document.getElementById('username'),
 };
 
-const editProfileElements = {
-  username: document.getElementById('input-edit-username'),
-  nric_name: document.getElementById('input-edit-nric-name'),
-  nric_no: document.getElementById('input-edit-nric-no'),
-  phone_no: document.getElementById('input-edit-contact'),
-  dob: document.getElementById('input-edit-dob'),
-  marital_status: document.getElementById('select-edit-marital-status'),
-  address_1: document.getElementById('input-edit-address-1'),
-  address_2: document.getElementById('input-edit-address-2'),
-  city: document.getElementById('input-edit-city'),
-  postcode: document.getElementById('input-edit-postcode'),
-  country: document.getElementById('select-edit-country'),
-  image_path: document.getElementById('preview-edit-image'),
+const inputElements = {
+  edit_profile_modal: {
+    username: document.getElementById('input-edit-username'),
+    nric_name: document.getElementById('input-edit-nric-name'),
+    nric_no: document.getElementById('input-edit-nric-no'),
+    phone_no: document.getElementById('input-edit-contact'),
+    dob: document.getElementById('input-edit-dob'),
+    marital_status: document.getElementById('select-edit-marital-status'),
+    address_1: document.getElementById('input-edit-address-1'),
+    address_2: document.getElementById('input-edit-address-2'),
+    city: document.getElementById('input-edit-city'),
+    postcode: document.getElementById('input-edit-postcode'),
+    country: document.getElementById('select-edit-country'),
+    image_path: document.getElementById('preview-edit-image'),
+  },
 };
 
 document
@@ -40,9 +42,9 @@ document
 
     const updateData = {};
 
-    for (const key in editProfileElements) {
+    for (const key in inputElements.edit_profile_modal) {
       if (key !== 'image_path') {
-        updateData[key] = editProfileElements[key].value;
+        updateData[key] = inputElements.edit_profile_modal[key].value;
       }
     }
 
@@ -140,8 +142,8 @@ async function fetchProfile() {
     if (error) {
       console.error('Error', error.message);
     } else {
-      valueElements(data[0], editProfileElements);
-      viewElements(data[0], displayElements);
+      mapValueElements(data[0], inputElements.edit_profile_modal);
+      mapViewElements(data[0], displayElements);
     }
   }
 }
