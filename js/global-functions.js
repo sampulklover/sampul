@@ -46,3 +46,81 @@ function showToast(parentContainerId = '', message, type = '') {
   });
   $('.toast').toast('show');
 }
+
+function populateToTable(tableId, tableData, columns, loaderId) {
+  const table = $(tableId).DataTable({
+    data: tableData,
+    columns: columns,
+    lengthChange: false,
+    buttons: [
+      {
+        extend: 'csv',
+        // split: ["pdf", "excel"],
+      },
+    ],
+    drawCallback: function () {
+      loaderId.style.display = 'none';
+    },
+  });
+
+  let checkedRows = [];
+
+  // Add click event handler for checkAll checkbox
+  $(`${tableId}_checkAll`).on('click', function () {
+    const isChecked = $(this).prop('checked');
+    if (isChecked) {
+      // Set checked attribute and push data for all checkboxes with id="checkItem"
+      table
+        .rows()
+        .nodes()
+        .each(function (row) {
+          const checkbox = $(row).find("input[type='checkbox']");
+          if (checkbox.attr('id') === 'checkItem') {
+            checkbox.prop('checked', true);
+            const rowData = table.row(row).data();
+            if (!isCheckedRow(rowData)) {
+              checkedRows.push(rowData);
+            }
+          }
+        });
+    } else {
+      // Remove checked attribute and remove data for all checkboxes with id="checkItem"
+      table
+        .rows()
+        .nodes()
+        .each(function (row) {
+          const checkbox = $(row).find("input[type='checkbox']");
+          if (checkbox.attr('id') === 'checkItem') {
+            checkbox.prop('checked', false);
+            const rowData = table.row(row).data();
+            const index = checkedRows.findIndex(
+              (item) => item.id === rowData.id
+            );
+            if (index >= 0) {
+              checkedRows.splice(index, 1);
+            }
+          }
+        });
+    }
+  });
+
+  // Add click event handler for individual checkboxes
+  $(document).on('click', `${tableId}_checkItem`, function () {
+    const rowData = table.row($(this).closest('tr')).data();
+    if ($(this).prop('checked')) {
+      if (!isCheckedRow(rowData)) {
+        checkedRows.push(rowData);
+      }
+    } else {
+      const index = checkedRows.findIndex((item) => item.id === rowData.id);
+      if (index >= 0) {
+        checkedRows.splice(index, 1);
+      }
+    }
+  });
+
+  // Function to check if a row is already checked
+  function isCheckedRow(rowData) {
+    return checkedRows.some((item) => item.id === rowData.id);
+  }
+}

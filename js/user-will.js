@@ -41,13 +41,14 @@ const detailsElements = {
 
 const downloadWillBtn = document.getElementById('download-will-btn');
 const genereateWillBtn = document.getElementById('generate-will-btn');
+const genereateWillBtn2 = document.getElementById('generate-will-btn-2');
 var proceed = true;
 
 function showErrorAlert(type) {
   showToast(
     'alert-toast-container',
-    `Please assign your "${type} Co-Sampul" on the Beloved page or <b><a href="beloved.html">click to here assign</a></b>.`,
-    'danger'
+    `Please assign your "${type} Co-Sampul" on the Beloved page or <a href="beloved.html">click to here assign</a>.`,
+    'secondary'
   );
 }
 function updateElementsView(data) {
@@ -86,6 +87,9 @@ function updateElementsView(data) {
       genereateWillBtn.addEventListener('click', function (event) {
         showErrorAlert('primary');
       });
+      genereateWillBtn2.addEventListener('click', function (event) {
+        showErrorAlert('primary');
+      });
     }
 
     if (Object.keys(secondaryUser).length !== 0) {
@@ -101,6 +105,9 @@ function updateElementsView(data) {
       proceed = false;
       showErrorAlert('secondary');
       genereateWillBtn.addEventListener('click', function (event) {
+        showErrorAlert('secondary');
+      });
+      genereateWillBtn2.addEventListener('click', function (event) {
         showErrorAlert('secondary');
       });
     }
@@ -135,46 +142,55 @@ function generateWillId() {
   return randomId;
 }
 
-genereateWillBtn.addEventListener('click', async function (event) {
+async function generating(btnId) {
   if (proceed == false) {
-    return;
+    let useBtn = document.getElementById(btnId);
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const userId = await getUserUUID();
+    const updatedTime = new Date().toISOString();
+
+    const updateData = {
+      label_code: generateLabelId(),
+      will_code: generateWillId(),
+      last_updated: updatedTime,
+    };
+
+    const { data, error } = await supabaseClient
+      .from(dbName.wills)
+      .upsert([
+        {
+          uuid: userId, //primary key
+          ...updateData,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
+    } else {
+      showToast('alert-toast-container', 'Success!', 'success');
+      fetchWill();
+    }
+
+    useBtn.disabled = false;
+    useBtn.innerHTML = defaultBtnText;
   }
+}
 
-  let useBtn = event.target;
-  let defaultBtnText = useBtn.innerHTML;
-  useBtn.disabled = true;
-  useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
-
-  const userId = await getUserUUID();
-  const updatedTime = new Date().toISOString();
-
-  const updateData = {
-    label_code: generateLabelId(),
-    will_code: generateWillId(),
-    last_updated: updatedTime,
-  };
-
-  const { data, error } = await supabaseClient
-    .from(dbName.wills)
-    .upsert([
-      {
-        uuid: userId, //primary key
-        ...updateData,
-      },
-    ])
-    .select();
-
-  if (error) {
-    console.error('Error', error.message);
-    showToast('alert-toast-container', error.message, 'danger');
-  } else {
-    showToast('alert-toast-container', 'Success!', 'success');
-    fetchWill();
-  }
-
-  useBtn.disabled = false;
-  useBtn.innerHTML = defaultBtnText;
+genereateWillBtn.addEventListener('click', async function (event) {
+  generating('generate-will-btn');
 });
+
+document
+  .getElementById('generate-wasiat-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+    generating('generate-will-btn-2');
+  });
 
 function updateElements(source, target) {
   for (const key in source) {
@@ -199,33 +215,190 @@ function updateElements(source, target) {
 async function fetchWill() {
   const userId = await getUserUUID();
 
-  if (userId) {
-    const { data: willsData, error: willsError } = await supabaseClient
-      .from(dbName.wills)
-      .select(`*, ${dbName.profiles} ( * )`);
-
-    if (willsError) {
-      console.error('Error', willsError.message);
-      showToast('alert-toast-container', willsError.message, 'danger');
-    } else {
-      const willData = willsData[0];
-
-      if (willData) {
-        const { data: belovedData, error: belovedError } = await supabaseClient
-          .from(dbName.beloved)
-          .select('*')
-          .eq('uuid', userId);
-
-        if (belovedError) {
-          console.error('Error', belovedError.message);
-          showToast('alert-toast-container', belovedError.message, 'danger');
-        } else {
-          updateElements(willData, willElements);
-          updateElementsView({ ...willData, beloved: belovedData });
-        }
-      }
-    }
+  if (!userId) {
+    return;
   }
+
+  try {
+    const willData = await fetchWillData();
+    if (!willData) {
+      return;
+    }
+
+    const [belovedData, digitalAssetsData] = await Promise.all([
+      fetchBelovedData(userId),
+      fetchDigitalAssetsData(userId),
+    ]);
+
+    updateElements(willData, willElements);
+    updateElementsView({ ...willData, beloved: belovedData });
+    populateToAllDigitalAssetsTable(digitalAssetsData, belovedData);
+  } catch (error) {
+    console.error('Error', error.message);
+    showToast('alert-toast-container', error.message, 'danger');
+  }
+}
+
+async function fetchWillData() {
+  const { data, error } = await supabaseClient
+    .from(dbName.wills)
+    .select(`*, ${dbName.profiles} ( * )`);
+
+  if (error) {
+    throw error;
+  }
+
+  return data[0];
+}
+
+async function fetchBelovedData(userId) {
+  const { data, error } = await supabaseClient
+    .from(dbName.beloved)
+    .select('*')
+    .eq('uuid', userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+async function fetchDigitalAssetsData(userId) {
+  const { data, error } = await supabaseClient
+    .from(dbName.digital_assets)
+    .select('*')
+    .eq('uuid', userId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
+function populateToAllDigitalAssetsTable(tableData, belovedData) {
+  console.log(tableData, belovedData);
+  const tableColumns = [
+    {
+      title: '<small class="smpl_text-xs-medium">Assets</small>',
+      data: 'uui',
+      render: function (data, type, row, meta) {
+        let platform = servicePlatforms().find(
+          (item) => item.value === row.service_platform
+        );
+        const platformName = platform?.name || '';
+
+        return `<div class="custom-table-cell">
+                  <img
+                    loading="lazy"
+                    src="images/Avatar_1.png"
+                    alt=""
+                    class="avatar-8"
+                  />
+                  <div>
+                    <div class="smpl_text-sm-medium">${platformName}</div>
+                    <div class="smpl_text-sm-regular">${row.email}</div>
+                  </div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Beneficiaries</small>',
+      data: 'uui',
+      render: function (data, type, row, meta) {
+        const beloved = belovedData.find((item) => item.id === row.beloved_id);
+        const relationshipValue = beloved?.relationship;
+        const relation = relationships().find(
+          (item) => item.value === relationshipValue
+        );
+        const relationName = relation?.name || '';
+
+        return `<div class="custom-table-cell">
+                  <img
+                    loading="lazy"
+                    src="images/Avatar_1.png"
+                    alt=""
+                    class="avatar-8"
+                  />
+                  <div>
+                    <div class="smpl_text-sm-medium">Ahmad</div>
+                    <div class="smpl_text-sm-regular">${relationName}</div>
+                  </div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Value</small>',
+      data: 'uui',
+      render: function (data, type, row, meta) {
+        let declaredValue = declaredValues().find(
+          (item) => item.value === row.declared_value_myr
+        );
+        const declaredValueName = declaredValue?.name || '';
+        return `<div class="custom-table-cell">
+                  <div class="text-sm-regular-8">${declaredValueName}</div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Type</small>',
+      data: 'uui',
+      render: function (data, type, row, meta) {
+        let accountType = servicePlatformAccountTypes().find(
+          (item) => item.value === row.account_type
+        );
+        const accountTypeName = accountType?.name || '';
+        return `<div class="custom-table-cell">
+                  <div class="badge-instructions w-inline-block" style="text-align:center">
+                    <span class="text-xs-medium">${accountTypeName}</span>
+                  <div>
+                </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Instructions</small>',
+      data: 'uui',
+      render: function (data, type, row, meta) {
+        let instructions = instructionsAfterDeath().find(
+          (item) => item.value === row.instructions_after_death
+        );
+        const instructionsName = instructions?.name || '';
+        return `<div class="custom-table-cell">
+                  <div class="badge-instructions w-inline-block">
+                    <div class="html-embed-9 w-embed" style="text-align:center">
+                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_5391_410258)">
+                            <path d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z" stroke="#667085" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_5391_410258">
+                              <rect width="12" height="12" fill="white"></rect>
+                            </clipPath>
+                          </defs>
+                         </svg>
+                    </div>
+                    <span class="text-xs-medium">${instructionsName}</span>
+                  </div>
+                </div>
+        `;
+      },
+    },
+  ];
+
+  const tableLoader = document.getElementById(
+    'all-digital-assets-table-loader'
+  );
+  populateToTable(
+    '#all-digital-assets-table',
+    tableData,
+    tableColumns,
+    tableLoader
+  );
 }
 
 $(document).ready(function () {

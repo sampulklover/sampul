@@ -325,7 +325,7 @@ async function fetchbeloved() {
   if (userId) {
     const { data, error } = await supabaseClient
       .from(dbName.beloved)
-      .select('id, name, nickname')
+      .select('*')
       .eq('uuid', userId);
     if (error) {
       console.error('Error', error.message);
@@ -345,7 +345,7 @@ async function fetchbeloved() {
         } else {
           const modifiedData = data.map((item) => ({
             value: item.id,
-            name: item.name,
+            name: item.nric_name,
           }));
           mapToSelect(modifiedData, `select-${typeName[key].key}-beloved`);
         }
