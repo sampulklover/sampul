@@ -124,3 +124,43 @@ function populateToTable(tableId, tableData, columns, loaderId) {
     return checkedRows.some((item) => item.id === rowData.id);
   }
 }
+
+function valueElements(source, target) {
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (typeof source[key] === 'object') {
+        for (const nestedKey in source[key]) {
+          if (target[nestedKey]) {
+            target[nestedKey].value = source[key][nestedKey];
+          }
+        }
+      } else if (target[key]) {
+        if (target[key].tagName === 'IMG') {
+          target[key].src = `${CDNURL}${source[key]}`;
+        } else {
+          target[key].value = source[key];
+        }
+      }
+    }
+  }
+}
+
+function viewElements(source, target) {
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      if (typeof source[key] === 'object') {
+        for (const nestedKey in source[key]) {
+          if (target[nestedKey]) {
+            target[nestedKey].innerText = source[key][nestedKey];
+          }
+        }
+      } else if (target[key]) {
+        if (target[key].tagName === 'IMG') {
+          target[key].src = `${CDNURL}${source[key]}`;
+        } else {
+          target[key].innerText = source[key];
+        }
+      }
+    }
+  }
+}

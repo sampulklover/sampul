@@ -330,9 +330,7 @@ document
 
     const userId = await getUserUUID();
 
-    const updateData = {
-      uuid: userId,
-    };
+    const updateData = {};
 
     for (const key in informDeathElements) {
       if (key === 'image_path' && informDeathElements[key].tagName === 'IMG') {
@@ -372,6 +370,8 @@ document
           showToast('alert-toast-container', error.message, 'danger');
           console.error('Error', error.message);
           fetchProfile();
+          useBtn.disabled = false;
+          useBtn.innerHTML = defaultBtnText;
           return;
         }
       }
@@ -386,8 +386,6 @@ document
 
       if (error) {
         console.error('Error', error.message);
-        useBtn.disabled = false;
-        useBtn.innerHTML = defaultBtnText;
         showToast('alert-toast-container', error.message, 'danger');
       } else {
         const { data, error } = await supabaseClient

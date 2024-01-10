@@ -248,3 +248,14 @@ function religions() {
 
   return options;
 }
+
+function countries() {
+  const options = [
+    { name: 'Malaysia', value: 'malaysia' },
+    { name: 'Singapore', value: 'singapore' },
+    { name: 'Brunie', value: 'brunie' },
+    { name: 'Indonesia', value: 'indonesia' },
+  ];
+
+  return options;
+}

@@ -198,26 +198,6 @@ document
     generating('generate-will-btn-2');
   });
 
-// function updateElements(source, target) {
-//   for (const key in source) {
-//     if (source.hasOwnProperty(key)) {
-//       if (typeof source[key] === 'object') {
-//         for (const nestedKey in source[key]) {
-//           if (target[nestedKey]) {
-//             target[nestedKey].value = source[key][nestedKey];
-//           }
-//         }
-//       } else if (target[key]) {
-//         if (key == 'last_updated') {
-//           target[key].value = formatTimestamp(source[key]);
-//         } else {
-//           target[key].value = source[key];
-//         }
-//       }
-//     }
-//   }
-// }
-
 function updateElements(source, target) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
