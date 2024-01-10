@@ -125,7 +125,7 @@ function populateToTable(tableId, tableData, columns, loaderId) {
   }
 }
 
-function valueElements(source, target) {
+function mapValueElements(source, target) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
       if (typeof source[key] === 'object') {
@@ -145,7 +145,7 @@ function valueElements(source, target) {
   }
 }
 
-function viewElements(source, target) {
+function mapViewElements(source, target) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
       if (typeof source[key] === 'object') {
