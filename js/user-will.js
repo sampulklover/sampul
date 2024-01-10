@@ -1,8 +1,8 @@
 const willElements = {
-  nric_name: document.getElementById('input-certificate-name'),
-  label_code: document.getElementById('input-certificate-label-code'),
-  will_code: document.getElementById('input-certificate-will-code'),
-  last_updated: document.getElementById('input-certificate-last-generated'),
+  nric_name: document.getElementById('view-certificate-nric-name'),
+  label_code: document.getElementById('view-certificate-label-code'),
+  will_code: document.getElementById('view-certificate-will-code'),
+  last_updated: document.getElementById('view-certificate-last-generated'),
 };
 
 const detailsElements = {
@@ -51,7 +51,13 @@ function showErrorAlert(type) {
     'secondary'
   );
 }
+
 function updateElementsView(data) {
+  willElements.nric_name.innerText = data.profiles.nric_name;
+  willElements.label_code.innerText = data.label_code;
+  willElements.will_code.innerText = data.will_code;
+  willElements.last_updated.innerText = formatTimestamp(data.last_updated);
+
   detailsElements.nric_name.innerText = data.profiles.nric_name;
   detailsElements.last_updated.innerText = formatTimestamp(data.last_updated);
   detailsElements.nric_no.innerText = data.profiles.nric_no;
@@ -192,6 +198,26 @@ document
     generating('generate-will-btn-2');
   });
 
+// function updateElements(source, target) {
+//   for (const key in source) {
+//     if (source.hasOwnProperty(key)) {
+//       if (typeof source[key] === 'object') {
+//         for (const nestedKey in source[key]) {
+//           if (target[nestedKey]) {
+//             target[nestedKey].value = source[key][nestedKey];
+//           }
+//         }
+//       } else if (target[key]) {
+//         if (key == 'last_updated') {
+//           target[key].value = formatTimestamp(source[key]);
+//         } else {
+//           target[key].value = source[key];
+//         }
+//       }
+//     }
+//   }
+// }
+
 function updateElements(source, target) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
@@ -230,7 +256,6 @@ async function fetchWill() {
       fetchDigitalAssetsData(userId),
     ]);
 
-    updateElements(willData, willElements);
     updateElementsView({ ...willData, beloved: belovedData });
     populateToAllDigitalAssetsTable(digitalAssetsData, belovedData);
   } catch (error) {
@@ -278,7 +303,6 @@ async function fetchDigitalAssetsData(userId) {
 }
 
 function populateToAllDigitalAssetsTable(tableData, belovedData) {
-  console.log(tableData, belovedData);
   const tableColumns = [
     {
       title: '<small class="smpl_text-xs-medium">Assets</small>',
