@@ -39,3 +39,10 @@ a:hover {
   justify-content: center; */
   cursor: pointer;
 }
+
+.custom-table-cell {
+  width: 100%;
+  grid-column-gap: 12px;
+  padding: 5px 5px;
+  display: flex;
+}
