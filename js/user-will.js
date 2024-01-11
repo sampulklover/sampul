@@ -144,7 +144,7 @@ function generateWillId() {
 }
 
 async function generating(btnId) {
-  if (proceed == false) {
+  if (proceed == true) {
     let useBtn = document.getElementById(btnId);
     let defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
@@ -174,7 +174,7 @@ async function generating(btnId) {
       showToast('alert-toast-container', error.message, 'danger');
     } else {
       showToast('alert-toast-container', 'Success!', 'success');
-      fetchWill();
+      reinitiate();
     }
 
     useBtn.disabled = false;
@@ -400,6 +400,12 @@ function populateToAllDigitalAssetsTable(tableData, belovedData) {
     tableColumns,
     tableLoader
   );
+}
+
+function reinitiate() {
+  var table = $('#all-digital-assets-table').DataTable();
+  table.destroy();
+  fetchWill();
 }
 
 $(document).ready(function () {
