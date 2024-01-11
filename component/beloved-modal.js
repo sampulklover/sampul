@@ -89,9 +89,7 @@ function belovedModalForm(type) {
               <div class="form-field-wrapper">
                 <label for="nric-name" class="field-label"
                   >Name (As Per NRIC)<span class="text-span-9 mr-1">*</span
-                  ><span class="text-size-tiny"
-                  >must be &gt; 18 years old</span
-                ></label
+                  ></label
                 ><input
                   type="text"
                   class="form_input w-input"
