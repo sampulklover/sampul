@@ -1,4 +1,4 @@
-const typeName = {
+const profileTypeName = {
   add: {
     key: 'add',
     button_title: 'Submit',
@@ -12,13 +12,13 @@ const typeName = {
 };
 
 function profileModalForm(type) {
-  if (!(type in typeName)) {
+  if (!(type in profileTypeName)) {
     console.error(`Invalid type: ${type}`);
     return;
   }
 
   return `
-  <div class="modal fade" id="${typeName[type].key}-profile-modal">
+  <div class="modal fade" id="${profileTypeName[type].key}-profile-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -27,7 +27,7 @@ function profileModalForm(type) {
             &times;
           </button>
         </div>
-        <div id="${typeName[type].key}-form-body-container">
+        <div id="${profileTypeName[type].key}-form-body-container">
           <div class="modal-header-2">
             <div class="content-32">
               <div class="smpl-icon-featured-outline-large">
@@ -60,7 +60,7 @@ function profileModalForm(type) {
           </div>
           <div class="spacer-30"></div>
           <form
-            id="${typeName[type].key}ProfileForm"
+            id="${profileTypeName[type].key}-profile-form"
             name="wf-form-Digital-Account-form"
             data-name="Digital Account form"
             method="get"
@@ -79,11 +79,11 @@ function profileModalForm(type) {
                   src="https://iriedoc.wu.ac.th/support/img/user.png"
                   alt=""
                   class="avatar-7"
-                  id="preview-${typeName[type].key}-image"
+                  id="preview-profile-${profileTypeName[type].key}-image"
                 />
                 <input
                   type="file"
-                  id="input-${typeName[type].key}-image"
+                  id="input-profile-${profileTypeName[type].key}-image"
                   name=""
                   accept="image/*"
                   style="display: none"
@@ -99,7 +99,7 @@ function profileModalForm(type) {
                 maxlength="256"
                 name="nric-name"
                 placeholder=""
-                id="input-${typeName[type].key}-nric-name"
+                id="input-profile-${profileTypeName[type].key}-nric-name"
                 required=""
               />
             </div>
@@ -115,7 +115,7 @@ function profileModalForm(type) {
                   maxlength="256"
                   name="nric-no"
                   placeholder=""
-                  id="input-${typeName[type].key}-nric-no"
+                  id="input-profile-${profileTypeName[type].key}-nric-no"
                   required=""
                 />
               </div>
@@ -128,7 +128,7 @@ function profileModalForm(type) {
                   maxlength="256"
                   name="username"
                   placeholder=""
-                  id="input-${typeName[type].key}-username"
+                  id="input-profile-${profileTypeName[type].key}-username"
                   required=""
                 />
               </div>
@@ -145,7 +145,7 @@ function profileModalForm(type) {
                   class="form_input w-input"
                   maxlength="256"
                   name="contact"
-                  id="input-${typeName[type].key}-contact"
+                  id="input-profile-${profileTypeName[type].key}-contact"
                   required=""
                 />
               </div>
@@ -158,7 +158,7 @@ function profileModalForm(type) {
                   maxlength="256"
                   name="dob"
                   placeholder=""
-                  id="input-${typeName[type].key}-dob"
+                  id="input-profile-${profileTypeName[type].key}-dob"
                   required=""
                 />
               </div>
@@ -171,7 +171,7 @@ function profileModalForm(type) {
                 <label for="marital-status" class="field-label"
                   >Marital Status<span class="text-span-6">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-marital-status"
+                  id="select-profile-${profileTypeName[type].key}-marital-status"
                   name="marital-status"
                   required=""
                   class="form_input w-select"
@@ -189,7 +189,7 @@ function profileModalForm(type) {
                   maxlength="256"
                   name="address-1"
                   placeholder="Address 1"
-                  id="input-${typeName[type].key}-address-1"
+                  id="input-profile-${profileTypeName[type].key}-address-1"
                   required=""
                 /><input
                   type="text"
@@ -197,7 +197,7 @@ function profileModalForm(type) {
                   maxlength="256"
                   name="address-2"
                   placeholder="Address 2 (optional)"
-                  id="input-${typeName[type].key}-address-2"
+                  id="input-profile-${profileTypeName[type].key}-address-2"
                   required=""
                 />
                 <div class="form-content-2">
@@ -207,7 +207,7 @@ function profileModalForm(type) {
                     maxlength="256"
                     name="city"
                     placeholder="City"
-                    id="input-${typeName[type].key}-city"
+                    id="input-profile-${profileTypeName[type].key}-city"
                     required=""
                   />
                   <input
@@ -216,12 +216,12 @@ function profileModalForm(type) {
                     maxlength="256"
                     name="postcode"
                     placeholder="Zip/Postcode"
-                    id="input-${typeName[type].key}-postcode"
+                    id="input-profile-${profileTypeName[type].key}-postcode"
                     required=""
                   />
                 </div>
                 <select
-                  id="select-${typeName[type].key}-country"
+                  id="select-profile-${profileTypeName[type].key}-country"
                   name="country"
                   required=""
                   class="form_input w-select"
@@ -235,7 +235,7 @@ function profileModalForm(type) {
                 name="checkbox_name_confirmation"
                 class="form-check-input"
                 type="checkbox"
-                id="flexCheckCheckedJoinAffiliate"
+                id="checkbox-profile-${profileTypeName[type].key}-confirmation"
                 required="true"
               />
               <label
@@ -254,9 +254,9 @@ function profileModalForm(type) {
             <button
                 type="submit"
                 class="button w-button"
-                id="${typeName[type].key}-profile-btn"
+                id="btn-profile-${profileTypeName[type].key}-form"
               >
-                ${typeName[type].button_title}
+                ${profileTypeName[type].button_title}
               </button>
           </form>
         </div>

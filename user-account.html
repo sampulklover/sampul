@@ -111,7 +111,13 @@
                 </div>
               </div>
             </div>
-            <div id="edit-profile-form-container">
+            <div id="edit-profile-modal-container">
+              <!-- auto generate -->
+            </div>
+            <div id="add-beloved-modal-container">
+              <!-- auto generate -->
+            </div>
+            <div id="add-digital-assets-modal-container">
               <!-- auto generate -->
             </div>
             <div class="smpl_section-content wf-section">
@@ -291,6 +297,7 @@
                               <button
                                 type="button"
                                 class="button beloved-block"
+                                id="open-add-beloved-btn"
                               >
                                 Add Co-Sampul
                               </button>
@@ -340,6 +347,7 @@
                               <button
                                 type="button"
                                 class="button beloved-block"
+                                id="open-add-digital-assets-btn"
                               >
                                 Add Digital Asset
                               </button>
@@ -391,7 +399,7 @@
                     </div>
                     <div class="number-and-badge">
                       <div class="smpl_display-sm-semibold">
-                        <sup>RM</sup> 1,280
+                        <sup>RM</sup> 0,000
                       </div>
                     </div>
                   </div>
@@ -423,7 +431,12 @@
                       Number of Digital Account
                     </div>
                     <div class="number-and-badge">
-                      <div class="smpl_display-sm-semibold">42</div>
+                      <div
+                        class="smpl_display-sm-semibold"
+                        id="count-digital-account"
+                      >
+                        0
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -463,7 +476,7 @@
                     </div>
                     <div class="number-and-badge">
                       <div class="smpl_display-sm-semibold">
-                        <sup>RM </sup>91.42
+                        <sup>RM </sup>0,000
                       </div>
                     </div>
                   </div>
@@ -495,7 +508,12 @@
                       Number of Digital Subscription
                     </div>
                     <div class="number-and-badge">
-                      <div class="smpl_display-sm-semibold">14</div>
+                      <div
+                        class="smpl_display-sm-semibold"
+                        id="count-subscription-account"
+                      >
+                        0
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -563,347 +581,40 @@
                       </div>
                     </div>
                   </div>
-                  <div class="content-34">
-                    <div class="column-4">
-                      <div class="table-header-cell-2">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_21.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <div class="table-header-2">
-                          <div class="smpl_text-xs-medium">Subscriptions</div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_1.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">Netflix</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_2.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">Instagram</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
+
+                  <div id="all-digital-account-table-container">
+                    <div id="all-digital-account-table-loader">
+                      <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
                         </div>
                       </div>
                     </div>
-                    <div class="dropdown-4">
-                      <div class="table-header-cell-2">
-                        <div class="table-header-2">
-                          <div class="smpl_text-xs-medium">Value</div>
-                        </div>
-                      </div>
-                      <div class="table-cell-6">
-                        <div class="text-sm-regular-8">$244.00</div>
-                      </div>
-                      <div class="table-cell-6">
-                        <div class="text-sm-regular-8">$326.00</div>
-                      </div>
-                      <div class="table-cell-6">
-                        <div class="text-sm-regular-8">$408.00</div>
-                      </div>
-                      <div class="table-cell-6">
-                        <div class="text-sm-regular-8">$408.00</div>
-                      </div>
-                      <div class="table-cell-6">
-                        <div class="text-sm-regular-8">$408.00</div>
-                      </div>
+                    <div class="table-responsive">
+                      <table
+                        id="all-digital-account-table"
+                        class="table table-hover"
+                        style="width: 100%"
+                      >
+                        <thead></thead>
+                        <tbody></tbody>
+                      </table>
                     </div>
-                    <div class="dropdown-4">
-                      <div class="table-header-cell-2">
-                        <div class="smpl_text-xs-medium">Instructions</div>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Gift</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">1/3 NW</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
+                    <div class="section-footer-3">
+                      <div class="content-35">
+                        <div class="actions-8">
+                          <a href="user-digital-assets.html" class="button-20">
+                            <div class="smpl_text-sm-semibold">Show All</div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="section-footer-3">
-                    <div class="content-35">
-                      <div class="actions-8">
-                        <a href="user-digital-assets.html" class="button-20">
-                          <div class="smpl_text-sm-semibold">Show All</div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="empty-state">
+
+                  <div
+                    class="empty-state hidden"
+                    id="empty-digital-account-table-cotainer"
+                  >
                     <div class="empty-state">
                       <div class="empty-state-2">
                         <div class="content-67">
@@ -954,18 +665,13 @@
                           </div>
                         </div>
                         <div class="actions-13">
-                          <div
-                            data-w-id="49f279ae-c34f-a91d-c440-62f84d300a16"
-                            class="button-digital-assets"
+                          <button
+                            type="submit"
+                            class="button w-button"
+                            id="open-add-digital-assets-btn-2"
                           >
-                            <div class="beloved-block">
-                              <div>
-                                <div class="text-md-semibold-3">
-                                  Add Digital Accounts
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                            Add Digital Account
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -1006,326 +712,40 @@
                       </div>
                     </div>
                   </div>
-                  <div class="content-34">
-                    <div class="column-4">
-                      <div class="table-header-cell-2">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_21.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <div class="table-header-2">
-                          <div class="smpl_text-xs-medium">Account</div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_1.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">Netflix</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_2.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">Instagram</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
-                        </div>
-                      </div>
-                      <div class="table-cell-5">
-                        <div class="checkbox-3">
-                          <div class="checkbox-base-2">
-                            <img
-                              src="images/Vectors-Wrapper_22.svg"
-                              loading="lazy"
-                              alt=""
-                              class="vectors-wrapper-25"
-                            />
-                          </div>
-                        </div>
-                        <img
-                          src="images/Avatar_3.png"
-                          loading="lazy"
-                          alt=""
-                          class="avatar-8"
-                        />
-                        <div class="dropdown-4">
-                          <div class="smpl_text-sm-medium">LUNO</div>
-                          <div class="smpl_text-sm-regular">
-                            you@example.com
-                          </div>
+
+                  <div id="all-subscription-account-table-container">
+                    <div id="all-subscription-account-table-loader">
+                      <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
                         </div>
                       </div>
                     </div>
-                    <div class="dropdown-4"></div>
-                    <div class="dropdown-4">
-                      <div class="table-header-cell-2">
-                        <div class="smpl_text-xs-medium">Instructions</div>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Terminate</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
-                      </div>
-                      <div class="table-cell-7">
-                        <a href="#" class="badge-instructions w-inline-block">
-                          <div class="html-embed-9 w-embed">
-                            <svg
-                              width="12"
-                              height="12"
-                              viewbox="0 0 12 12"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <g clip-path="url(#clip0_5391_410258)">
-                                <path
-                                  d="M5.24976 6.75009L10.4998 1.50009M5.31355 6.91412L6.62761 10.2931C6.74337 10.5908 6.80125 10.7396 6.88465 10.7831C6.95695 10.8208 7.04308 10.8208 7.11542 10.7832C7.19887 10.7399 7.25693 10.5911 7.37304 10.2936L10.6682 1.84969C10.773 1.5811 10.8254 1.4468 10.7968 1.36099C10.7719 1.28646 10.7134 1.22798 10.6389 1.20308C10.553 1.17441 10.4188 1.22682 10.1502 1.33164L1.70629 4.62681C1.40875 4.74292 1.25998 4.80098 1.21663 4.88443C1.17904 4.95677 1.1791 5.0429 1.21676 5.1152C1.26022 5.1986 1.40905 5.25648 1.70673 5.37224L5.08573 6.6863C5.14615 6.70979 5.17636 6.72154 5.20181 6.73969C5.22435 6.75577 5.24407 6.77549 5.26016 6.79804C5.2783 6.82348 5.29005 6.85369 5.31355 6.91412Z"
-                                  stroke="#667085"
-                                  stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                ></path>
-                              </g>
-                              <defs>
-                                <clippath id="clip0_5391_410258">
-                                  <rect
-                                    width="12"
-                                    height="12"
-                                    fill="white"
-                                  ></rect>
-                                </clippath>
-                              </defs>
-                            </svg>
-                          </div>
-                          <div class="text-xs-medium">Faraid</div>
-                        </a>
+                    <div class="table-responsive">
+                      <table
+                        id="all-subscription-account-table"
+                        class="table table-hover"
+                        style="width: 100%"
+                      >
+                        <thead></thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                    <div class="section-footer-3">
+                      <div class="content-35">
+                        <div class="actions-8">
+                          <a href="user-digital-assets.html" class="button-20">
+                            <div class="smpl_text-sm-semibold">Show All</div>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="section-footer-3">
-                    <div class="content-35">
-                      <div class="actions-8">
-                        <a href="user-digital-assets.html" class="button-20">
-                          <div class="smpl_text-sm-semibold">Show All</div>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="empty-state">
+
+                  <div
+                    class="empty-state hidden"
+                    id="empty-subscription-account-table-cotainer"
+                  >
                     <div class="empty-state">
                       <div class="empty-state-2">
                         <div class="content-67">
@@ -1376,18 +796,13 @@
                           </div>
                         </div>
                         <div class="actions-13">
-                          <div
-                            data-w-id="43e2a236-8670-d31e-aaa6-d87975c0687d"
-                            class="button-digital-assets"
+                          <button
+                            type="submit"
+                            class="button w-button"
+                            id="open-add-digital-assets-btn-3"
                           >
-                            <div class="beloved-block">
-                              <div>
-                                <div class="text-md-semibold-3">
-                                  Add Digital Subscriptions
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                            Add Digital Subscription
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -1407,8 +822,11 @@
                       <div class="smpl_text-md-regular">
                         Last wasiat update :
                       </div>
-                      <div class="smpl_text-md-regular text-color-primary700">
-                        2023-02-05 05:23:20
+                      <div
+                        class="smpl_text-md-regular text-color-primary700"
+                        id="last-updated-will"
+                      >
+                        -
                       </div>
                     </div>
                   </div>
@@ -2270,9 +1688,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="css/custom-style.css" rel="stylesheet" type="text/css" />
     <script src="component/user-account-modal.js"></script>
+    <script src="component/beloved-modal.js"></script>
+    <script src="component/digital-assets-modal.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/global-functions.js"></script>
     <script src="js/enums.js"></script>
     <script src="js/user-account.js"></script>
+    <!-- data table -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css"
+    />
+    <!--Data table -->
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.colVis.min.js"></script>
   </body>
 </html>

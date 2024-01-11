@@ -120,11 +120,6 @@ function updateElementsView(data) {
   }
 }
 
-function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
-  return date.toLocaleString();
-}
-
 function generateLabelId() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const idLength = 10;
