@@ -162,7 +162,7 @@ document
       dbName.profiles
     );
 
-    fetchProfile();
+    reinitiate();
     showToast('alert-toast-container', 'Successful!', 'success');
     $('#edit-profile-modal').modal('hide');
 
@@ -218,7 +218,7 @@ document
       dbName.beloved
     );
 
-    fetchProfile();
+    reinitiate();
     showToast('alert-toast-container', 'Successful!', 'success');
     $('#add-beloved-modal').modal('hide');
 
@@ -262,7 +262,7 @@ document
       return;
     }
 
-    fetchProfile();
+    reinitiate();
     showToast('alert-toast-container', 'Successful!', 'success');
     $('#add-digital-assets-modal').modal('hide');
 
@@ -498,6 +498,14 @@ function populateToAllDigitalAssetsTable(tableData, key) {
     tableContainer.classList.add('hidden');
     emptyContainer.classList.remove('hidden');
   }
+}
+
+function reinitiate() {
+  var table = $('#all-digital-account-table').DataTable();
+  table.destroy();
+  var table2 = $('#all-subscription-account-table').DataTable();
+  table2.destroy();
+  fetchProfile();
 }
 
 $(document).ready(function () {
