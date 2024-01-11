@@ -221,7 +221,7 @@ async function fetchWill() {
   }
 
   try {
-    const willData = await fetchWillData();
+    const willData = await fetchWillData(userId);
     if (!willData) {
       return;
     }
@@ -239,16 +239,18 @@ async function fetchWill() {
   }
 }
 
-async function fetchWillData() {
+async function fetchWillData(userId) {
   const { data, error } = await supabaseClient
     .from(dbName.wills)
-    .select(`*, ${dbName.profiles} ( * )`);
+    .select(`*, ${dbName.profiles} ( * )`)
+    .eq('uuid', userId)
+    .single();
 
   if (error) {
     throw error;
   }
 
-  return data[0];
+  return data;
 }
 
 async function fetchBelovedData(userId) {
