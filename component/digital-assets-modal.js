@@ -1,4 +1,4 @@
-const typeName = {
+const digitalAssetsTypeName = {
   add: {
     key: 'add',
     button_title: 'Submit',
@@ -51,13 +51,15 @@ function successModal() {
 }
 
 function digitalAssetsModalForm(type) {
-  if (!(type in typeName)) {
+  if (!(type in digitalAssetsTypeName)) {
     console.error(`Invalid type: ${type}`);
     return;
   }
 
   return `
-  <div class="modal fade" id="${typeName[type].key}-digital-assets-modal">
+  <div class="modal fade" id="${
+    digitalAssetsTypeName[type].key
+  }-digital-assets-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -67,9 +69,9 @@ function digitalAssetsModalForm(type) {
           </button>
         </div>
         <div class="hidden" id="${
-          typeName[type].key
+          digitalAssetsTypeName[type].key
         }-success-body-container">${successModal()}</div>
-        <div id="${typeName[type].key}-form-body-container">
+        <div id="${digitalAssetsTypeName[type].key}-form-body-container">
           <div class="modal-header-2">
             <div class="content-32">
               <div class="smpl-icon-featured-outline-large">
@@ -102,7 +104,7 @@ function digitalAssetsModalForm(type) {
           </div>
           <div class="spacer-30"></div>
           <form
-            id="${typeName[type].key}-digital-assets-form"
+            id="${digitalAssetsTypeName[type].key}-digital-assets-form"
             name="wf-form-Digital-Account-form"
             data-name="Digital Account form"
             method="get"
@@ -122,7 +124,9 @@ function digitalAssetsModalForm(type) {
                   name="Username-2"
                   data-name="Username 2"
                   placeholder=""
-                  id="input-${typeName[type].key}-username"
+                  id="input-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-username"
                   required=""
                 />
               </div>
@@ -136,7 +140,9 @@ function digitalAssetsModalForm(type) {
                   name="email-2"
                   data-name="Email 2"
                   placeholder=""
-                  id="input-${typeName[type].key}-email"
+                  id="input-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-email"
                   required=""
                 />
               </div>
@@ -149,7 +155,9 @@ function digitalAssetsModalForm(type) {
                 <label for="Service-Platform-5" class="field-label"
                   >Service Platform<span class="text-span-8">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-service-platform"
+                  id="select-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-service-platform"
                   name="Service-Platform-4"
                   data-name="Service Platform 4"
                   required=""
@@ -162,7 +170,9 @@ function digitalAssetsModalForm(type) {
                 <label for="Declared-value-4" class="field-label"
                   >Type<span class="text-span-7">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-type"
+                  id="select-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-type"
                   name="Declared-value-3"
                   data-name="Declared Value 3"
                   class="form_input w-select"
@@ -179,7 +189,9 @@ function digitalAssetsModalForm(type) {
                 <label for="Declared-value-4" class="field-label"
                   >Frequency<span class="text-span-7">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-frequency"
+                  id="select-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-frequency"
                   name="Declared-value-3"
                   data-name="Declared Value 3"
                   required=""
@@ -192,7 +204,9 @@ function digitalAssetsModalForm(type) {
                 <label for="Declared-value-4" class="field-label"
                   >Declared Value (MYR)<span class="text-span-6">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-declared-value"
+                  id="select-digital-assets-${
+                    digitalAssetsTypeName[type].key
+                  }-declared-value"
                   name="Declared-value-3"
                   data-name="Declared Value 3"
                   required=""
@@ -208,7 +222,9 @@ function digitalAssetsModalForm(type) {
                   >*</span
                 ></label
               ><select
-                id="select-${typeName[type].key}-instructions-after-death"
+                id="select-digital-assets-${
+                  digitalAssetsTypeName[type].key
+                }-instructions-after-death"
                 name="field-2"
                 data-name="Field 2"
                 required=""
@@ -221,7 +237,9 @@ function digitalAssetsModalForm(type) {
               <label for="field-3" class="field-label"
                 >Beneficiary<span class="text-span-11">*</span></label
               ><select
-                id="select-${typeName[type].key}-beloved"
+                id="select-digital-assets-${
+                  digitalAssetsTypeName[type].key
+                }-beloved"
                 name="field-2"
                 data-name="Field 2"
                 required=""
@@ -234,7 +252,9 @@ function digitalAssetsModalForm(type) {
               <label for="Contact03-message-2" class="field-label"
                 >Remarks</label
               ><textarea
-                id="input-${typeName[type].key}-remarks"
+                id="input-digital-assets-${
+                  digitalAssetsTypeName[type].key
+                }-remarks"
                 name="Contact-03-message"
                 maxlength="5000"
                 data-name="Contact 03 message"
@@ -248,12 +268,12 @@ function digitalAssetsModalForm(type) {
                 name="checkbox_name_confirmation"
                 class="form-check-input"
                 type="checkbox"
-                id="flexCheckCheckedJoinAffiliate"
+                id="checkbox-${digitalAssetsTypeName[type].key}-digital-assets"
                 required="true"
               />
               <label
                 class="form-check-label"
-                for="flexCheckCheckedJoinAffiliate"
+                for="checkbox-${digitalAssetsTypeName[type].key}-digital-assets"
               >
                 <span
                   for="Contact-03-checkbox"
@@ -265,31 +285,31 @@ function digitalAssetsModalForm(type) {
               </label>
             </div>
             ${
-              typeName[type].allow_delete
+              digitalAssetsTypeName[type].allow_delete
                 ? `
             <div class="content-22 p-0">
               <button
                 type="button"
                 class="button-secondary-gray size-w142"
-                id="delete-digital-assets-btn"
+                id="btn-digital-assets-delete-form"
               >
                 Delete
               </button>
               <button
                 type="submit"
                 class="button size-w142"
-                id="${typeName[type].key}-digital-assets-btn"
+                id="btn-digital-assets-${digitalAssetsTypeName[type].key}-form"
               >
-              ${typeName[type].button_title}
+              ${digitalAssetsTypeName[type].button_title}
               </button>
             </div>
             `
                 : `<button
               type="submit"
               class="w-button button custom-btn"
-              id="${typeName[type].key}-digital-assets-btn"
+              id="btn-digital-assets-${digitalAssetsTypeName[type].key}-form"
             >
-              ${typeName[type].button_title}</button
+              ${digitalAssetsTypeName[type].button_title}</button
             >`
             }
           </form>

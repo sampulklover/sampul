@@ -1,44 +1,48 @@
 document.getElementById('add-beloved-form-container').innerHTML =
-  belovedModalForm(typeName.add.key);
+  belovedModalForm(belovedTypeName.add.key);
 
 document.getElementById('edit-beloved-form-container').innerHTML =
-  belovedModalForm(typeName.edit.key);
+  belovedModalForm(belovedTypeName.edit.key);
 
 document
   .getElementById('open-co-sampul-modal-btn')
   .addEventListener('click', function () {
     $('#add-beloved-modal').modal('show');
-    changeModalType('co_sampul', typeName.add.key);
-    document.getElementById('select-add-type').value = 'co_sampul';
+    changeModalType('co_sampul', belovedTypeName.add.key);
+    document.getElementById('select-beloved-add-type').value = 'co_sampul';
   });
 
 document
   .getElementById('open-future-owner-modal-btn')
   .addEventListener('click', function () {
     $('#add-beloved-modal').modal('show');
-    changeModalType('future_owner', typeName.add.key);
-    document.getElementById('select-add-type').value = 'future_owner';
+    changeModalType('future_owner', belovedTypeName.add.key);
+    document.getElementById('select-beloved-add-type').value = 'future_owner';
   });
 
 function changeModalType(typeName, type) {
-  document.getElementById(`modal-${type}-title-beloved`).innerText =
+  document.getElementById(`modal-beloved-${type}-title`).innerText =
     type_title[typeName].title;
-  document.getElementById(`modal-${type}-subtitle-beloved`).innerText =
+  document.getElementById(`modal-beloved-${type}-subtitle`).innerText =
     type_title[typeName].subtitle;
 }
 
 var editCurrentId = null;
-const editNricNameInput = document.getElementById('input-edit-nric-name');
-const editNricNoInput = document.getElementById('input-edit-nric-no');
-const editNicknameInput = document.getElementById('input-edit-nickname');
-const editPhoneNoInput = document.getElementById('input-edit-phone-no');
-const editEmailInput = document.getElementById('input-edit-email');
-const editRelationshipSelect = document.getElementById(
-  'select-edit-relationship'
+const editNricNameInput = document.getElementById(
+  'input-beloved-edit-nric-name'
 );
-const editTypeSelect = document.getElementById('select-edit-type');
-const editLevelSelect = document.getElementById('select-edit-level');
-const editPreviewImage = document.getElementById('preview-edit-image');
+const editNricNoInput = document.getElementById('input-beloved-edit-nric-no');
+const editNicknameInput = document.getElementById(
+  'input-beloved-edit-nickname'
+);
+const editPhoneNoInput = document.getElementById('input-beloved-edit-phone-no');
+const editEmailInput = document.getElementById('input-beloved-edit-email');
+const editRelationshipSelect = document.getElementById(
+  'select-beloved-edit-relationship'
+);
+const editTypeSelect = document.getElementById('select-beloved-edit-type');
+const editLevelSelect = document.getElementById('select-beloved-edit-level');
+const editPreviewImage = document.getElementById('preview-beloved-edit-image');
 
 var belovedData = [];
 
@@ -46,7 +50,7 @@ document.getElementById('input-search').addEventListener('input', function () {
   const userInput = this.value.toLowerCase();
 
   const filteredData = belovedData.filter((item) => {
-    const searchableProperties = ['name', 'nickname', 'email'];
+    const searchableProperties = ['nric_name', 'nickname', 'email'];
 
     return searchableProperties.some((prop) =>
       item[prop].toLowerCase().includes(userInput)
@@ -62,7 +66,7 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    let useBtn = document.getElementById('add-beloved-btn');
+    let useBtn = document.getElementById('btn-beloved-add-form');
     let defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -72,8 +76,8 @@ document
 
     let setStop = false;
 
-    const addTypeSelect = document.getElementById('select-add-type');
-    const addLevelSelect = document.getElementById('select-add-level');
+    const addTypeSelect = document.getElementById('select-beloved-add-type');
+    const addLevelSelect = document.getElementById('select-beloved-add-level');
 
     if (belovedData.length !== 0) {
       belovedData.map((item) => {
@@ -108,14 +112,15 @@ document
       .from(dbName.beloved)
       .insert({
         uuid: userId,
-        nric_name: document.getElementById('input-add-nric-name').value,
-        nric_no: document.getElementById('input-add-nric-no').value,
-        nickname: document.getElementById('input-add-nickname').value,
-        phone_no: document.getElementById('input-add-phone-no').value,
-        email: document.getElementById('input-add-email').value,
-        relationship: document.getElementById('select-add-relationship').value,
-        type: document.getElementById('select-add-type').value,
-        level: document.getElementById('select-add-level').value,
+        nric_name: document.getElementById('input-beloved-add-nric-name').value,
+        nric_no: document.getElementById('input-beloved-add-nric-no').value,
+        nickname: document.getElementById('input-beloved-add-nickname').value,
+        phone_no: document.getElementById('input-beloved-add-phone-no').value,
+        email: document.getElementById('input-beloved-add-email').value,
+        relationship: document.getElementById('select-beloved-add-relationship')
+          .value,
+        type: document.getElementById('select-beloved-add-type').value,
+        level: document.getElementById('select-beloved-add-level').value,
       })
       .select();
 
@@ -128,7 +133,7 @@ document
     }
 
     returnId = data[0].id;
-    const imageInput = document.getElementById('input-add-image');
+    const imageInput = document.getElementById('input-beloved-add-image');
 
     if (imageInput.files.length > 0 && returnId) {
       const file = imageInput.files[0];
@@ -171,7 +176,7 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    let useBtn = document.getElementById('edit-beloved-btn');
+    let useBtn = document.getElementById('btn-beloved-edit-form');
     let defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -236,7 +241,7 @@ document
     }
 
     returnData = data[0];
-    const imageInput = document.getElementById('input-edit-image');
+    const imageInput = document.getElementById('input-beloved-edit-image');
 
     if (imageInput.files.length > 0 && returnData.id) {
       if (returnData.image_path) {
@@ -292,17 +297,17 @@ document
     useBtn.innerHTML = defaultBtnText;
   });
 
-const previewAddImage = document.getElementById('preview-add-image');
-const previewEditImage = document.getElementById('preview-edit-image');
+const previewAddImage = document.getElementById('preview-beloved-add-image');
+const previewEditImage = document.getElementById('preview-beloved-edit-image');
 
 document
-  .getElementById('preview-add-image')
+  .getElementById('preview-beloved-add-image')
   .addEventListener('click', function (event) {
-    document.getElementById('input-add-image').click();
+    document.getElementById('input-beloved-add-image').click();
   });
 
 document
-  .getElementById('input-add-image')
+  .getElementById('input-beloved-add-image')
   .addEventListener('change', function (event) {
     if (event.target.files.length > 0) {
       let imageURL = URL.createObjectURL(event.target.files[0]);
@@ -311,13 +316,13 @@ document
   });
 
 document
-  .getElementById('preview-edit-image')
+  .getElementById('preview-beloved-edit-image')
   .addEventListener('click', function (event) {
-    document.getElementById('input-edit-image').click();
+    document.getElementById('input-beloved-edit-image').click();
   });
 
 document
-  .getElementById('input-edit-image')
+  .getElementById('input-beloved-edit-image')
   .addEventListener('change', function (event) {
     if (event.target.files.length > 0) {
       let imageURL = URL.createObjectURL(event.target.files[0]);
@@ -382,7 +387,7 @@ function populateBeloved(allData = [], type) {
 
       card.addEventListener('click', function () {
         populateToEdit(item.id);
-        changeModalType(type.key, typeName.edit.key);
+        changeModalType(type.key, belovedTypeName.edit.key);
       });
 
       records.push(card);
@@ -408,12 +413,12 @@ function populateBeloved(allData = [], type) {
 }
 
 document
-  .getElementById('delete-beloved-btn')
+  .getElementById('btn-beloved-delete-form')
   .addEventListener('click', async function () {
     if (confirm(`Are you sure you want to delete this record?`)) {
       var selectedCard = belovedData.find((item) => item.id === editCurrentId);
 
-      let useBtn = document.getElementById('delete-beloved-btn');
+      let useBtn = document.getElementById('btn-beloved-delete-form');
       let defaultBtnText = useBtn.innerHTML;
       useBtn.disabled = true;
       useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -449,11 +454,20 @@ document
   });
 
 function mapElements() {
-  for (let key in typeName) {
-    mapToSelect(relationships(), `select-${typeName[key].key}-relationship`);
-    mapToSelect(beneficiaryTypes(), `select-${typeName[key].key}-type`);
-    mapToSelect(belovedLevel(), `select-${typeName[key].key}-level`);
-    document.getElementById('select-add-type').value == 'future_owner';
+  for (let key in belovedTypeName) {
+    mapToSelect(
+      relationships(),
+      `select-beloved-${belovedTypeName[key].key}-relationship`
+    );
+    mapToSelect(
+      beneficiaryTypes(),
+      `select-beloved-${belovedTypeName[key].key}-type`
+    );
+    mapToSelect(
+      belovedLevel(),
+      `select-beloved-${belovedTypeName[key].key}-level`
+    );
+    document.getElementById('select-beloved-add-type').value == 'future_owner';
   }
 }
 

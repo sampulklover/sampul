@@ -15,7 +15,7 @@ const type_title = {
   },
 };
 
-const typeName = {
+const belovedTypeName = {
   add: {
     key: 'add',
     button_title: 'Submit',
@@ -29,13 +29,13 @@ const typeName = {
 };
 
 function belovedModalForm(type) {
-  if (!(type in typeName)) {
+  if (!(type in belovedTypeName)) {
     console.error(`Invalid type: ${type}`);
     return;
   }
 
   return `
-  <div class="modal fade" id="${typeName[type].key}-beloved-modal">
+  <div class="modal fade" id="${belovedTypeName[type].key}-beloved-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -44,7 +44,7 @@ function belovedModalForm(type) {
             &times;
           </button>
         </div>
-        <div id="${typeName[type].key}-form-body-container">
+        <div id="${belovedTypeName[type].key}-form-body-container">
           <div class="modal-header-2">
             <div class="content-32">
               <div class="smpl-icon-featured-outline-large">
@@ -67,19 +67,19 @@ function belovedModalForm(type) {
                 </div>
               </div>
               <div class="text-and-supporting-text-18">
-                <div class="text-lg-semibold-4" id="modal-${
-                  typeName[type].key
-                }-title-beloved">...</div>
-                <div class="text-sm-regular-6" id="modal-${
-                  typeName[type].key
-                }-subtitle-beloved">...</div>
+                <div class="text-lg-semibold-4" id="modal-beloved-${
+                  belovedTypeName[type].key
+                }-title">...</div>
+                <div class="text-sm-regular-6" id="modal-beloved-${
+                  belovedTypeName[type].key
+                }-subtitle">...</div>
               </div>
             </div>
             <div class="padding-bottom-3"></div>
           </div>
           <div class="spacer-30"></div>
           <form
-            id="${typeName[type].key}-beloved-form"
+            id="${belovedTypeName[type].key}-beloved-form"
             name="wf-form-Digital-Account-form"
             data-name="Digital Account form"
             method="get"
@@ -98,7 +98,7 @@ function belovedModalForm(type) {
                   maxlength="256"
                   name="nric-name"
                   placeholder=""
-                  id="input-${typeName[type].key}-nric-name"
+                  id="input-beloved-${belovedTypeName[type].key}-nric-name"
                   required=""
                 />
               </div>
@@ -111,7 +111,7 @@ function belovedModalForm(type) {
                   maxlength="256"
                   name="nickname"
                   placeholder=""
-                  id="input-${typeName[type].key}-nickname"
+                  id="input-beloved-${belovedTypeName[type].key}-nickname"
                   required=""
                 />
               </div>
@@ -126,7 +126,7 @@ function belovedModalForm(type) {
                   maxlength="256"
                   name="nric-no"
                   placeholder=""
-                  id="input-${typeName[type].key}-nric-no"
+                  id="input-beloved-${belovedTypeName[type].key}-nric-no"
                   required=""
                 />
               </div>
@@ -139,7 +139,7 @@ function belovedModalForm(type) {
                   maxlength="256"
                   name="phone-no"
                   placeholder=""
-                  id="input-${typeName[type].key}-phone-no"
+                  id="input-beloved-${belovedTypeName[type].key}-phone-no"
                   required=""
                 />
               </div>
@@ -155,7 +155,7 @@ function belovedModalForm(type) {
                 maxlength="256"
                 name="email"
                 placeholder=""
-                id="input-${typeName[type].key}-email"
+                id="input-beloved-${belovedTypeName[type].key}-email"
                 required=""
               />
               </div>
@@ -163,7 +163,7 @@ function belovedModalForm(type) {
                 <label for="relationship" class="field-label"
                   >Relationship<span class="text-span-8">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-relationship"
+                  id="select-beloved-${belovedTypeName[type].key}-relationship"
                   name="relationship"
                   required=""
                   class="form_input w-select"
@@ -175,7 +175,7 @@ function belovedModalForm(type) {
                 <label for="type" class="field-label"
                   >Beneficiary Type<span class="text-span-8">*</span></label
                 ><select
-                  id="select-${typeName[type].key}-type"
+                  id="select-beloved-${belovedTypeName[type].key}-type"
                   name="type"
                   required=""
                   class="form_input w-select"
@@ -190,7 +190,7 @@ function belovedModalForm(type) {
               <label for="level" class="field-label"
                 >Beloved level<span class="text-span-8">*</span></label
               ><select
-                id="select-${typeName[type].key}-level"
+                id="select-beloved-${belovedTypeName[type].key}-level"
                 name="level"
                 required=""
                 class="form_input w-select"
@@ -213,11 +213,11 @@ function belovedModalForm(type) {
                   src="https://iriedoc.wu.ac.th/support/img/user.png"
                   alt=""
                   class="avatar-7"
-                  id="preview-${typeName[type].key}-image"
+                  id="preview-beloved-${belovedTypeName[type].key}-image"
                 />
                 <input
                   type="file"
-                  id="input-${typeName[type].key}-image"
+                  id="input-beloved-${belovedTypeName[type].key}-image"
                   name=""
                   accept="image/*"
                   style="display: none"
@@ -226,31 +226,31 @@ function belovedModalForm(type) {
             </div>
             <div class="spacer-30"></div>
             ${
-              typeName[type].allow_delete
+              belovedTypeName[type].allow_delete
                 ? `
             <div class="content-22 p-0">
               <button
                 type="button"
                 class="button-secondary-gray size-w142"
-                id="delete-beloved-btn"
+                id="btn-beloved-delete-form"
               >
                 Delete
               </button>
               <button
                 type="submit"
                 class="button size-w142"
-                id="${typeName[type].key}-beloved-btn"
+                id="btn-beloved-${belovedTypeName[type].key}-form"
               >
-                ${typeName[type].button_title}
+                ${belovedTypeName[type].button_title}
               </button>
             </div>
             `
                 : `<button
               type="submit"
               class="w-button button custom-btn"
-              id="${typeName[type].key}-beloved-btn"
+              id="btn-beloved-${belovedTypeName[type].key}-form"
             >
-              ${typeName[type].button_title}</button
+              ${belovedTypeName[type].button_title}</button
             >`
             }
           </form>

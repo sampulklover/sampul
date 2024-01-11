@@ -47,11 +47,27 @@ function showToast(parentContainerId = '', message, type = '') {
   $('.toast').toast('show');
 }
 
-function populateToTable(tableId, tableData, columns, loaderId) {
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  return date.toLocaleString();
+}
+
+function populateToTable(
+  tableId,
+  tableData,
+  columns,
+  loaderId,
+  information = true,
+  searchBar = true,
+  pagingination = true
+) {
   const table = $(tableId).DataTable({
     data: tableData,
     columns: columns,
     lengthChange: false,
+    info: information,
+    searching: searchBar,
+    paging: pagingination,
     buttons: [
       {
         extend: 'csv',
@@ -151,7 +167,13 @@ function mapViewElements(source, target) {
       if (typeof source[key] === 'object') {
         for (const nestedKey in source[key]) {
           if (target[nestedKey]) {
-            target[nestedKey].innerText = source[key][nestedKey];
+            if (nestedKey == 'last_updated') {
+              target[nestedKey].innerText = formatTimestamp(
+                source[key][nestedKey]
+              );
+            } else {
+              target[nestedKey].innerText = source[key][nestedKey];
+            }
           }
         }
       } else if (target[key]) {
@@ -162,5 +184,20 @@ function mapViewElements(source, target) {
         }
       }
     }
+  }
+}
+
+function mapImageElements(source, target) {
+  for (const key in source) {
+    target[key].preview.addEventListener('click', function (event) {
+      target[key].edit.click();
+    });
+
+    target[key].edit.addEventListener('change', function (event) {
+      if (event.target.files.length > 0) {
+        let imageURL = URL.createObjectURL(event.target.files[0]);
+        target[key].preview.src = `${imageURL}`;
+      }
+    });
   }
 }

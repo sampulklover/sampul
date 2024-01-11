@@ -1,8 +1,8 @@
 document.getElementById('add-digital-assets-form-container').innerHTML =
-  digitalAssetsModalForm(typeName.add.key);
+  digitalAssetsModalForm(digitalAssetsTypeName.add.key);
 
 document.getElementById('edit-digital-assets-form-container').innerHTML =
-  digitalAssetsModalForm(typeName.edit.key);
+  digitalAssetsModalForm(digitalAssetsTypeName.edit.key);
 
 document
   .getElementById('new-digital-assets-btn')
@@ -38,21 +38,33 @@ document.getElementById('input-search').addEventListener('input', function () {
   populateAssets(filteredData);
 });
 
-const editUsernameInput = document.getElementById('input-edit-username');
-const editEmailInput = document.getElementById('input-edit-email');
-const editServicePlatformSelect = document.getElementById(
-  'select-edit-service-platform'
+const editUsernameInput = document.getElementById(
+  'input-digital-assets-edit-username'
 );
-const editAccountTypeSelect = document.getElementById('select-edit-type');
-const editFrequencySelect = document.getElementById('select-edit-frequency');
+const editEmailInput = document.getElementById(
+  'input-digital-assets-edit-email'
+);
+const editServicePlatformSelect = document.getElementById(
+  'select-digital-assets-edit-service-platform'
+);
+const editAccountTypeSelect = document.getElementById(
+  'select-digital-assets-edit-type'
+);
+const editFrequencySelect = document.getElementById(
+  'select-digital-assets-edit-frequency'
+);
 const editDeclaredValueSelect = document.getElementById(
-  'select-edit-declared-value'
+  'select-digital-assets-edit-declared-value'
 );
 const editInstructionsAfterDeathSelect = document.getElementById(
-  'select-edit-instructions-after-death'
+  'select-digital-assets-edit-instructions-after-death'
 );
-const editBelovedSelect = document.getElementById('select-edit-beloved');
-const editRemarksInput = document.getElementById('input-edit-remarks');
+const editBelovedSelect = document.getElementById(
+  'select-digital-assets-edit-beloved'
+);
+const editRemarksInput = document.getElementById(
+  'input-digital-assets-edit-remarks'
+);
 
 var editCurrentId = null;
 
@@ -75,12 +87,12 @@ function populateToEdit(id) {
 }
 
 document
-  .getElementById('delete-digital-assets-btn')
+  .getElementById('btn-digital-assets-delete-form')
   .addEventListener('click', async function (event) {
     if (confirm(`Are you sure you want to delete this record?`)) {
       var selectedCard = assetData.find((item) => item.id === editCurrentId);
 
-      let useBtn = document.getElementById('delete-digital-assets-btn');
+      let useBtn = document.getElementById('btn-digital-assets-delete-form');
       let defaultBtnText = useBtn.innerHTML;
       useBtn.disabled = true;
       useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -112,7 +124,7 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    let useBtn = document.getElementById('add-digital-assets-btn');
+    let useBtn = document.getElementById('btn-digital-assets-add-form');
     let defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -123,19 +135,27 @@ document
       .from(dbName.digital_assets)
       .insert({
         uuid: userId,
-        username: document.getElementById('input-add-username').value,
-        email: document.getElementById('input-add-email').value,
-        service_platform: document.getElementById('select-add-service-platform')
+        username: document.getElementById('input-digital-assets-add-username')
           .value,
-        account_type: document.getElementById('select-add-type').value,
-        frequency: document.getElementById('select-add-frequency').value,
-        declared_value_myr: document.getElementById('select-add-declared-value')
-          .value,
-        instructions_after_death: document.getElementById(
-          'select-add-instructions-after-death'
+        email: document.getElementById('input-digital-assets-add-email').value,
+        service_platform: document.getElementById(
+          'select-digital-assets-add-service-platform'
         ).value,
-        beloved_id: document.getElementById('select-add-beloved').value,
-        remarks: document.getElementById('input-add-remarks').value,
+        account_type: document.getElementById('select-digital-assets-add-type')
+          .value,
+        frequency: document.getElementById(
+          'select-digital-assets-add-frequency'
+        ).value,
+        declared_value_myr: document.getElementById(
+          'select-digital-assets-add-declared-value'
+        ).value,
+        instructions_after_death: document.getElementById(
+          'select-digital-assets-add-instructions-after-death'
+        ).value,
+        beloved_id: document.getElementById('select-digital-assets-add-beloved')
+          .value,
+        remarks: document.getElementById('input-digital-assets-add-remarks')
+          .value,
       });
 
     if (error) {
@@ -161,7 +181,7 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    let useBtn = document.getElementById('edit-digital-assets-btn');
+    let useBtn = document.getElementById('btn-digital-assets-edit-form');
     let defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
@@ -298,23 +318,26 @@ tabLinks.forEach(function (tabLink) {
 });
 
 function mapElements() {
-  for (let key in typeName) {
+  for (let key in digitalAssetsTypeName) {
     mapToSelect(
       servicePlatforms(),
-      `select-${typeName[key].key}-service-platform`
+      `select-digital-assets-${digitalAssetsTypeName[key].key}-service-platform`
     );
     mapToSelect(
       servicePlatformAccountTypes(),
-      `select-${typeName[key].key}-type`
+      `select-digital-assets-${digitalAssetsTypeName[key].key}-type`
     );
     mapToSelect(
       servicePlatformFrequencies(),
-      `select-${typeName[key].key}-frequency`
+      `select-digital-assets-${digitalAssetsTypeName[key].key}-frequency`
     );
-    mapToSelect(declaredValues(), `select-${typeName[key].key}-declared-value`);
+    mapToSelect(
+      declaredValues(),
+      `select-digital-assets-${digitalAssetsTypeName[key].key}-declared-value`
+    );
     mapToSelect(
       instructionsAfterDeath(),
-      `select-${typeName[key].key}-instructions-after-death`
+      `select-digital-assets-${digitalAssetsTypeName[key].key}-instructions-after-death`
     );
   }
 }
@@ -331,11 +354,16 @@ async function fetchbeloved() {
       console.error('Error', error.message);
       showToast('alert-toast-container', error.message, 'danger');
     } else {
-      for (let key in typeName) {
+      for (let key in digitalAssetsTypeName) {
         if (data.length === 0) {
-          mapToSelect(addNew(), `select-${typeName[key].key}-beloved`);
+          mapToSelect(
+            addNew(),
+            `select-digital-assets-${digitalAssetsTypeName[key].key}-beloved`
+          );
           document
-            .getElementById(`select-${typeName[key].key}-beloved`)
+            .getElementById(
+              `select-digital-assets-${digitalAssetsTypeName[key].key}-beloved`
+            )
             .addEventListener('change', (event) => {
               const selectedValue = event.target.value;
               if (selectedValue === 'add_new') {
@@ -347,7 +375,10 @@ async function fetchbeloved() {
             value: item.id,
             name: item.nric_name,
           }));
-          mapToSelect(modifiedData, `select-${typeName[key].key}-beloved`);
+          mapToSelect(
+            modifiedData,
+            `select-digital-assets-${digitalAssetsTypeName[key].key}-beloved`
+          );
         }
       }
     }
