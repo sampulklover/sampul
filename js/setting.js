@@ -1,37 +1,46 @@
-const profileElements = {
-  username: document.getElementById('input-username'),
-  nric_name: document.getElementById('input-nric-name'),
-  nric_no: document.getElementById('input-nric-no'),
-  dob: document.getElementById('input-dob'),
-  email: document.getElementById('input-email'),
-  phone_no: document.getElementById('input-phone-no'),
-  religion: document.getElementById('select-religion'),
-  marital_status: document.getElementById('select-marital-status'),
-  address_1: document.getElementById('input-address-1'),
-  address_2: document.getElementById('input-address-2'),
-  city: document.getElementById('input-city'),
-  postcode: document.getElementById('input-postcode'),
-  country: document.getElementById('input-country'),
-  image_path: document.getElementById('preview-image'),
-};
+document.getElementById('add-sign-out-modal-container').innerHTML =
+  signOutModalForm();
 
-const passwordElements = {
-  new_password: document.getElementById('input-new-password'),
-  confirm_new_password: document.getElementById('input-confirm-new-password'),
-};
+document
+  .getElementById('open-sign-out-modal-btn')
+  .addEventListener('click', function () {
+    $('#sign-out-modal').modal('show');
+  });
 
-const informDeathElements = {
-  nric_name: document.getElementById('input-inform-death-nric-name'),
-  nric_no: document.getElementById('input-inform-death-nric-no'),
-  certification: document.getElementById('input-inform-death-certification'),
-  phone_no: document.getElementById('input-inform-death-phone-no'),
-  email: document.getElementById('input-inform-death-email'),
-  address_1: document.getElementById('input-inform-death-address-1'),
-  address_2: document.getElementById('input-inform-death-address-2'),
-  city: document.getElementById('input-inform-death-city'),
-  postcode: document.getElementById('input-inform-death-postcode'),
-  country: document.getElementById('input-inform-death-country'),
-  image_path: document.getElementById('preview-inform-death-image'),
+const inputElements = {
+  profileForms: {
+    username: document.getElementById('input-username'),
+    nric_name: document.getElementById('input-nric-name'),
+    nric_no: document.getElementById('input-nric-no'),
+    dob: document.getElementById('input-dob'),
+    email: document.getElementById('input-email'),
+    phone_no: document.getElementById('input-phone-no'),
+    religion: document.getElementById('select-religion'),
+    marital_status: document.getElementById('select-marital-status'),
+    address_1: document.getElementById('input-address-1'),
+    address_2: document.getElementById('input-address-2'),
+    city: document.getElementById('input-city'),
+    postcode: document.getElementById('input-postcode'),
+    country: document.getElementById('input-country'),
+    image_path: document.getElementById('preview-image'),
+  },
+  passwordForms: {
+    new_password: document.getElementById('input-new-password'),
+    confirm_new_password: document.getElementById('input-confirm-new-password'),
+  },
+  informDeathForms: {
+    nric_name: document.getElementById('input-inform-death-nric-name'),
+    nric_no: document.getElementById('input-inform-death-nric-no'),
+    certification: document.getElementById('input-inform-death-certification'),
+    phone_no: document.getElementById('input-inform-death-phone-no'),
+    email: document.getElementById('input-inform-death-email'),
+    address_1: document.getElementById('input-inform-death-address-1'),
+    address_2: document.getElementById('input-inform-death-address-2'),
+    city: document.getElementById('input-inform-death-city'),
+    postcode: document.getElementById('input-inform-death-postcode'),
+    country: document.getElementById('input-inform-death-country'),
+    image_path: document.getElementById('preview-inform-death-image'),
+  },
 };
 
 document
@@ -66,8 +75,8 @@ document
       let defaultBtnText = useBtn.innerHTML;
       useBtn.disabled = true;
       useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
-      for (const key in passwordElements) {
-        passwordElements[key].value = '';
+      for (const key in inputElements.passwordForms) {
+        inputElements.passwordForms[key].value = '';
       }
       useBtn.disabled = false;
       useBtn.innerHTML = defaultBtnText;
@@ -113,10 +122,13 @@ document
 
     const updateData = {};
 
-    for (const key in profileElements) {
-      if (key === 'image_path' && profileElements[key].tagName === 'IMG') {
+    for (const key in inputElements.profileForms) {
+      if (
+        key === 'image_path' &&
+        inputElements.profileForms[key].tagName === 'IMG'
+      ) {
       } else {
-        updateData[key] = profileElements[key].value;
+        updateData[key] = inputElements.profileForms[key].value;
       }
     }
 
@@ -264,12 +276,15 @@ async function fetchProfile() {
       showToast('alert-toast-container', error.message, 'danger');
     } else {
       for (const key in data[0]) {
-        if (profileElements[key]) {
-          if (key === 'image_path' && profileElements[key].tagName === 'IMG') {
+        if (inputElements.profileForms[key]) {
+          if (
+            key === 'image_path' &&
+            inputElements.profileForms[key].tagName === 'IMG'
+          ) {
             var imagePath = `${CDNURL}${data[0][key]}`;
-            profileElements[key].src = imagePath;
+            inputElements.profileForms[key].src = imagePath;
           } else {
-            profileElements[key].value = data[0][key];
+            inputElements.profileForms[key].value = data[0][key];
           }
         }
       }
@@ -288,16 +303,17 @@ document
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
     function arePasswordsEqual() {
-      const newPassword = passwordElements.new_password.value;
-      const confirmNewPassword = passwordElements.confirm_new_password.value;
+      const newPassword = inputElements.passwordForms.new_password.value;
+      const confirmNewPassword =
+        inputElements.passwordForms.confirm_new_password.value;
       return newPassword === confirmNewPassword;
     }
 
     if (arePasswordsEqual()) {
       const updateData = {};
 
-      for (const key in passwordElements) {
-        updateData[key] = passwordElements[key].value;
+      for (const key in inputElements.passwordForms) {
+        updateData[key] = inputElements.passwordForms[key].value;
       }
 
       const { data, error } = await supabaseClient.auth.updateUser({
@@ -332,10 +348,13 @@ document
 
     const updateData = {};
 
-    for (const key in informDeathElements) {
-      if (key === 'image_path' && informDeathElements[key].tagName === 'IMG') {
+    for (const key in inputElements.informDeathForms) {
+      if (
+        key === 'image_path' &&
+        inputElements.informDeathForms[key].tagName === 'IMG'
+      ) {
       } else {
-        updateData[key] = informDeathElements[key].value;
+        updateData[key] = inputElements.informDeathForms[key].value;
       }
     }
 
@@ -423,15 +442,15 @@ async function fetchInformDeath() {
       showToast('alert-toast-container', error.message, 'danger');
     } else {
       for (const key in data[0]) {
-        if (informDeathElements[key]) {
+        if (inputElements.informDeathForms[key]) {
           if (
             key === 'image_path' &&
-            informDeathElements[key].tagName === 'IMG'
+            inputElements.informDeathForms[key].tagName === 'IMG'
           ) {
             var imagePath = `${CDNURL}${data[0][key]}`;
-            informDeathElements[key].src = imagePath;
+            inputElements.informDeathForms[key].src = imagePath;
           } else {
-            informDeathElements[key].value = data[0][key];
+            inputElements.informDeathForms[key].value = data[0][key];
           }
         }
       }

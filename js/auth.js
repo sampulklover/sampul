@@ -1,6 +1,6 @@
 const { createClient } = supabase;
 
-const AppVersion = 'v1.0.29';
+const AppVersion = 'v1.0.30';
 
 const dbName = {
   profiles: 'profiles',
@@ -36,6 +36,22 @@ async function getUserUUID() {
     }
 
     return data.user.id;
+  } catch (error) {
+    alert('User not authenticated. Please login.');
+    window.location.href = '/index';
+    return null;
+  }
+}
+
+async function signOutUser() {
+  try {
+    const { data, error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      throw error;
+    }
+
+    window.location.href = '/index';
   } catch (error) {
     alert('User not authenticated. Please login.');
     return null;

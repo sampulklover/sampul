@@ -1,8 +1,17 @@
+document.getElementById('add-sign-out-modal-container').innerHTML =
+  signOutModalForm();
+
 document.getElementById('add-beloved-form-container').innerHTML =
   belovedModalForm(belovedTypeName.add.key);
 
 document.getElementById('edit-beloved-form-container').innerHTML =
   belovedModalForm(belovedTypeName.edit.key);
+
+document
+  .getElementById('open-sign-out-modal-btn')
+  .addEventListener('click', function () {
+    $('#sign-out-modal').modal('show');
+  });
 
 document
   .getElementById('open-co-sampul-modal-btn')
@@ -27,23 +36,32 @@ function changeModalType(typeName, type) {
     type_title[typeName].subtitle;
 }
 
-var editCurrentId = null;
-const editNricNameInput = document.getElementById(
-  'input-beloved-edit-nric-name'
-);
-const editNricNoInput = document.getElementById('input-beloved-edit-nric-no');
-const editNicknameInput = document.getElementById(
-  'input-beloved-edit-nickname'
-);
-const editPhoneNoInput = document.getElementById('input-beloved-edit-phone-no');
-const editEmailInput = document.getElementById('input-beloved-edit-email');
-const editRelationshipSelect = document.getElementById(
-  'select-beloved-edit-relationship'
-);
-const editTypeSelect = document.getElementById('select-beloved-edit-type');
-const editLevelSelect = document.getElementById('select-beloved-edit-level');
-const editPreviewImage = document.getElementById('preview-beloved-edit-image');
+const inputElements = {
+  add_beloved_modal: {
+    nric_name: document.getElementById('input-beloved-add-nric-name'),
+    nric_no: document.getElementById('input-beloved-add-nric-no'),
+    nickname: document.getElementById('input-beloved-add-nickname'),
+    phone_no: document.getElementById('input-beloved-add-phone-no'),
+    email: document.getElementById('input-beloved-add-email'),
+    relationship: document.getElementById('select-beloved-add-relationship'),
+    type: document.getElementById('select-beloved-add-type'),
+    level: document.getElementById('select-beloved-add-level'),
+    image_path: document.getElementById('preview-beloved-add-image'),
+  },
+  edit_beloved_modal: {
+    nric_name: document.getElementById('input-beloved-edit-nric-name'),
+    nric_no: document.getElementById('input-beloved-edit-nric-no'),
+    nickname: document.getElementById('input-beloved-edit-nickname'),
+    phone_no: document.getElementById('input-beloved-edit-phone-no'),
+    email: document.getElementById('input-beloved-edit-email'),
+    relationship: document.getElementById('select-beloved-edit-relationship'),
+    type: document.getElementById('select-beloved-edit-type'),
+    level: document.getElementById('select-beloved-edit-level'),
+    image_path: document.getElementById('preview-beloved-edit-image'),
+  },
+};
 
+var editCurrentId = null;
 var belovedData = [];
 
 document.getElementById('input-search').addEventListener('input', function () {
@@ -108,19 +126,19 @@ document
       return;
     }
 
+    const addData = {};
+
+    for (const key in inputElements.add_beloved_modal) {
+      if (key !== 'image_path') {
+        addData[key] = inputElements.add_beloved_modal[key].value;
+      }
+    }
+
     const { data, error } = await supabaseClient
       .from(dbName.beloved)
       .insert({
         uuid: userId,
-        nric_name: document.getElementById('input-beloved-add-nric-name').value,
-        nric_no: document.getElementById('input-beloved-add-nric-no').value,
-        nickname: document.getElementById('input-beloved-add-nickname').value,
-        phone_no: document.getElementById('input-beloved-add-phone-no').value,
-        email: document.getElementById('input-beloved-add-email').value,
-        relationship: document.getElementById('select-beloved-add-relationship')
-          .value,
-        type: document.getElementById('select-beloved-add-type').value,
-        level: document.getElementById('select-beloved-add-level').value,
+        ...addData,
       })
       .select();
 
@@ -189,13 +207,14 @@ document
     if (belovedData.length !== 0) {
       belovedData.map((item) => {
         if (
-          item.type == editTypeSelect.value &&
-          item.level == editLevelSelect.value &&
+          item.type == inputElements.edit_beloved_modal.type.value &&
+          item.level == inputElements.edit_beloved_modal.level.value &&
           item.id !== editCurrentId
         ) {
           if (item.level !== 'others') {
             var selectedLevel = belovedLevel().find(
-              (item) => item.value === editLevelSelect.value
+              (item) =>
+                item.value === inputElements.edit_beloved_modal.level.value
             );
 
             showToast(
@@ -216,17 +235,18 @@ document
       return;
     }
 
+    const updateData = {};
+
+    for (const key in inputElements.edit_beloved_modal) {
+      if (key !== 'image_path') {
+        updateData[key] = inputElements.edit_beloved_modal[key].value;
+      }
+    }
+
     const { data, error } = await supabaseClient
       .from(dbName.beloved)
       .update({
-        nric_name: editNricNameInput.value,
-        nric_no: editNricNoInput.value,
-        nickname: editNicknameInput.value,
-        phone_no: editPhoneNoInput.value,
-        email: editEmailInput.value,
-        relationship: editRelationshipSelect.value,
-        type: editTypeSelect.value,
-        level: editLevelSelect.value,
+        ...updateData,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId)
@@ -335,18 +355,16 @@ function populateToEdit(id) {
   $('#edit-beloved-modal').modal('show');
   var selectedCard = belovedData.find((item) => item.id === id);
   if (selectedCard) {
-    editNricNameInput.value = selectedCard.nric_name;
-    editNricNoInput.value = selectedCard.nric_no;
-    editNicknameInput.value = selectedCard.nickname;
-    editPhoneNoInput.value = selectedCard.phone_no;
-    editEmailInput.value = selectedCard.email;
-    editRelationshipSelect.value = selectedCard.relationship;
-    editTypeSelect.value = selectedCard.type;
-    editLevelSelect.value = selectedCard.level;
-    const imageUrl = selectedCard.image_path
-      ? `${CDNURL}${selectedCard.image_path}`
-      : addUserImg;
-    editPreviewImage.src = imageUrl;
+    for (const key in inputElements.edit_beloved_modal) {
+      inputElements.edit_beloved_modal[key].value = selectedCard[key];
+
+      if (key == 'image_path') {
+        const imageUrl = selectedCard[key]
+          ? `${CDNURL}${selectedCard[key]}`
+          : addUserImg;
+        inputElements.edit_beloved_modal.image_path.src = imageUrl;
+      }
+    }
   }
 }
 
