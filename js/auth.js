@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.34',
+  version: 'v1.0.35',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -60,7 +60,7 @@ async function signOutUser() {
 
     location.href = pageName.index;
   } catch (error) {
-    alert('User not authenticated. Please login.');
+    console.log(error);
     return null;
   }
 }
