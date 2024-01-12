@@ -310,11 +310,12 @@ function populateToAllDigitalAssetsTable(tableData, belovedData) {
           (item) => item.value === row.service_platform
         );
         const platformName = platform?.name || '';
+        const platformImg = platform?.img || '';
 
         return `<div class="custom-table-cell">
                   <img
                     loading="lazy"
-                    src="images/Avatar_1.png"
+                    src="${platformImg}"
                     alt=""
                     class="avatar-8"
                   />
@@ -336,11 +337,14 @@ function populateToAllDigitalAssetsTable(tableData, belovedData) {
           (item) => item.value === relationshipValue
         );
         const relationName = relation?.name || '';
+        const belovedImg = beloved?.image_path
+          ? `${CDNURL}${beloved.image_path}`
+          : emptyUserImg;
 
         return `<div class="custom-table-cell">
                   <img
                     loading="lazy"
-                    src="images/Avatar_1.png"
+                    src="${belovedImg}"
                     alt=""
                     class="avatar-8"
                   />
