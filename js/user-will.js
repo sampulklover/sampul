@@ -188,7 +188,10 @@ async function generating(btnId) {
           ...updateData,
         },
       ])
-      .select();
+      .select()
+      .single();
+
+    generateQRCode(data.will_code);
 
     if (error) {
       console.error('Error', error.message);
@@ -201,6 +204,19 @@ async function generating(btnId) {
     useBtn.disabled = false;
     useBtn.innerHTML = defaultBtnText;
   }
+}
+
+function generateQRCode(will_id) {
+  var container = document.getElementById('qr-code-container');
+  container.innerHTML = '';
+
+  var url = `${webInfo.parentUrl}/${pageName.user_will}?will_id=${will_id}`;
+  var qrcode = new QRCode(container, {
+    text: url,
+    width: 128,
+    height: 128,
+  });
+  qrcode.makeCode(url);
 }
 
 genereateWillBtn.addEventListener('click', async function (event) {
