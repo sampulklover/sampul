@@ -185,6 +185,8 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
+    const userId = await getUserUUID();
+
     const updateData = {};
 
     for (const key in inputElements.edit_digital_assets_modal) {

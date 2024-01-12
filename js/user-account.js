@@ -419,11 +419,12 @@ function populateToAllDigitalAssetsTable(tableData, key) {
           (item) => item.value === row.service_platform
         );
         const platformName = platform?.name || '';
+        const platformImg = platform?.img || '';
 
         return `<div class="custom-table-cell">
                   <img
                     loading="lazy"
-                    src="images/Avatar_1.png"
+                    src="${platformImg}"
                     alt=""
                     class="avatar-8"
                   />
