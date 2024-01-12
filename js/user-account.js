@@ -1,3 +1,6 @@
+document.getElementById('add-sign-out-modal-container').innerHTML =
+  signOutModalForm();
+
 document.getElementById('edit-profile-modal-container').innerHTML =
   profileModalForm(profileTypeName.edit.key);
 
@@ -6,6 +9,12 @@ document.getElementById('add-beloved-modal-container').innerHTML =
 
 document.getElementById('add-digital-assets-modal-container').innerHTML =
   digitalAssetsModalForm(digitalAssetsTypeName.add.key);
+
+document
+  .getElementById('open-sign-out-modal-btn')
+  .addEventListener('click', function () {
+    $('#sign-out-modal').modal('show');
+  });
 
 const displayElements = {
   username: document.getElementById('username'),
@@ -182,11 +191,11 @@ document
 
     const userId = await getUserUUID();
 
-    const updateData = {};
+    const addData = {};
 
     for (const key in inputElements.add_beloved_modal) {
       if (key !== 'image_path') {
-        updateData[key] = inputElements.add_beloved_modal[key].value;
+        addData[key] = inputElements.add_beloved_modal[key].value;
       }
     }
 
@@ -194,7 +203,7 @@ document
       .from(dbName.beloved)
       .insert({
         uuid: userId,
-        ...updateData,
+        ...addData,
       })
       .select();
 
@@ -238,11 +247,11 @@ document
 
     const userId = await getUserUUID();
 
-    const updateData = {};
+    const addData = {};
 
     for (const key in inputElements.add_digital_assets_modal) {
       if (key !== 'image_path') {
-        updateData[key] = inputElements.add_digital_assets_modal[key].value;
+        addData[key] = inputElements.add_digital_assets_modal[key].value;
       }
     }
 
@@ -250,7 +259,7 @@ document
       .from(dbName.digital_assets)
       .insert({
         uuid: userId,
-        ...updateData,
+        ...addData,
       })
       .select();
 

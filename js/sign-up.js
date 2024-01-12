@@ -5,8 +5,10 @@ async function handleSignInWithGoogle(response) {
 
   if (error) {
     console.error('Error during Google login:', error.message);
+    showToast('alert-toast-container', error.message, 'danger');
   } else {
     console.log('Google login successful!', data);
+    showToast('alert-toast-container', 'Success!', 'success');
     // Redirect or perform other actions after successful login
   }
 }
@@ -33,7 +35,8 @@ document
 
     if (error) {
       console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
     } else {
-      console.log('Successful!', data);
+      showToast('alert-toast-container', 'Success!', 'success');
     }
   });

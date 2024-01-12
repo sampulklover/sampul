@@ -1,42 +1,52 @@
-const willElements = {
-  nric_name: document.getElementById('view-certificate-nric-name'),
-  label_code: document.getElementById('view-certificate-label-code'),
-  will_code: document.getElementById('view-certificate-will-code'),
-  last_updated: document.getElementById('view-certificate-last-generated'),
-};
+document.getElementById('add-sign-out-modal-container').innerHTML =
+  signOutModalForm();
 
-const detailsElements = {
-  nric_name: document.getElementById('view-details-nric-name'),
-  last_updated: document.getElementById('view-details-last-updated'),
-  nric_no: document.getElementById('view-details-nric-no'),
-  address: document.getElementById('view-details-address'),
-  primary_co_sampul_name: document.getElementById(
-    'view-details-primary-co-sampul-name'
-  ),
-  primary_co_sampul_email: document.getElementById(
-    'view-details-primary-co-sampul-email'
-  ),
-  primary_co_sampul_phone_no: document.getElementById(
-    'view-details-primary-co-sampul-phone-no'
-  ),
-  primary_co_sampul_nric_no: document.getElementById(
-    'view-details-primary-co-sampul-nric-no'
-  ),
-  secondary_co_sampul_name: document.getElementById(
-    'view-details-secondary-co-sampul-name'
-  ),
-  secondary_co_sampul_email: document.getElementById(
-    'view-details-secondary-co-sampul-email'
-  ),
-  secondary_co_sampul_phone_no: document.getElementById(
-    'view-details-secondary-co-sampul-phone-no'
-  ),
-  secondary_co_sampul_nric_no: document.getElementById(
-    'view-details-secondary-co-sampul-nric-no'
-  ),
-  nric_name_2: document.getElementById('view-details-nric-name-2'),
-  last_updated_2: document.getElementById('view-details-last-updated-2'),
-  nric_no_2: document.getElementById('view-details-nric-no-2'),
+document
+  .getElementById('open-sign-out-modal-btn')
+  .addEventListener('click', function () {
+    $('#sign-out-modal').modal('show');
+  });
+
+const displayElements = {
+  willElements: {
+    nric_name: document.getElementById('view-certificate-nric-name'),
+    label_code: document.getElementById('view-certificate-label-code'),
+    will_code: document.getElementById('view-certificate-will-code'),
+    last_updated: document.getElementById('view-certificate-last-generated'),
+  },
+  detailsElements: {
+    nric_name: document.getElementById('view-details-nric-name'),
+    last_updated: document.getElementById('view-details-last-updated'),
+    nric_no: document.getElementById('view-details-nric-no'),
+    address: document.getElementById('view-details-address'),
+    primary_co_sampul_name: document.getElementById(
+      'view-details-primary-co-sampul-name'
+    ),
+    primary_co_sampul_email: document.getElementById(
+      'view-details-primary-co-sampul-email'
+    ),
+    primary_co_sampul_phone_no: document.getElementById(
+      'view-details-primary-co-sampul-phone-no'
+    ),
+    primary_co_sampul_nric_no: document.getElementById(
+      'view-details-primary-co-sampul-nric-no'
+    ),
+    secondary_co_sampul_name: document.getElementById(
+      'view-details-secondary-co-sampul-name'
+    ),
+    secondary_co_sampul_email: document.getElementById(
+      'view-details-secondary-co-sampul-email'
+    ),
+    secondary_co_sampul_phone_no: document.getElementById(
+      'view-details-secondary-co-sampul-phone-no'
+    ),
+    secondary_co_sampul_nric_no: document.getElementById(
+      'view-details-secondary-co-sampul-nric-no'
+    ),
+    nric_name_2: document.getElementById('view-details-nric-name-2'),
+    last_updated_2: document.getElementById('view-details-last-updated-2'),
+    nric_no_2: document.getElementById('view-details-nric-no-2'),
+  },
 };
 
 const downloadWillBtn = document.getElementById('download-will-btn');
@@ -53,19 +63,26 @@ function showErrorAlert(type) {
 }
 
 function updateElementsView(data) {
-  willElements.nric_name.innerText = data.profiles.nric_name;
-  willElements.label_code.innerText = data.label_code;
-  willElements.will_code.innerText = data.will_code;
-  willElements.last_updated.innerText = formatTimestamp(data.last_updated);
+  displayElements.willElements.nric_name.innerText = data.profiles.nric_name;
+  displayElements.willElements.label_code.innerText = data.label_code;
+  displayElements.willElements.will_code.innerText = data.will_code;
+  displayElements.willElements.last_updated.innerText = formatTimestamp(
+    data.last_updated
+  );
 
-  detailsElements.nric_name.innerText = data.profiles.nric_name;
-  detailsElements.last_updated.innerText = formatTimestamp(data.last_updated);
-  detailsElements.nric_no.innerText = data.profiles.nric_no;
-  detailsElements.address.innerText = `${data.profiles.address_1} ${data.profiles.address_2}, ${data.profiles.city}, ${data.profiles.country}`;
+  displayElements.detailsElements.nric_name.innerText = data.profiles.nric_name;
+  displayElements.detailsElements.last_updated.innerText = formatTimestamp(
+    data.last_updated
+  );
+  displayElements.detailsElements.nric_no.innerText = data.profiles.nric_no;
+  displayElements.detailsElements.address.innerText = `${data.profiles.address_1} ${data.profiles.address_2}, ${data.profiles.city}, ${data.profiles.country}`;
 
-  detailsElements.nric_name_2.innerText = data.profiles.nric_name;
-  detailsElements.last_updated_2.innerText = formatTimestamp(data.last_updated);
-  detailsElements.nric_no_2.innerText = data.profiles.nric_no;
+  displayElements.detailsElements.nric_name_2.innerText =
+    data.profiles.nric_name;
+  displayElements.detailsElements.last_updated_2.innerText = formatTimestamp(
+    data.last_updated
+  );
+  displayElements.detailsElements.nric_no_2.innerText = data.profiles.nric_no;
 
   if (data.beloved.length !== 0) {
     var primaryUser = {};
@@ -81,11 +98,14 @@ function updateElementsView(data) {
     });
 
     if (Object.keys(primaryUser).length !== 0) {
-      detailsElements.primary_co_sampul_name.innerText = primaryUser.nric_name;
-      detailsElements.primary_co_sampul_email.innerText = primaryUser.email;
-      detailsElements.primary_co_sampul_phone_no.innerText =
+      displayElements.detailsElements.primary_co_sampul_name.innerText =
+        primaryUser.nric_name;
+      displayElements.detailsElements.primary_co_sampul_email.innerText =
+        primaryUser.email;
+      displayElements.detailsElements.primary_co_sampul_phone_no.innerText =
         primaryUser.phone_no;
-      detailsElements.primary_co_sampul_nric_no.innerText = primaryUser.nric_no;
+      displayElements.detailsElements.primary_co_sampul_nric_no.innerText =
+        primaryUser.nric_no;
       proceed = true;
     } else {
       proceed = false;
@@ -99,12 +119,13 @@ function updateElementsView(data) {
     }
 
     if (Object.keys(secondaryUser).length !== 0) {
-      detailsElements.secondary_co_sampul_name.innerText =
+      displayElements.detailsElements.secondary_co_sampul_name.innerText =
         secondaryUser.nric_name;
-      detailsElements.secondary_co_sampul_email.innerText = secondaryUser.email;
-      detailsElements.secondary_co_sampul_phone_no.innerText =
+      displayElements.detailsElements.secondary_co_sampul_email.innerText =
+        secondaryUser.email;
+      displayElements.detailsElements.secondary_co_sampul_phone_no.innerText =
         secondaryUser.phone_no;
-      detailsElements.secondary_co_sampul_nric_no.innerText =
+      displayElements.detailsElements.secondary_co_sampul_nric_no.innerText =
         secondaryUser.nric_no;
       proceed = true;
     } else {

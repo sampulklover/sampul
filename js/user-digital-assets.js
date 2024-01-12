@@ -1,8 +1,17 @@
+document.getElementById('add-sign-out-modal-container').innerHTML =
+  signOutModalForm();
+
 document.getElementById('add-digital-assets-form-container').innerHTML =
   digitalAssetsModalForm(digitalAssetsTypeName.add.key);
 
 document.getElementById('edit-digital-assets-form-container').innerHTML =
   digitalAssetsModalForm(digitalAssetsTypeName.edit.key);
+
+document
+  .getElementById('open-sign-out-modal-btn')
+  .addEventListener('click', function () {
+    $('#sign-out-modal').modal('show');
+  });
 
 document
   .getElementById('new-digital-assets-btn')
@@ -15,6 +24,43 @@ document
       .getElementById('add-form-body-container')
       .classList.remove('hidden');
   });
+
+const inputElements = {
+  add_digital_assets_modal: {
+    username: document.getElementById('input-digital-assets-add-username'),
+    email: document.getElementById('input-digital-assets-add-email'),
+    service_platform: document.getElementById(
+      'select-digital-assets-add-service-platform'
+    ),
+    account_type: document.getElementById('select-digital-assets-add-type'),
+    frequency: document.getElementById('select-digital-assets-add-frequency'),
+    declared_value_myr: document.getElementById(
+      'select-digital-assets-add-declared-value'
+    ),
+    instructions_after_death: document.getElementById(
+      'select-digital-assets-add-instructions-after-death'
+    ),
+    beloved_id: document.getElementById('select-digital-assets-add-beloved'),
+    remarks: document.getElementById('input-digital-assets-add-remarks'),
+  },
+  edit_digital_assets_modal: {
+    username: document.getElementById('input-digital-assets-edit-username'),
+    email: document.getElementById('input-digital-assets-edit-email'),
+    service_platform: document.getElementById(
+      'select-digital-assets-edit-service-platform'
+    ),
+    account_type: document.getElementById('select-digital-assets-edit-type'),
+    frequency: document.getElementById('select-digital-assets-edit-frequency'),
+    declared_value_myr: document.getElementById(
+      'select-digital-assets-edit-declared-value'
+    ),
+    instructions_after_death: document.getElementById(
+      'select-digital-assets-edit-instructions-after-death'
+    ),
+    beloved_id: document.getElementById('select-digital-assets-edit-beloved'),
+    remarks: document.getElementById('input-digital-assets-edit-remarks'),
+  },
+};
 
 var assetData = [];
 
@@ -38,34 +84,6 @@ document.getElementById('input-search').addEventListener('input', function () {
   populateAssets(filteredData);
 });
 
-const editUsernameInput = document.getElementById(
-  'input-digital-assets-edit-username'
-);
-const editEmailInput = document.getElementById(
-  'input-digital-assets-edit-email'
-);
-const editServicePlatformSelect = document.getElementById(
-  'select-digital-assets-edit-service-platform'
-);
-const editAccountTypeSelect = document.getElementById(
-  'select-digital-assets-edit-type'
-);
-const editFrequencySelect = document.getElementById(
-  'select-digital-assets-edit-frequency'
-);
-const editDeclaredValueSelect = document.getElementById(
-  'select-digital-assets-edit-declared-value'
-);
-const editInstructionsAfterDeathSelect = document.getElementById(
-  'select-digital-assets-edit-instructions-after-death'
-);
-const editBelovedSelect = document.getElementById(
-  'select-digital-assets-edit-beloved'
-);
-const editRemarksInput = document.getElementById(
-  'input-digital-assets-edit-remarks'
-);
-
 var editCurrentId = null;
 
 function populateToEdit(id) {
@@ -73,16 +91,9 @@ function populateToEdit(id) {
   $('#edit-digital-assets-modal').modal('show');
   var selectedCard = assetData.find((item) => item.id === id);
   if (selectedCard) {
-    editUsernameInput.value = selectedCard.username;
-    editEmailInput.value = selectedCard.email;
-    editServicePlatformSelect.value = selectedCard.service_platform;
-    editAccountTypeSelect.value = selectedCard.account_type;
-    editFrequencySelect.value = selectedCard.frequency;
-    editDeclaredValueSelect.value = selectedCard.declared_value_myr;
-    editInstructionsAfterDeathSelect.value =
-      selectedCard.instructions_after_death;
-    editBelovedSelect.value = selectedCard.beloved_id;
-    editRemarksInput.value = selectedCard.remarks;
+    for (const key in inputElements.edit_digital_assets_modal) {
+      inputElements.edit_digital_assets_modal[key].value = selectedCard[key];
+    }
   }
 }
 
@@ -131,31 +142,19 @@ document
 
     const userId = await getUserUUID();
 
+    const addData = {};
+
+    for (const key in inputElements.add_digital_assets_modal) {
+      if (key !== 'image_path') {
+        addData[key] = inputElements.add_digital_assets_modal[key].value;
+      }
+    }
+
     const { data, error } = await supabaseClient
       .from(dbName.digital_assets)
       .insert({
         uuid: userId,
-        username: document.getElementById('input-digital-assets-add-username')
-          .value,
-        email: document.getElementById('input-digital-assets-add-email').value,
-        service_platform: document.getElementById(
-          'select-digital-assets-add-service-platform'
-        ).value,
-        account_type: document.getElementById('select-digital-assets-add-type')
-          .value,
-        frequency: document.getElementById(
-          'select-digital-assets-add-frequency'
-        ).value,
-        declared_value_myr: document.getElementById(
-          'select-digital-assets-add-declared-value'
-        ).value,
-        instructions_after_death: document.getElementById(
-          'select-digital-assets-add-instructions-after-death'
-        ).value,
-        beloved_id: document.getElementById('select-digital-assets-add-beloved')
-          .value,
-        remarks: document.getElementById('input-digital-assets-add-remarks')
-          .value,
+        ...addData,
       });
 
     if (error) {
@@ -186,20 +185,18 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const updateData = {};
+
+    for (const key in inputElements.edit_digital_assets_modal) {
+      if (key !== 'image_path') {
+        updateData[key] = inputElements.edit_digital_assets_modal[key].value;
+      }
+    }
 
     const { data, error } = await supabaseClient
       .from(dbName.digital_assets)
       .update({
-        username: editUsernameInput.value,
-        email: editEmailInput.value,
-        service_platform: editServicePlatformSelect.value,
-        account_type: editAccountTypeSelect.value,
-        frequency: editFrequencySelect.value,
-        declared_value_myr: editDeclaredValueSelect.value,
-        instructions_after_death: editInstructionsAfterDeathSelect.value,
-        beloved_id: editBelovedSelect.value,
-        remarks: editRemarksInput.value,
+        ...updateData,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId);
@@ -257,7 +254,9 @@ function populateAssets(allData = [], tabName = 'tab_1') {
       (y) => y.value === item.declared_value_myr
     );
 
-    image[0].src = spObject.img;
+    if (spObject.img) {
+      image[0].src = spObject.img;
+    }
 
     title[0].innerText = spObject.name;
     title[1].innerText = iadObject.name;
