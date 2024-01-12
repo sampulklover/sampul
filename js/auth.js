@@ -1,6 +1,9 @@
 const { createClient } = supabase;
 
-const AppVersion = 'v1.0.33';
+const webInfo = {
+  version: 'v1.0.34',
+  parentUrl: 'https://www.sampul.com',
+};
 
 const dbName = {
   profiles: 'profiles',
@@ -13,8 +16,11 @@ const dbName = {
 const bucketName = 'images';
 
 const pageName = {
+  index: 'index',
+  log_in: 'log-in',
   user_account: 'user-account',
   beloved: 'beloved',
+  user_will: 'user_will',
 };
 
 const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
@@ -38,7 +44,8 @@ async function getUserUUID() {
     return data.user.id;
   } catch (error) {
     alert('User not authenticated. Please login.');
-    window.location.href = '/index';
+    location.href = pageName.log_in;
+
     return null;
   }
 }
@@ -51,7 +58,7 @@ async function signOutUser() {
       throw error;
     }
 
-    window.location.href = '/index';
+    location.href = pageName.index;
   } catch (error) {
     alert('User not authenticated. Please login.');
     return null;
