@@ -60,26 +60,42 @@ const genereateWillBtn2 = document.getElementById('generate-will-btn-2');
 var proceed = true;
 
 downloadWillBtn.addEventListener('click', async function (event) {
-  // Note: any image need to host in server, local directory not working, svg not support
+  let useBtn = document.getElementById('download-will-btn');
+  let defaultBtnText = useBtn.innerHTML;
+  useBtn.disabled = true;
+  useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
   var element = document.getElementById('certificate-container');
   let pdf = new jsPDF('p', 'pt', 'a4');
 
-  // Calculate the scaling factors to fit the content on the page
   const contentWidth = element.offsetWidth;
   const contentHeight = element.offsetHeight;
   const scaleX = pdf.internal.pageSize.width / contentWidth;
   const scaleY = pdf.internal.pageSize.height / contentHeight;
   const scale = Math.min(scaleX, scaleY);
 
-  pdf.html(element, {
-    html2canvas: {
-      scale: scale,
-      logging: true,
-    },
-    callback: function () {
-      pdf.save('will.pdf');
-    },
-  });
+  try {
+    await new Promise((resolve, reject) => {
+      pdf.html(element, {
+        html2canvas: {
+          scale: scale,
+          logging: true,
+        },
+        callback: function () {
+          // This code will run after PDF generation is complete
+          pdf.save('my_will.pdf');
+          resolve();
+        },
+      });
+    });
+  } catch (error) {
+    // This code will run if an error occurs during PDF generation
+    console.error('PDF generation error:', error);
+  } finally {
+    // This code will always run, regardless of success or failure
+    useBtn.disabled = false;
+    useBtn.innerHTML = defaultBtnText;
+  }
 });
 
 function showErrorAlert(type) {
