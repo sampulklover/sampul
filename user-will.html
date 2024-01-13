@@ -47,6 +47,9 @@
     </script>
     <link href="images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="images/webclip.png" rel="apple-touch-icon" />
+    <!-- download to pdf (!important to add window.jsPDF = window.jspdf.jsPDF; at top of your js script)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   </head>
   <body class="body---white">
     <header class="smpl_desktop">
@@ -221,7 +224,7 @@
                     data-w-tab="Tab 1"
                     class="wasiat_tab-pane w-tab-pane w--tab-active"
                   >
-                    <div class="wasiat-cert-preview">
+                    <div class="wasiat-cert-preview" id="certificate-container">
                       <div class="wasiat-cert_content">
                         <div class="wasiat-cert_wrapper">
                           <div class="wasiat-cert_content-top">
@@ -276,12 +279,19 @@
                           </div>
                           <div class="wasiat-cert_content-bottom">
                             <div id="qr-code-container">
-                              <!-- <img
+                              <img
                                 width="150"
                                 loading="lazy"
-                                src="images/QR-Cert.png"
+                                src=""
                                 alt=""
-                              /> -->
+                                id="view-certificate-image"
+                              />
+                              <img
+                                width="150"
+                                loading="lazy"
+                                src="https://mydatamerge.com/wp-content/uploads/qrcode_placeholder-300x300.png"
+                                alt=""
+                              />
                             </div>
                             <div class="wasiat-cert_content-centre">
                               <div class="space-xxsmall"></div>
