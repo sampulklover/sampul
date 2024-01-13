@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.36',
+  version: 'v1.0.37',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -27,6 +27,7 @@ const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
 const addUserImg = `https://iriedoc.wu.ac.th/support/img/user.png`;
 const addAnyImg = `https://content.hostgator.com/img/weebly_image_sample.png`;
 const emptyQrCodeImg = `https://mydatamerge.com/wp-content/uploads/qrcode_placeholder-300x300.png`;
+const sampulWillLogo = `https://rfzblaianldrfwdqdijl.supabase.co/storage/v1/object/public/website/sampul_logo.png`;
 
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmemJsYWlhbmxkcmZ3ZHFkaWpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQwMDM5OTMsImV4cCI6MjAxOTU3OTk5M30.QOxPgVvOV0Efon8aleoAnlNKgkI2XwEPgIgz76_oIBU';
