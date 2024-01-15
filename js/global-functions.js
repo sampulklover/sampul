@@ -265,3 +265,42 @@ async function replaceOrAddImage(
     }
   }
 }
+
+function toggleVisibility(elements, isVisible) {
+  for (const key in elements) {
+    if (elements.hasOwnProperty(key)) {
+      const element = elements[key];
+      element.style.display = isVisible ? 'block' : 'none';
+    }
+  }
+}
+
+function processForm(elements, clearFields = false) {
+  const addData = {};
+
+  for (const key in elements) {
+    if (key !== 'image_path') {
+      addData[key] = elements[key].value;
+    }
+  }
+
+  if (clearFields) {
+    for (const key in elements) {
+      if (key !== 'image_path') {
+        elements[key].value = '';
+      }
+    }
+  }
+
+  return addData;
+}
+
+function openEmailApp(emailTo) {
+  if (emailTo) {
+    var emailAddress = emailTo;
+    var mailtoUrl = 'mailto:' + emailAddress;
+    window.location.href = mailtoUrl;
+  } else {
+    showToast('alert-toast-container', 'Contact email to found!', 'danger');
+  }
+}

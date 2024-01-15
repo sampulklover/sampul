@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.38',
+  version: 'v1.0.39',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -11,6 +11,8 @@ const dbName = {
   digital_assets: 'digital_assets',
   inform_death: 'inform_death',
   wills: 'wills',
+  newsletter: 'newsletter',
+  contact_us: 'contact_us',
 };
 
 const bucketName = 'images';
@@ -21,6 +23,13 @@ const pageName = {
   user_account: 'user-account',
   beloved: 'beloved',
   user_will: 'user_will',
+};
+
+const companyInfo = {
+  press_email: 'press@sampul.co',
+  email: 'hello@sampul.co',
+  phone_no: '+6 (03) 123-4567',
+  address: 'Cyberjaya, Malaysia',
 };
 
 const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
@@ -45,8 +54,8 @@ async function getUserUUID() {
 
     return data.user.id;
   } catch (error) {
-    alert('User not authenticated. Please login.');
-    location.href = pageName.log_in;
+    // alert('User not authenticated. Please login.');
+    // location.href = pageName.log_in;
 
     return null;
   }
