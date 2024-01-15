@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.39',
+  version: 'v1.0.40',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -56,6 +56,12 @@ async function getUserUUID() {
   } catch (error) {
     // alert('User not authenticated. Please login.');
     // location.href = pageName.log_in;
+
+    showToast(
+      'alert-toast-container',
+      `Please <a style="color: white" href='${pageName.log_in}'>login</a> to continue`,
+      'danger'
+    );
 
     return null;
   }
