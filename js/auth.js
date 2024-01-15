@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.42',
+  version: 'v1.0.43',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -46,8 +46,8 @@ const CDNURL = `https://rfzblaianldrfwdqdijl.supabase.co/storage/v1/object/publi
 
 function getCurrentPageName() {
   const path = window.location.pathname;
-  const currentPage = path.split('/').pop();
-  console.log(currentPage);
+  const currentPageWithExtension = path.split('/').pop();
+  const currentPage = currentPageWithExtension.replace(/\.html$/, ''); // Remove .html extension if present
   return currentPage;
 }
 
@@ -64,13 +64,7 @@ async function getUserUUID() {
     // alert('User not authenticated. Please login.');
     // location.href = pageName.log_in;
 
-    const guestPages = [
-      'index.html',
-      'log-in.html',
-      'sign-up.hmtl',
-      'about.hmtl',
-      'contact.html',
-    ];
+    const guestPages = ['index', 'log-in', 'sign-up', 'about', 'contact'];
     const currentPage = getCurrentPageName();
 
     if (!guestPages.includes(currentPage)) {
