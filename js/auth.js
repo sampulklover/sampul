@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.43',
+  version: 'v1.0.44',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -13,6 +13,7 @@ const dbName = {
   wills: 'wills',
   newsletter: 'newsletter',
   contact_us: 'contact_us',
+  questions: 'questions',
 };
 
 const bucketName = 'images';
@@ -64,7 +65,15 @@ async function getUserUUID() {
     // alert('User not authenticated. Please login.');
     // location.href = pageName.log_in;
 
-    const guestPages = ['index', 'log-in', 'sign-up', 'about', 'contact'];
+    const guestPages = [
+      'index',
+      'log-in',
+      'sign-up',
+      'about',
+      'contact',
+      'pricing',
+      'user-help',
+    ];
     const currentPage = getCurrentPageName();
 
     if (!guestPages.includes(currentPage)) {
