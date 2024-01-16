@@ -255,10 +255,20 @@ function religions() {
 
 function countries() {
   const options = [
-    { name: 'Malaysia', value: 'malaysia' },
+    { name: 'Malaysia', value: 'malaysia', flag_icon: 'images/MY.png' },
     { name: 'Singapore', value: 'singapore' },
     { name: 'Brunie', value: 'brunie' },
     { name: 'Indonesia', value: 'indonesia' },
+  ];
+
+  return options;
+}
+
+function careerCategories() {
+  const options = [
+    { name: 'Design', value: 'design' },
+    { name: 'Software Development', value: 'software_development' },
+    { name: 'Customer Success', value: 'customer_success' },
   ];
 
   return options;
