@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.47',
+  version: 'v1.0.48',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -69,7 +69,6 @@ async function getUserUUID() {
     // location.href = pageName.log_in;
 
     const guestPages = [
-      'sampul',
       'index',
       'log-in',
       'sign-up',
