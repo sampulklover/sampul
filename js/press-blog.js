@@ -47,6 +47,7 @@ async function populatePressBlog(allData = []) {
     }
     records.forEach((item) => {
       listContainer.appendChild(item);
+      reloadWebflow();
     });
   }
 }
@@ -67,7 +68,7 @@ function filterCategory(input) {
   }
 }
 
-async function populatePressBlogCategory(allData = []) {
+async function populateBlogCategory(allData = []) {
   const listLoader = document.getElementById('press-blog-category-list-loader');
   const listEmpty = document.getElementById('press-blog-category-list-empty');
   const listContainer = document.getElementById(
@@ -107,6 +108,15 @@ async function populatePressBlogCategory(allData = []) {
   }
 }
 
+function reloadWebflow() {
+  var existingScript = document.querySelector('script[src="js/webflow.js"]');
+  existingScript.parentNode.removeChild(existingScript);
+  var newScript = document.createElement('script');
+  newScript.src = 'js/webflow.js';
+  newScript.type = 'text/javascript';
+  document.body.appendChild(newScript);
+}
+
 async function fetchPressBlog() {
   const { data, error } = await supabaseClient
     .from(dbName.press_blog_posts)
@@ -122,7 +132,7 @@ async function fetchPressBlog() {
     var blog_category_data = blogCategories();
     blog_category_data.unshift({ name: 'View All', value: 'view_all' });
 
-    populatePressBlogCategory(blog_category_data);
+    populateBlogCategory(blog_category_data);
     pressBlogData = data;
   }
 }
