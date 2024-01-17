@@ -47,9 +47,18 @@ function showToast(parentContainerId = '', message, type = '') {
   $('.toast').toast('show');
 }
 
-function formatTimestamp(timestamp) {
+function formatTimestamp(
+  timestamp,
+  options = {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }
+) {
   const date = new Date(timestamp);
-  return date.toLocaleString();
+  return date.toLocaleDateString('en-US', options);
 }
 
 function populateToTable(
@@ -303,4 +312,22 @@ function openEmailApp(emailTo) {
   } else {
     showToast('alert-toast-container', 'Contact email to found!', 'danger');
   }
+}
+
+function estimateReadingTime(text) {
+  // Assuming average reading speed is 200 words per minute
+  var wordsPerMinute = 200;
+
+  // Counting the number of words in the text
+  var wordCount = text.split(/\s+/).length;
+
+  // Calculating the estimated reading time in minutes
+  var readingTime = Math.ceil(wordCount / wordsPerMinute);
+
+  return readingTime;
+}
+
+function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
 }
