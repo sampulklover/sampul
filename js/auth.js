@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.45',
+  version: 'v1.0.46',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -15,6 +15,7 @@ const dbName = {
   contact_us: 'contact_us',
   questions: 'questions',
   careers: 'careers',
+  press_blog_posts: 'press_blog_posts',
 };
 
 const bucketName = 'images';
@@ -76,6 +77,8 @@ async function getUserUUID() {
       'pricing',
       'user-help',
       'career',
+      'press-blog',
+      'press-blog-post',
     ];
     const currentPage = getCurrentPageName();
 

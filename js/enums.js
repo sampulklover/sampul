@@ -273,3 +273,14 @@ function careerCategories() {
 
   return options;
 }
+
+function blogCategories() {
+  const options = [
+    { name: 'Wasiat', value: 'wasiat' },
+    { name: 'Will', value: 'will' },
+    { name: 'Muamalat', value: 'muamalat' },
+    { name: 'Harta Pusaka', value: 'harta_pusaka' },
+  ];
+
+  return options;
+}
