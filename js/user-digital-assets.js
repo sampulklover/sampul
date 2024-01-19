@@ -108,7 +108,7 @@ document
       useBtn.disabled = true;
       useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-      const userId = await getUserUUID();
+      const userId = await getUserSession();
 
       const { data, error } = await supabaseClient
         .from(dbName.digital_assets)
@@ -118,15 +118,13 @@ document
 
       if (error) {
         console.error('Error', error.message);
-        showToast('alert-toast-container', error.message, 'danger');
-      } else {
-        fetchAssets();
-        $('#edit-digital-assets-modal').modal('hide');
-        showToast('alert-toast-container', 'Deleted!', 'success');
+        handleFormResult({ error, useBtn, defaultBtnText });
+        return;
       }
 
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      fetchAssets();
+      $('#edit-digital-assets-modal').modal('hide');
+      handleFormResult({ error, useBtn, defaultBtnText });
     }
   });
 
@@ -140,7 +138,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const addData = {};
 
@@ -159,20 +157,22 @@ document
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-    } else {
-      fetchAssets();
-      document
-        .getElementById('add-success-body-container')
-        .classList.remove('hidden');
-      document
-        .getElementById('add-form-body-container')
-        .classList.add('hidden');
-      showToast('alert-toast-container', 'Submitted!', 'success');
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
     }
 
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    for (const key in inputElements.add_digital_assets_modal) {
+      if (key !== 'image_path') {
+        inputElements.add_digital_assets_modal[key].value = '';
+      }
+    }
+
+    fetchAssets();
+    document
+      .getElementById('add-success-body-container')
+      .classList.remove('hidden');
+    document.getElementById('add-form-body-container').classList.add('hidden');
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 document
@@ -185,7 +185,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const updateData = {};
 
@@ -205,15 +205,19 @@ document
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-    } else {
-      fetchAssets();
-      $('#edit-digital-assets-modal').modal('hide');
-      showToast('alert-toast-container', 'Updated!', 'success');
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
     }
 
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    for (const key in inputElements.edit_digital_assets_modal) {
+      if (key !== 'image_path') {
+        inputElements.edit_digital_assets_modal[key].value = '';
+      }
+    }
+
+    fetchAssets();
+    $('#edit-digital-assets-modal').modal('hide');
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 function populateAssets(allData = [], tabName = 'tab_1') {
@@ -290,7 +294,7 @@ function populateAssets(allData = [], tabName = 'tab_1') {
 }
 
 async function fetchAssets() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data, error } = await supabaseClient
@@ -344,7 +348,7 @@ function mapElements() {
 }
 
 async function fetchbeloved() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data, error } = await supabaseClient

@@ -374,7 +374,7 @@ async function navBarAuthUpdate(
   extraAuthElements = {},
   extraGuestElements = {}
 ) {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   const defaultElements = {
     auth: {

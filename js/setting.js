@@ -118,84 +118,45 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const updateData = {};
 
     for (const key in inputElements.profileForms) {
-      if (
-        key === 'image_path' &&
-        inputElements.profileForms[key].tagName === 'IMG'
-      ) {
-      } else {
+      if (key !== 'image_path') {
         updateData[key] = inputElements.profileForms[key].value;
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.profiles)
       .update(updateData)
       .eq('uuid', userId)
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
-    returnData = data[0];
+    const directory = `/avatar/profile/`;
     const imageInput = document.getElementById('input-image');
 
-    if (imageInput.files.length > 0) {
-      if (returnData.image_path) {
-        const { data, error } = await supabaseClient.storage
-          .from(bucketName)
-          .remove([returnData.image_path]);
-
-        if (error) {
-          showToast('alert-toast-container', error.message, 'danger');
-          console.error('Error', error.message);
-          fetchProfile();
-          return;
-        }
-      }
-
-      const file = imageInput.files[0];
-
-      const imagePath = userId + `/avatar/` + file.name;
-
-      const { data: uploadedImage, error } = await supabaseClient.storage
-        .from(bucketName)
-        .upload(imagePath, file);
-
-      if (error) {
-        console.error('Error', error.message);
-        useBtn.disabled = false;
-        useBtn.innerHTML = defaultBtnText;
-        showToast('alert-toast-container', error.message, 'danger');
-      } else {
-        const { data, error } = await supabaseClient
-          .from(dbName.profiles)
-          .update({
-            image_path: uploadedImage.path,
-          })
-          .eq('uuid', userId);
-
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
-      }
-    }
+    await replaceOrAddImage({
+      userId,
+      returnData,
+      directory,
+      imageInput,
+      useBtn,
+      defaultBtnText,
+      dataBase: dbName.profiles,
+      isUpdateByReturnId: false,
+    });
 
     fetchProfile();
-    showToast('alert-toast-container', 'Saved!', 'success');
-
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 const previewImage = document.getElementById('preview-image');
@@ -263,28 +224,29 @@ document
   });
 
 async function fetchProfile() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data, error } = await supabaseClient
       .from(dbName.profiles)
       .select('*')
-      .eq('uuid', userId);
+      .eq('uuid', userId)
+      .single();
 
     if (error) {
       console.error('Error', error.message);
       showToast('alert-toast-container', error.message, 'danger');
     } else {
-      for (const key in data[0]) {
+      for (const key in data) {
         if (inputElements.profileForms[key]) {
           if (
             key === 'image_path' &&
             inputElements.profileForms[key].tagName === 'IMG'
           ) {
-            var imagePath = `${CDNURL}${data[0][key]}`;
+            var imagePath = `${CDNURL}${data[key]}`;
             inputElements.profileForms[key].src = imagePath;
           } else {
-            inputElements.profileForms[key].value = data[0][key];
+            inputElements.profileForms[key].value = data[key];
           }
         }
       }
@@ -339,97 +301,81 @@ document
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    let useBtn = document.getElementById('save-inform-death-btn');
-    let defaultBtnText = useBtn.innerHTML;
+    const useBtn = document.getElementById('save-inform-death-btn');
+    const defaultBtnText = useBtn.innerHTML;
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
-
+    const userId = await getUserSession();
     const updateData = {};
 
     for (const key in inputElements.informDeathForms) {
       if (
-        key === 'image_path' &&
-        inputElements.informDeathForms[key].tagName === 'IMG'
+        key !== 'image_path' ||
+        inputElements.informDeathForms[key].tagName !== 'IMG'
       ) {
-      } else {
         updateData[key] = inputElements.informDeathForms[key].value;
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: checkExist, error: errorCheckExist } = await supabaseClient
       .from(dbName.inform_death)
-      .upsert([
-        {
-          uuid: userId, //primary key
-          ...updateData,
-        },
-      ])
-      .select();
+      .select('*')
+      .eq('uuid', userId)
+      .single();
 
-    if (error) {
-      console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
-      return;
-    }
-
-    returnData = data[0];
-    const imageInput = document.getElementById('input-inform-death-image');
-
-    if (imageInput.files.length > 0) {
-      if (returnData.image_path) {
-        const { data, error } = await supabaseClient.storage
-          .from(bucketName)
-          .remove([returnData.image_path]);
-
-        if (error) {
-          showToast('alert-toast-container', error.message, 'danger');
-          console.error('Error', error.message);
-          fetchProfile();
-          useBtn.disabled = false;
-          useBtn.innerHTML = defaultBtnText;
-          return;
-        }
-      }
-
-      const file = imageInput.files[0];
-
-      const imagePath = userId + `/avatar/inform_death/` + file.name;
-
-      const { data: uploadedImage, error } = await supabaseClient.storage
-        .from(bucketName)
-        .upload(imagePath, file);
-
-      if (error) {
-        console.error('Error', error.message);
-        showToast('alert-toast-container', error.message, 'danger');
-      } else {
-        const { data, error } = await supabaseClient
-          .from(dbName.inform_death)
-          .update({
-            image_path: uploadedImage.path,
-          })
-          .eq('uuid', userId);
-
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
-      }
-    }
-
-    fetchProfile();
-    showToast('alert-toast-container', 'Saved!', 'success');
-
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    submitInformDeathForm({
+      operation: checkExist ? 'update' : 'insert',
+      userId,
+      updateData,
+      useBtn,
+      defaultBtnText,
+    });
   });
 
+async function submitInformDeathForm(options) {
+  const { operation, userId, updateData, useBtn, defaultBtnText } = options;
+
+  let query = supabaseClient.from(dbName.inform_death);
+
+  switch (operation) {
+    case 'update':
+      query = query.update(updateData).eq('uuid', userId).select().single();
+      break;
+    case 'insert':
+      query = query
+        .upsert({ uuid: userId, ...updateData })
+        .select()
+        .single();
+      break;
+    default:
+      throw new Error('Invalid operation');
+  }
+
+  const { data: returnData, error } = await query;
+
+  if (error) {
+    handleFormResult({ error, useBtn, defaultBtnText });
+    return;
+  }
+
+  const directory = `/avatar/inform_death/`;
+  const imageInput = document.getElementById('input-inform-death-image');
+
+  await replaceOrAddImage({
+    userId,
+    returnData,
+    directory,
+    imageInput,
+    useBtn,
+    defaultBtnText,
+    dataBase: dbName.inform_death,
+    isUpdateByReturnId: false,
+  });
+}
+
 async function fetchInformDeath() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data, error } = await supabaseClient

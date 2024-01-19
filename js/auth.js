@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.48',
+  version: 'v1.0.49',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -55,37 +55,68 @@ function getCurrentPageName() {
   return currentPage;
 }
 
-async function getUserUUID() {
+const guestPages = [
+  'index',
+  'log-in',
+  'sign-up',
+  'about',
+  'contact',
+  'pricing',
+  'user-help',
+  'career',
+  'press-blog',
+  'press-blog-post',
+];
+
+async function getUserUUID(returnFullData = false) {
   try {
     const { data, error } = await supabaseClient.auth.getUser();
 
     if (error) {
+      showToast('alert-toast-container', error, 'danger');
       throw error;
     }
 
-    return data.user.id;
+    return returnFullData ? data.user : data.user.id;
   } catch (error) {
-    // alert('User not authenticated. Please login.');
-    // location.href = pageName.log_in;
-
-    const guestPages = [
-      'index',
-      'log-in',
-      'sign-up',
-      'about',
-      'contact',
-      'pricing',
-      'user-help',
-      'career',
-      'press-blog',
-      'press-blog-post',
-    ];
     const currentPage = getCurrentPageName();
-
     if (!guestPages.includes(currentPage)) {
       showToast(
         'alert-toast-container',
-        `Please <a style="color: white" href='${pageName.log_in}'>login</a> to continue`,
+        `Please <a style="color: white" href='${pageName.log_in}'><b>login</b></a> to continue`,
+        'danger'
+      );
+    }
+    return null;
+  }
+}
+
+async function getUserSession(returnFullData = false) {
+  try {
+    const { data, error } = await supabaseClient.auth.getSession();
+
+    if (error) {
+      showToast('alert-toast-container', error, 'danger');
+      throw error;
+    }
+
+    if (data) {
+      return returnFullData ? data.session.user : data.session.user.id;
+    } else {
+      showToast(
+        'alert-toast-container',
+        `Please <a style="color: white" href='${pageName.log_in}'><b>login</b></a> to continue`,
+        'danger'
+      );
+    }
+
+    return data;
+  } catch (error) {
+    const currentPage = getCurrentPageName();
+    if (!guestPages.includes(currentPage)) {
+      showToast(
+        'alert-toast-container',
+        `Please <a style="color: white" href='${pageName.log_in}'><b>login</b></a> to continue`,
         'danger'
       );
     }

@@ -211,28 +211,24 @@ function mapImageElements(source, target) {
   }
 }
 
-async function replaceOrAddImage(
-  userId,
-  returnData,
-  directory,
-  imageInput,
-  useBtn,
-  type,
-  db
-) {
-  if (imageInput.files.length > 0) {
-    if (returnData.image_path && type == 'replace') {
-      const { data, error } = await supabaseClient.storage
-        .from(bucketName)
-        .remove([returnData.image_path]);
+async function replaceOrAddImage(options) {
+  const {
+    userId,
+    returnData,
+    directory,
+    imageInput,
+    useBtn,
+    defaultBtnText,
+    dataBase,
+    isUpdateByReturnId = false,
+  } = options;
 
-      if (error) {
-        showToast('alert-toast-container', error.message, 'danger');
-        console.error('Error', error.message);
-        useBtn.disabled = false;
-        useBtn.innerHTML = defaultBtnText;
-      }
-    }
+  if (imageInput.files.length > 0) {
+    await deleteImage({
+      returnData,
+      useBtn,
+      defaultBtnText,
+    });
 
     const file = imageInput.files[0];
     const imagePath = userId + directory + file.name;
@@ -243,36 +239,63 @@ async function replaceOrAddImage(
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
     } else {
-      if (type == 'replace') {
-        const { data, error } = await supabaseClient
-          .from(db)
-          .update({
-            image_path: uploadedImage.path,
-          })
-          .eq('uuid', userId);
+      let query = supabaseClient.from(dataBase);
 
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
-      } else {
-        const { data, error } = await supabaseClient
-          .from(db)
+      if (isUpdateByReturnId) {
+        query = query
           .update({
             image_path: uploadedImage.path,
           })
           .eq('uuid', userId)
           .eq('id', returnData.id);
+      } else {
+        query = query
+          .update({
+            image_path: uploadedImage.path,
+          })
+          .eq('uuid', userId);
+      }
 
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error', error.message);
+        handleFormResult({ error, useBtn, defaultBtnText });
+        return;
       }
     }
   }
+}
+
+async function deleteImage(options) {
+  const { returnData, useBtn, defaultBtnText } = options;
+
+  if (returnData?.image_path) {
+    const { data, error } = await supabaseClient.storage
+      .from(bucketName)
+      .remove([returnData.image_path]);
+
+    if (error) {
+      handleFormResult({ error, useBtn, defaultBtnText });
+    }
+  }
+}
+
+function handleFormResult(options) {
+  const { error, useBtn, defaultBtnText, successText = 'Success!' } = options;
+
+  if (error) {
+    console.error('Error', error.message);
+    showToast('alert-toast-container', error.message, 'danger');
+  } else {
+    showToast('alert-toast-container', successText, 'success');
+  }
+
+  useBtn.disabled = false;
+  useBtn.innerHTML = defaultBtnText;
 }
 
 function toggleVisibility(elements, isVisible) {

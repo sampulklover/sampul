@@ -133,7 +133,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const updateData = {};
 
@@ -143,40 +143,36 @@ document
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.profiles)
-      .update({
-        ...updateData,
-      })
+      .update(updateData)
       .eq('uuid', userId)
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
     const directory = `/avatar/profile/`;
     const imageInput = imageElements.edit_profile_modal.edit;
-    replaceAddImage(
+
+    await replaceOrAddImage({
       userId,
-      data[0],
+      returnData,
       directory,
       imageInput,
       useBtn,
-      'replace',
-      dbName.profiles
-    );
+      defaultBtnText,
+      dataBase: dbName.profiles,
+      isUpdateByReturnId: false,
+    });
 
     reinitiate();
-    showToast('alert-toast-container', 'Successful!', 'success');
     $('#edit-profile-modal').modal('hide');
-
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 document
@@ -189,7 +185,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const addData = {};
 
@@ -199,40 +195,44 @@ document
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.beloved)
       .insert({
         uuid: userId,
         ...addData,
       })
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
-    const directory = `/beloved/${data[0].id}/avatar/`;
+    const directory = `/beloved/${returnData.id}/avatar/`;
     const imageInput = imageElements.add_beloved_modal.edit;
-    replaceAddImage(
+
+    await replaceOrAddImage({
       userId,
-      data[0],
+      returnData,
       directory,
       imageInput,
       useBtn,
-      'add',
-      dbName.beloved
-    );
+      defaultBtnText,
+      dataBase: dbName.beloved,
+      isUpdateByReturnId: true,
+    });
+
+    for (const key in inputElements.add_beloved_modal) {
+      if (key !== 'image_path') {
+        inputElements.add_beloved_modal[key].value = '';
+      }
+    }
 
     reinitiate();
-    showToast('alert-toast-container', 'Successful!', 'success');
     $('#add-beloved-modal').modal('hide');
-
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 document
@@ -245,7 +245,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
 
     const addData = {};
 
@@ -260,23 +260,23 @@ document
       .insert({
         uuid: userId,
         ...addData,
-      })
-      .select();
+      });
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
-    reinitiate();
-    showToast('alert-toast-container', 'Successful!', 'success');
-    $('#add-digital-assets-modal').modal('hide');
+    for (const key in inputElements.add_digital_assets_modal) {
+      if (key !== 'image_path') {
+        inputElements.add_digital_assets_modal[key].value = '';
+      }
+    }
 
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    reinitiate();
+    $('#add-digital-assets-modal').modal('hide');
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 async function replaceAddImage(
@@ -352,7 +352,7 @@ function handleTableData(data) {
 }
 
 async function fetchProfile() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data: singleData, error } = await supabaseClient
@@ -543,4 +543,6 @@ $(document).ready(function () {
   );
 
   fetchProfile();
+
+  document.getElementById('sidebar-tab-administrator').style.display = 'block';
 });

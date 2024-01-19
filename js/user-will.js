@@ -107,85 +107,89 @@ function showErrorAlert(type) {
 }
 
 function updateElementsView(data) {
-  displayElements.willElements.nric_name.innerText = data.profiles.nric_name;
-  displayElements.willElements.label_code.innerText = data.label_code;
-  displayElements.willElements.will_code.innerText = data.will_code;
-  displayElements.willElements.last_updated.innerText = formatTimestamp(
-    data.last_updated
-  );
-  const imageUrl = data.image_path
-    ? `${CDNURL}${data.image_path}`
-    : emptyQrCodeImg;
+  if (data?.profiles) {
+    displayElements.willElements.nric_name.innerText = data.profiles.nric_name;
+    displayElements.willElements.label_code.innerText = data.label_code;
+    displayElements.willElements.will_code.innerText = data.will_code;
+    displayElements.willElements.last_updated.innerText = formatTimestamp(
+      data.last_updated
+    );
+    const imageUrl = data.image_path
+      ? `${CDNURL}${data.image_path}`
+      : emptyQrCodeImg;
 
-  displayElements.willElements.image_path.src = imageUrl;
+    displayElements.willElements.image_path.src = imageUrl;
 
-  displayElements.detailsElements.nric_name.innerText = data.profiles.nric_name;
-  displayElements.detailsElements.last_updated.innerText = formatTimestamp(
-    data.last_updated
-  );
-  displayElements.detailsElements.nric_no.innerText = data.profiles.nric_no;
-  displayElements.detailsElements.address.innerText = `${data.profiles.address_1} ${data.profiles.address_2}, ${data.profiles.city}, ${data.profiles.country}`;
+    displayElements.detailsElements.nric_name.innerText =
+      data.profiles.nric_name;
+    displayElements.detailsElements.last_updated.innerText = formatTimestamp(
+      data.last_updated
+    );
+    displayElements.detailsElements.nric_no.innerText = data.profiles.nric_no;
+    displayElements.detailsElements.address.innerText = `${data.profiles.address_1} ${data.profiles.address_2}, ${data.profiles.city}, ${data.profiles.country}`;
 
-  displayElements.detailsElements.nric_name_2.innerText =
-    data.profiles.nric_name;
-  displayElements.detailsElements.last_updated_2.innerText = formatTimestamp(
-    data.last_updated
-  );
-  displayElements.detailsElements.nric_no_2.innerText = data.profiles.nric_no;
+    displayElements.detailsElements.nric_name_2.innerText =
+      data.profiles.nric_name;
+    displayElements.detailsElements.last_updated_2.innerText = formatTimestamp(
+      data.last_updated
+    );
+    displayElements.detailsElements.nric_no_2.innerText = data.profiles.nric_no;
+  }
+  if (data?.beloved) {
+    if (data.beloved.length !== 0) {
+      var primaryUser = {};
+      var secondaryUser = {};
 
-  if (data.beloved.length !== 0) {
-    var primaryUser = {};
-    var secondaryUser = {};
+      data.beloved.map((item) => {
+        if (item.type == 'co_sampul' && item.level == 'primary') {
+          primaryUser = item;
+        }
+        if (item.type == 'co_sampul' && item.level == 'secondary') {
+          secondaryUser = item;
+        }
+      });
 
-    data.beloved.map((item) => {
-      if (item.type == 'co_sampul' && item.level == 'primary') {
-        primaryUser = item;
-      }
-      if (item.type == 'co_sampul' && item.level == 'secondary') {
-        secondaryUser = item;
-      }
-    });
-
-    if (Object.keys(primaryUser).length !== 0) {
-      displayElements.detailsElements.primary_co_sampul_name.innerText =
-        primaryUser.nric_name;
-      displayElements.detailsElements.primary_co_sampul_email.innerText =
-        primaryUser.email;
-      displayElements.detailsElements.primary_co_sampul_phone_no.innerText =
-        primaryUser.phone_no;
-      displayElements.detailsElements.primary_co_sampul_nric_no.innerText =
-        primaryUser.nric_no;
-      proceed = true;
-    } else {
-      proceed = false;
-      showErrorAlert('primary');
-      genereateWillBtn.addEventListener('click', function (event) {
+      if (Object.keys(primaryUser).length !== 0) {
+        displayElements.detailsElements.primary_co_sampul_name.innerText =
+          primaryUser.nric_name;
+        displayElements.detailsElements.primary_co_sampul_email.innerText =
+          primaryUser.email;
+        displayElements.detailsElements.primary_co_sampul_phone_no.innerText =
+          primaryUser.phone_no;
+        displayElements.detailsElements.primary_co_sampul_nric_no.innerText =
+          primaryUser.nric_no;
+        proceed = true;
+      } else {
+        proceed = false;
         showErrorAlert('primary');
-      });
-      genereateWillBtn2.addEventListener('click', function (event) {
-        showErrorAlert('primary');
-      });
-    }
+        genereateWillBtn.addEventListener('click', function (event) {
+          showErrorAlert('primary');
+        });
+        genereateWillBtn2.addEventListener('click', function (event) {
+          showErrorAlert('primary');
+        });
+      }
 
-    if (Object.keys(secondaryUser).length !== 0) {
-      displayElements.detailsElements.secondary_co_sampul_name.innerText =
-        secondaryUser.nric_name;
-      displayElements.detailsElements.secondary_co_sampul_email.innerText =
-        secondaryUser.email;
-      displayElements.detailsElements.secondary_co_sampul_phone_no.innerText =
-        secondaryUser.phone_no;
-      displayElements.detailsElements.secondary_co_sampul_nric_no.innerText =
-        secondaryUser.nric_no;
-      proceed = true;
-    } else {
-      proceed = false;
-      showErrorAlert('secondary');
-      genereateWillBtn.addEventListener('click', function (event) {
+      if (Object.keys(secondaryUser).length !== 0) {
+        displayElements.detailsElements.secondary_co_sampul_name.innerText =
+          secondaryUser.nric_name;
+        displayElements.detailsElements.secondary_co_sampul_email.innerText =
+          secondaryUser.email;
+        displayElements.detailsElements.secondary_co_sampul_phone_no.innerText =
+          secondaryUser.phone_no;
+        displayElements.detailsElements.secondary_co_sampul_nric_no.innerText =
+          secondaryUser.nric_no;
+        proceed = true;
+      } else {
+        proceed = false;
         showErrorAlert('secondary');
-      });
-      genereateWillBtn2.addEventListener('click', function (event) {
-        showErrorAlert('secondary');
-      });
+        genereateWillBtn.addEventListener('click', function (event) {
+          showErrorAlert('secondary');
+        });
+        genereateWillBtn2.addEventListener('click', function (event) {
+          showErrorAlert('secondary');
+        });
+      }
     }
   }
 }
@@ -220,7 +224,7 @@ async function generating(btnId) {
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
+    const userId = await getUserSession();
     const updatedTime = new Date().toISOString();
 
     const updateData = {
@@ -229,25 +233,51 @@ async function generating(btnId) {
       last_updated: updatedTime,
     };
 
-    const { data, error } = await supabaseClient
+    const { data: checkExist, error: errorCheckExist } = await supabaseClient
       .from(dbName.wills)
-      .upsert([
-        {
-          uuid: userId, //primary key
-          ...updateData,
-        },
-      ])
+      .select('*')
+      .eq('uuid', userId)
       .select()
       .single();
 
-    generateQRCode(data, useBtn);
+    if (checkExist) {
+      const { data, error } = await supabaseClient
+        .from(dbName.wills)
+        .update({
+          ...updateData,
+        })
+        .eq('uuid', userId)
+        .select()
+        .single();
 
-    if (error) {
-      console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
+      generateQRCode(data, useBtn, defaultBtnText);
+
+      if (error) {
+        console.error('Error', error.message);
+        showToast('alert-toast-container', error.message, 'danger');
+      } else {
+        showToast('alert-toast-container', 'Success!', 'success');
+        reinitiate();
+      }
     } else {
-      showToast('alert-toast-container', 'Success!', 'success');
-      reinitiate();
+      const { data, error } = await supabaseClient
+        .from(dbName.wills)
+        .upsert({
+          uuid: userId,
+          ...updateData,
+        })
+        .select()
+        .single();
+
+      generateQRCode(data, useBtn, defaultBtnText);
+
+      if (error) {
+        console.error('Error', error.message);
+        showToast('alert-toast-container', error.message, 'danger');
+      } else {
+        showToast('alert-toast-container', 'Success!', 'success');
+        reinitiate();
+      }
     }
 
     useBtn.disabled = false;
@@ -269,7 +299,7 @@ function dataURLtoFile(dataURL, filename) {
   return new File([u8arr], filename, { type: mime });
 }
 
-async function generateQRCode(data, useBtn) {
+async function generateQRCode(data, useBtn, defaultBtnText) {
   var will_id = data.will_code;
   var container = document.getElementById('qr-code-container');
   container.innerHTML = '';
@@ -286,21 +316,22 @@ async function generateQRCode(data, useBtn) {
   var imageDataUrl = canvas.toDataURL();
   var file = dataURLtoFile(imageDataUrl, `qr_code_${will_id}.png`);
 
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
   const directory = `/will/`;
   const imageInput = {
     files: [file],
   };
 
-  replaceOrAddImage(
+  await replaceOrAddImage({
     userId,
-    data,
+    returnData: data,
     directory,
     imageInput,
     useBtn,
-    'replace',
-    dbName.wills
-  );
+    defaultBtnText,
+    dataBase: dbName.wills,
+    isUpdateByReturnId: false,
+  });
 }
 
 genereateWillBtn.addEventListener('click', async function (event) {
@@ -335,19 +366,15 @@ function updateElements(source, target) {
 }
 
 async function fetchWill() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (!userId) {
     return;
   }
 
   try {
-    const willData = await fetchWillData(userId);
-    if (!willData) {
-      return;
-    }
-
-    const [belovedData, digitalAssetsData] = await Promise.all([
+    const [willData, belovedData, digitalAssetsData] = await Promise.all([
+      fetchWillData(userId),
       fetchBelovedData(userId),
       fetchDigitalAssetsData(userId),
     ]);
@@ -368,7 +395,7 @@ async function fetchWillData(userId) {
     .single();
 
   if (error) {
-    throw error;
+    console.log(error.message);
   }
 
   return data;
@@ -381,7 +408,7 @@ async function fetchBelovedData(userId) {
     .eq('uuid', userId);
 
   if (error) {
-    throw error;
+    console.log(error.message);
   }
 
   return data;
@@ -394,7 +421,7 @@ async function fetchDigitalAssetsData(userId) {
     .eq('uuid', userId);
 
   if (error) {
-    throw error;
+    console.log(error.message);
   }
 
   return data;

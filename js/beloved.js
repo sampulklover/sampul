@@ -89,43 +89,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
-    let returnId = null;
-
-    let setStop = false;
-
-    const addTypeSelect = document.getElementById('select-beloved-add-type');
-    const addLevelSelect = document.getElementById('select-beloved-add-level');
-
-    if (belovedData.length !== 0) {
-      belovedData.map((item) => {
-        if (
-          item.type == addTypeSelect.value &&
-          item.level == addLevelSelect.value
-        ) {
-          if (item.level !== 'others') {
-            var selectedLevel = belovedLevel().find(
-              (item) => item.value === addLevelSelect.value
-            );
-
-            showToast(
-              'alert-toast-container',
-              `Beloved level "${selectedLevel.name}" already been assigned to a different person.`,
-              'danger'
-            );
-
-            setStop = true;
-            useBtn.disabled = false;
-            useBtn.innerHTML = defaultBtnText;
-          }
-        }
-      });
-    }
-
-    if (setStop) {
-      return;
-    }
-
+    const userId = await getUserSession();
     const addData = {};
 
     for (const key in inputElements.add_beloved_modal) {
@@ -134,59 +98,44 @@ document
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.beloved)
       .insert({
         uuid: userId,
         ...addData,
       })
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
-    returnId = data[0].id;
+    const directory = `/beloved/${returnData.id}/avatar/`;
     const imageInput = document.getElementById('input-beloved-add-image');
 
-    if (imageInput.files.length > 0 && returnId) {
-      const file = imageInput.files[0];
+    await replaceOrAddImage({
+      userId,
+      returnData,
+      directory,
+      imageInput,
+      useBtn,
+      defaultBtnText,
+      dataBase: dbName.beloved,
+      isUpdateByReturnId: true,
+    });
 
-      const imagePath = userId + `/beloved/${returnId}/avatar/` + file.name;
-
-      const { data: uploadedImage, error } = await supabaseClient.storage
-        .from(bucketName)
-        .upload(imagePath, file);
-
-      if (error) {
-        console.error('Error', error.message);
-        showToast('alert-toast-container', error.message, 'danger');
-      } else {
-        const { data, error } = await supabaseClient
-          .from(dbName.beloved)
-          .update({
-            image_path: uploadedImage.path,
-          })
-          .eq('uuid', userId)
-          .eq('id', returnId);
-
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
+    for (const key in inputElements.add_beloved_modal) {
+      if (key !== 'image_path') {
+        inputElements.add_beloved_modal[key].value = '';
       }
     }
 
     fetchbeloved();
-    showToast('alert-toast-container', 'Submitted!', 'success');
     $('#add-beloved-modal').modal('hide');
-
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+    handleFormResult({ error, useBtn, defaultBtnText });
   });
 
 document
@@ -199,42 +148,7 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const userId = await getUserUUID();
-    let returnData = null;
-
-    let setStop = false;
-
-    if (belovedData.length !== 0) {
-      belovedData.map((item) => {
-        if (
-          item.type == inputElements.edit_beloved_modal.type.value &&
-          item.level == inputElements.edit_beloved_modal.level.value &&
-          item.id !== editCurrentId
-        ) {
-          if (item.level !== 'others') {
-            var selectedLevel = belovedLevel().find(
-              (item) =>
-                item.value === inputElements.edit_beloved_modal.level.value
-            );
-
-            showToast(
-              'alert-toast-container',
-              `Beloved level "${selectedLevel.name}" already been assigned to a different person.`,
-              'danger'
-            );
-
-            setStop = true;
-            useBtn.disabled = false;
-            useBtn.innerHTML = defaultBtnText;
-          }
-        }
-      });
-    }
-
-    if (setStop) {
-      return;
-    }
-
+    const userId = await getUserSession();
     const updateData = {};
 
     for (const key in inputElements.edit_beloved_modal) {
@@ -243,78 +157,90 @@ document
       }
     }
 
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.beloved)
       .update({
         ...updateData,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentId)
-      .select();
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
+      handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
 
-    returnData = data[0];
+    const directory = `/beloved/${returnData.id}/avatar/`;
     const imageInput = document.getElementById('input-beloved-edit-image');
 
-    if (imageInput.files.length > 0 && returnData.id) {
-      if (returnData.image_path) {
-        const { error } = await supabaseClient.storage
-          .from(bucketName)
-          .remove([returnData.image_path]);
+    await replaceOrAddImage({
+      userId,
+      returnData,
+      directory,
+      imageInput,
+      useBtn,
+      defaultBtnText,
+      dataBase: dbName.beloved,
+      isUpdateByReturnId: true,
+    });
 
-        if (error) {
-          showToast('alert-toast-container', error.message, 'danger');
-          console.error('Error', error.message);
-          fetchbeloved();
-          $('#edit-beloved-modal').modal('hide');
-
-          useBtn.disabled = false;
-          useBtn.innerHTML = defaultBtnText;
-          return;
-        }
-      }
-
-      const file = imageInput.files[0];
-
-      const imagePath =
-        userId + `/beloved/${returnData.id}/avatar/` + file.name;
-
-      const { data: uploadedImage, error } = await supabaseClient.storage
-        .from(bucketName)
-        .upload(imagePath, file);
-
-      if (error) {
-        console.error('Error', error.message);
-        showToast('alert-toast-container', error.message, 'danger');
-      } else {
-        const { data, error } = await supabaseClient
-          .from(dbName.beloved)
-          .update({
-            image_path: uploadedImage.path,
-          })
-          .eq('uuid', userId)
-          .eq('id', returnData.id);
-
-        if (error) {
-          console.error('Error', error.message);
-          showToast('alert-toast-container', error.message, 'danger');
-        }
+    for (const key in inputElements.edit_beloved_modal) {
+      if (key !== 'image_path') {
+        inputElements.edit_beloved_modal[key].value = '';
       }
     }
 
     fetchbeloved();
     $('#edit-beloved-modal').modal('hide');
-    showToast('alert-toast-container', 'Updated!', 'success');
+    handleFormResult({ error, useBtn, defaultBtnText });
+  });
 
-    useBtn.disabled = false;
-    useBtn.innerHTML = defaultBtnText;
+document
+  .getElementById('btn-beloved-delete-form')
+  .addEventListener('click', async function () {
+    if (confirm(`Are you sure you want to delete this record?`)) {
+      var selectedCard = belovedData.find((item) => item.id === editCurrentId);
+
+      let useBtn = document.getElementById('btn-beloved-delete-form');
+      let defaultBtnText = useBtn.innerHTML;
+      useBtn.disabled = true;
+      useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+      const userId = await getUserSession();
+
+      const { data, error } = await supabaseClient
+        .from(dbName.beloved)
+        .delete()
+        .eq('uuid', userId)
+        .eq('id', selectedCard.id);
+
+      if (error) {
+        console.error('Error', error.message);
+        if (error.code === '23503') {
+          showToast(
+            'alert-toast-container',
+            'User cannot be deleted as they are linked to your digital assets. Please reassign the digital assets to another user, and try deleting again.',
+            'danger'
+          );
+        } else {
+          handleFormResult({ error, useBtn, defaultBtnText });
+        }
+        return;
+      }
+
+      await deleteImage({
+        returnData: selectedCard,
+        useBtn,
+        defaultBtnText,
+      });
+
+      fetchbeloved();
+      $('#edit-beloved-modal').modal('hide');
+      handleFormResult({ error, useBtn, defaultBtnText });
+    }
   });
 
 const previewAddImage = document.getElementById('preview-beloved-add-image');
@@ -430,47 +356,6 @@ function populateBeloved(allData = [], type) {
   }
 }
 
-document
-  .getElementById('btn-beloved-delete-form')
-  .addEventListener('click', async function () {
-    if (confirm(`Are you sure you want to delete this record?`)) {
-      var selectedCard = belovedData.find((item) => item.id === editCurrentId);
-
-      let useBtn = document.getElementById('btn-beloved-delete-form');
-      let defaultBtnText = useBtn.innerHTML;
-      useBtn.disabled = true;
-      useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
-
-      const userId = await getUserUUID();
-
-      const { data, error } = await supabaseClient
-        .from(dbName.beloved)
-        .delete()
-        .eq('uuid', userId)
-        .eq('id', selectedCard.id);
-
-      if (error) {
-        console.error('Error', error.message);
-        if (error.code === '23503') {
-          showToast(
-            'alert-toast-container',
-            'User cannot be deleted as they are linked to your digital assets. Please reassign the digital assets to another user, and try deleting again.',
-            'danger'
-          );
-        } else {
-          showToast('alert-toast-container', error.message, 'danger');
-        }
-      } else {
-        fetchbeloved();
-        $('#edit-beloved-modal').modal('hide');
-        showToast('alert-toast-container', 'Deleted!', 'success');
-      }
-
-      useBtn.disabled = false;
-      useBtn.innerHTML = defaultBtnText;
-    }
-  });
-
 function mapElements() {
   for (let key in belovedTypeName) {
     mapToSelect(
@@ -490,7 +375,7 @@ function mapElements() {
 }
 
 async function fetchbeloved() {
-  const userId = await getUserUUID();
+  const userId = await getUserSession();
 
   if (userId) {
     const { data, error } = await supabaseClient
