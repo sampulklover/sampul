@@ -5,6 +5,7 @@ navBarAuthUpdate();
 
 const displayElements = {
   detailsElements: {
+    image_path: document.getElementById('view-featured-image'),
     category: document.getElementById('view-blog-category'),
     read_time: document.getElementById('view-read-time'),
     title: document.getElementById('view-title'),
@@ -105,6 +106,11 @@ document
 function populatePressBlogPost(item) {
   const bcObject = blogCategories().find((x) => x.value === item.category);
   const estReadTime = estimateReadingTime(item.description);
+
+  const imageUrl = item.image_path
+    ? `${CDNURL}${item.image_path}`
+    : emptyBlogImg;
+  displayElements.detailsElements.image_path.src = imageUrl;
 
   displayElements.detailsElements.category.innerText = bcObject.name;
   displayElements.detailsElements.read_time.innerText = `${

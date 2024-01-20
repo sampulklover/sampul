@@ -50,6 +50,36 @@ function blogModalForm(type) {
               />
             </div>
             <div class="form-field-wrapper">
+              <label for="category" class="field-label"
+                >Category<span class="text-span-11">*</span></label
+              ><select
+                id="select-blog-${blogTypeName[type].key}-category"
+                name="category"
+                required=""
+                class="form_input w-select"
+              >
+                <!-- auto generate -->
+              </select>
+            </div>
+            <div class="form-field-wrapper">
+              <label for="image" class="field-label"
+                >Featured Image</label>
+              <img
+                loading="lazy"
+                src="https://iriedoc.wu.ac.th/support/img/user.png"
+                alt=""
+                style="max-height: 250px"
+                id="preview-blog-${blogTypeName[type].key}-image"
+              />
+              <input
+                type="file"
+                id="input-blog-${blogTypeName[type].key}-image"
+                name=""
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+            <div class="form-field-wrapper">
               <label for="title" class="field-label"
                 >Title<span class="text-span-9">*</span></label
               ><input
@@ -74,18 +104,6 @@ function blogModalForm(type) {
                 id="input-blog-${blogTypeName[type].key}-teaser"
                 required=""
               />
-            </div>
-            <div class="form-field-wrapper">
-              <label for="category" class="field-label"
-                >Category<span class="text-span-11">*</span></label
-              ><select
-                id="select-blog-${blogTypeName[type].key}-category"
-                name="category"
-                required=""
-                class="form_input w-select"
-              >
-                <!-- auto generate -->
-              </select>
             </div>
             <div class="form-field-wrapper">
               <label for="description" class="field-label"

@@ -310,16 +310,16 @@ function toggleVisibility(elements, isVisible) {
 function processForm(elements, clearFields = false) {
   const addData = {};
 
-  for (const key in elements) {
-    if (key !== 'image_path') {
-      addData[key] = elements[key].value;
-    }
-  }
-
   if (clearFields) {
     for (const key in elements) {
       if (key !== 'image_path') {
         elements[key].value = '';
+      }
+    }
+  } else {
+    for (const key in elements) {
+      if (key !== 'image_path') {
+        addData[key] = elements[key].value;
       }
     }
   }

@@ -17,6 +17,7 @@ async function populatePressBlog(allData = []) {
     const card = listBody.cloneNode(true);
 
     const title = card.getElementsByTagName('span');
+    const image = card.getElementsByTagName('img');
 
     const bcObject = blogCategories().find((x) => x.value === item.category);
     const estReadTime = estimateReadingTime(item.description);
@@ -25,6 +26,11 @@ async function populatePressBlog(allData = []) {
     title[1].innerText = `${estReadTime ? `${estReadTime + ' min read'}` : ''}`;
     title[2].innerText = item.title;
     title[3].innerText = item.teaser;
+
+    const imageUrl = item.image_path
+      ? `${CDNURL}${item.image_path}`
+      : emptyBlogImg;
+    image[0].src = imageUrl;
 
     records.push(card);
 
