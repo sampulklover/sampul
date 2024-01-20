@@ -1,28 +1,69 @@
-document.getElementById('add-blog-form-container').innerHTML = blogModalForm(
-  blogTypeName.add.key
-);
+const formConfigs = [
+  {
+    containerId: 'add-blog-form-container',
+    modalFormFunction: blogModalForm(blogTypeName.add.key),
+  },
+  {
+    containerId: 'edit-blog-form-container',
+    modalFormFunction: blogModalForm(blogTypeName.edit.key),
+  },
+  {
+    containerId: 'add-career-form-container',
+    modalFormFunction: careerModalForm(careerTypeName.add.key),
+  },
+  {
+    containerId: 'edit-career-form-container',
+    modalFormFunction: careerModalForm(careerTypeName.edit.key),
+  },
+];
 
-document.getElementById('edit-blog-form-container').innerHTML = blogModalForm(
-  blogTypeName.edit.key
-);
+formConfigs.forEach((item) => {
+  document.getElementById(item.containerId).innerHTML = item.modalFormFunction;
+});
 
-document.getElementById('add-career-form-container').innerHTML =
-  careerModalForm(careerTypeName.add.key);
+const selectConfigs = [
+  {
+    data: blogCategories(),
+    element_id: 'select-blog-add-category',
+  },
+  {
+    data: blogCategories(),
+    element_id: 'select-blog-edit-category',
+  },
+  {
+    data: careerCategories(),
+    element_id: 'select-career-add-category',
+  },
+  {
+    data: careerCategories(),
+    element_id: 'select-career-edit-category',
+  },
+  {
+    data: countries(),
+    element_id: 'select-career-add-country',
+  },
+  {
+    data: countries(),
+    element_id: 'select-career-edit-country',
+  },
+];
 
-document.getElementById('edit-career-form-container').innerHTML =
-  careerModalForm(careerTypeName.edit.key);
+selectConfigs.forEach((item) => {
+  mapToSelect(item.data, item.element_id);
+});
 
-document
-  .getElementById('new-blog-modal-btn')
-  .addEventListener('click', function () {
-    $('#add-blog-modal').modal('show');
-  });
+const showModalBtns = [
+  { buttonId: 'new-blog-modal-btn', modalId: '#add-blog-modal' },
+  { buttonId: 'new-career-modal-btn', modalId: '#add-career-modal' },
+];
 
-document
-  .getElementById('new-career-modal-btn')
-  .addEventListener('click', function () {
-    $('#add-career-modal').modal('show');
-  });
+showModalBtns.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      $(btnConfig.modalId).modal('show');
+    });
+});
 
 const inputElements = {
   add_blog_modal: {
@@ -31,6 +72,7 @@ const inputElements = {
     teaser: document.getElementById('input-blog-add-teaser'),
     category: document.getElementById('select-blog-add-category'),
     description: document.getElementById('input-blog-add-description'),
+    image_path: document.getElementById('preview-blog-add-image'),
   },
   edit_blog_modal: {
     writer_name: document.getElementById('input-blog-edit-writer-name'),
@@ -38,6 +80,7 @@ const inputElements = {
     teaser: document.getElementById('input-blog-edit-teaser'),
     category: document.getElementById('select-blog-edit-category'),
     description: document.getElementById('input-blog-edit-description'),
+    image_path: document.getElementById('preview-blog-edit-image'),
   },
   add_career_modal: {
     title: document.getElementById('input-career-add-title'),
@@ -55,94 +98,21 @@ const inputElements = {
   },
 };
 
+const imageElements = {
+  add_blog_modal: {
+    preview: document.getElementById('preview-blog-add-image'),
+    edit: document.getElementById('input-blog-add-image'),
+  },
+  edit_blog_modal: {
+    preview: document.getElementById('preview-blog-edit-image'),
+    edit: document.getElementById('input-blog-edit-image'),
+  },
+};
+
+mapImageElements(imageElements, imageElements);
+
 var blogData = [];
 var careerData = [];
-
-document
-  .getElementById('add-blog-form')
-  .addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    let useBtn = document.getElementById('btn-blog-add-form');
-    let defaultBtnText = useBtn.innerHTML;
-    useBtn.disabled = true;
-    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
-
-    const userId = await getUserSession();
-
-    const addData = {};
-
-    for (const key in inputElements.add_blog_modal) {
-      if (key !== 'image_path') {
-        addData[key] = inputElements.add_blog_modal[key].value;
-      }
-    }
-
-    const { data, error } = await supabaseClient
-      .from(dbName.press_blog_posts)
-      .insert({
-        uuid: userId,
-        ...addData,
-      });
-
-    if (error) {
-      console.error('Error', error.message);
-      handleFormResult({ error, useBtn, defaultBtnText });
-      return;
-    }
-
-    for (const key in inputElements.add_blog_modal) {
-      if (key !== 'image_path') {
-        inputElements.add_blog_modal[key].value = '';
-      }
-    }
-
-    reinitiate();
-    $('#add-blog-modal').modal('hide');
-    handleFormResult({ error, useBtn, defaultBtnText });
-  });
-
-document
-  .getElementById('add-career-form')
-  .addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    let useBtn = document.getElementById('btn-career-add-form');
-    let defaultBtnText = useBtn.innerHTML;
-    useBtn.disabled = true;
-    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
-
-    const userId = await getUserSession();
-
-    const addData = {};
-
-    for (const key in inputElements.add_career_modal) {
-      if (key !== 'image_path') {
-        addData[key] = inputElements.add_career_modal[key].value;
-      }
-    }
-
-    const { data, error } = await supabaseClient.from(dbName.careers).insert({
-      uuid: userId,
-      ...addData,
-    });
-
-    if (error) {
-      console.error('Error', error.message);
-      handleFormResult({ error, useBtn, defaultBtnText });
-      return;
-    }
-
-    for (const key in inputElements.add_career_modal) {
-      if (key !== 'image_path') {
-        inputElements.add_career_modal[key].value = '';
-      }
-    }
-
-    reinitiate();
-    $('#add-career-modal').modal('hide');
-    handleFormResult({ error, useBtn, defaultBtnText });
-  });
 
 var editCurrentBlogId = null;
 var editCurrentCareerId = null;
@@ -154,6 +124,13 @@ function populateToEditBlog(id) {
   if (selectedCard) {
     for (const key in inputElements.edit_blog_modal) {
       inputElements.edit_blog_modal[key].value = selectedCard[key];
+
+      if (key == 'image_path') {
+        const imageUrl = selectedCard[key]
+          ? `${CDNURL}${selectedCard[key]}`
+          : emptyBlogImg;
+        inputElements.edit_blog_modal.image_path.src = imageUrl;
+      }
     }
   }
 }
@@ -170,6 +147,85 @@ function populateToEditCareer(id) {
 }
 
 document
+  .getElementById('add-blog-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let useBtn = document.getElementById('btn-blog-add-form');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const userId = await getUserSession();
+
+    const addData = processForm(inputElements.add_blog_modal, false);
+
+    const { data: returnData, error } = await supabaseClient
+      .from(dbName.press_blog_posts)
+      .insert({
+        uuid: userId,
+        ...addData,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
+    }
+
+    const directory = `/blog/${returnData.id}/featured/`;
+    const imageInput = imageElements.add_blog_modal.edit;
+
+    await replaceOrAddImage({
+      userId,
+      returnData,
+      directory,
+      imageInput,
+      useBtn,
+      defaultBtnText,
+      dataBase: dbName.press_blog_posts,
+      isUpdateByReturnId: true,
+    });
+
+    processForm(inputElements.add_blog_modal, true);
+    reinitiate();
+    $('#add-blog-modal').modal('hide');
+    handleFormResult({ error, useBtn, defaultBtnText });
+  });
+
+document
+  .getElementById('add-career-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let useBtn = document.getElementById('btn-career-add-form');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const userId = await getUserSession();
+    const addData = processForm(inputElements.add_career_modal, false);
+
+    const { data, error } = await supabaseClient.from(dbName.careers).insert({
+      uuid: userId,
+      ...addData,
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
+    }
+
+    processForm(inputElements.add_career_modal, true);
+    reinitiate();
+    $('#add-career-modal').modal('hide');
+    handleFormResult({ error, useBtn, defaultBtnText });
+  });
+
+document
   .getElementById('edit-blog-form')
   .addEventListener('submit', async function (event) {
     event.preventDefault();
@@ -180,22 +236,17 @@ document
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
     const userId = await getUserSession();
+    const addData = processForm(inputElements.edit_blog_modal, false);
 
-    const updateData = {};
-
-    for (const key in inputElements.edit_blog_modal) {
-      if (key !== 'image_path') {
-        updateData[key] = inputElements.edit_blog_modal[key].value;
-      }
-    }
-
-    const { data, error } = await supabaseClient
+    const { data: returnData, error } = await supabaseClient
       .from(dbName.press_blog_posts)
       .update({
-        ...updateData,
+        ...addData,
       })
       .eq('uuid', userId)
-      .eq('id', editCurrentBlogId);
+      .eq('id', editCurrentBlogId)
+      .select()
+      .single();
 
     if (error) {
       console.error('Error', error.message);
@@ -203,12 +254,21 @@ document
       return;
     }
 
-    for (const key in inputElements.edit_blog_modal) {
-      if (key !== 'image_path') {
-        inputElements.edit_blog_modal[key].value = '';
-      }
-    }
+    const directory = `/blog/${returnData.id}/featured/`;
+    const imageInput = imageElements.edit_blog_modal.edit;
 
+    await replaceOrAddImage({
+      userId,
+      returnData,
+      directory,
+      imageInput,
+      useBtn,
+      defaultBtnText,
+      dataBase: dbName.press_blog_posts,
+      isUpdateByReturnId: true,
+    });
+
+    processForm(inputElements.edit_blog_modal, true);
     reinitiate();
     $('#edit-blog-modal').modal('hide');
     handleFormResult({ error, useBtn, defaultBtnText });
@@ -225,19 +285,12 @@ document
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
     const userId = await getUserSession();
-
-    const updateData = {};
-
-    for (const key in inputElements.edit_career_modal) {
-      if (key !== 'image_path') {
-        updateData[key] = inputElements.edit_career_modal[key].value;
-      }
-    }
+    const addData = processForm(inputElements.edit_career_modal, false);
 
     const { data, error } = await supabaseClient
       .from(dbName.careers)
       .update({
-        ...updateData,
+        ...addData,
       })
       .eq('uuid', userId)
       .eq('id', editCurrentCareerId);
@@ -248,12 +301,7 @@ document
       return;
     }
 
-    for (const key in inputElements.edit_career_modal) {
-      if (key !== 'image_path') {
-        inputElements.edit_career_modal[key].value = '';
-      }
-    }
-
+    processForm(inputElements.edit_career_modal, true);
     reinitiate();
     $('#edit-career-modal').modal('hide');
     handleFormResult({ error, useBtn, defaultBtnText });
@@ -283,6 +331,12 @@ document
         handleFormResult({ error, useBtn, defaultBtnText });
         return;
       }
+
+      await deleteImage({
+        returnData: selectedCard,
+        useBtn,
+        defaultBtnText,
+      });
 
       reinitiate();
       $('#edit-blog-modal').modal('hide');
@@ -323,161 +377,185 @@ document
     }
   });
 
-function populateToUsersTable(tableData) {
-  const tableColumns = [
-    {
-      title: '<small class="smpl_text-xs-medium">Users</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        const imageUrl = row.image_path
-          ? `${CDNURL}${row.image_path}`
-          : emptyUserImg;
+const tableConfig = {
+  users: {
+    table_id: '#users-table',
+    loader_id: 'users-table-loader',
+    content: [
+      {
+        title: '<small class="smpl_text-xs-medium">Users</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          const imageUrl = row.image_path
+            ? `${CDNURL}${row.image_path}`
+            : emptyUserImg;
 
-        return `<div class="custom-table-cell">
-                  <img
-                    loading="lazy"
-                    src="${imageUrl}"
-                    alt=""
-                    class="avatar-8"
-                  />
-                  <div>
-                    <div class="smpl_text-sm-medium">${row.username}</div>
-                    <div class="smpl_text-sm-regular">${row.email}</div>
+          return `<div class="custom-table-cell">
+                    <img
+                      loading="lazy"
+                      src="${imageUrl}"
+                      alt=""
+                      class="avatar-8"
+                    />
+                    <div>
+                      <div class="smpl_text-sm-medium">${row.username}</div>
+                      <div class="smpl_text-sm-regular">${row.email}</div>
+                    </div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Created at</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${formatTimestamp(
+                      row.created_at
+                    )}</div>
+                </div>
+          `;
+        },
+      },
+    ],
+  },
+  blogs: {
+    table_id: '#blogs-table',
+    loader_id: 'blogs-table-loader',
+    content: [
+      {
+        title: '<small class="smpl_text-xs-medium">Writer</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${row.writer_name}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Title</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${row.title}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Description</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${row.description}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Category</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          let categoryValue = blogCategories().find(
+            (item) => item.value === row.category
+          );
+          const categoryValueName = categoryValue?.name || '';
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${categoryValueName}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Action</small>',
+        data: 'id',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell" onclick="populateToEditBlog(${data})" >
+                    <div class="smpl_text-sm-semibold text-color-primary700">More</div>
                   </div>
-              </div>
-        `;
+          `;
+        },
       },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Created at</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${formatTimestamp(
-                    row.created_at
-                  )}</div>
-              </div>
-        `;
+    ],
+  },
+  careers: {
+    table_id: '#careers-table',
+    loader_id: 'careers-table-loader',
+    content: [
+      {
+        title: '<small class="smpl_text-xs-medium">Job Title</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${row.title}</div>
+                </div>
+          `;
+        },
       },
-    },
-  ];
+      {
+        title: '<small class="smpl_text-xs-medium">Description</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${row.description}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Category</small>',
+        data: 'uui',
+        render: function (data, type, row, meta) {
+          let categoryValue = careerCategories().find(
+            (item) => item.value === row.category
+          );
+          const categoryValueName = categoryValue?.name || '';
+          return `<div class="custom-table-cell">
+                    <div class="smpl_text-sm-regular crop-text">${categoryValueName}</div>
+                </div>
+          `;
+        },
+      },
+      {
+        title: '<small class="smpl_text-xs-medium">Action</small>',
+        data: 'id',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell" onclick="populateToEditCareer(${data})" >
+                    <div class="smpl_text-sm-semibold text-color-primary700">More</div>
+                  </div>
+          `;
+        },
+      },
+    ],
+  },
+};
 
-  const tableLoader = document.getElementById('users-table-loader');
-  populateToTable('#users-table', tableData, tableColumns, tableLoader);
+function populateToUsersTable(tableData) {
+  populateToTable(
+    tableConfig.users.table_id,
+    tableData,
+    tableConfig.users.content,
+    document.getElementById(tableConfig.users.loader_id)
+  );
 }
 
 function populateToBlogsTable(tableData) {
-  const tableColumns = [
-    {
-      title: '<small class="smpl_text-xs-medium">Writer</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${row.writer_name}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Title</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${row.title}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Description</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${row.description}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Category</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        let categoryValue = blogCategories().find(
-          (item) => item.value === row.category
-        );
-        const categoryValueName = categoryValue?.name || '';
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${categoryValueName}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Action</small>',
-      data: 'id',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell" onclick="populateToEditBlog(${data})" >
-                  <div class="smpl_text-sm-semibold text-color-primary700">More</div>
-                </div>
-        `;
-      },
-    },
-  ];
-
-  const tableLoader = document.getElementById('blogs-table-loader');
-  populateToTable('#blogs-table', tableData, tableColumns, tableLoader);
+  populateToTable(
+    tableConfig.blogs.table_id,
+    tableData,
+    tableConfig.blogs.content,
+    document.getElementById(tableConfig.blogs.loader_id)
+  );
 }
 
 function populateToCareersTable(tableData) {
-  const tableColumns = [
-    {
-      title: '<small class="smpl_text-xs-medium">Job Title</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${row.title}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Description</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${row.description}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Category</small>',
-      data: 'uui',
-      render: function (data, type, row, meta) {
-        let categoryValue = careerCategories().find(
-          (item) => item.value === row.category
-        );
-        const categoryValueName = categoryValue?.name || '';
-        return `<div class="custom-table-cell">
-                  <div class="smpl_text-sm-regular crop-text">${categoryValueName}</div>
-              </div>
-        `;
-      },
-    },
-    {
-      title: '<small class="smpl_text-xs-medium">Action</small>',
-      data: 'id',
-      render: function (data, type, row, meta) {
-        return `<div class="custom-table-cell" onclick="populateToEditCareer(${data})" >
-                  <div class="smpl_text-sm-semibold text-color-primary700">More</div>
-                </div>
-        `;
-      },
-    },
-  ];
-
-  const tableLoader = document.getElementById('careers-table-loader');
-  populateToTable('#careers-table', tableData, tableColumns, tableLoader);
+  populateToTable(
+    tableConfig.careers.table_id,
+    tableData,
+    tableConfig.careers.content,
+    document.getElementById(tableConfig.careers.loader_id)
+  );
 }
 
 async function fetchUsersData() {
@@ -488,7 +566,6 @@ async function fetchUsersData() {
   if (error) {
     console.log(error.message);
   }
-
   return data;
 }
 
@@ -500,7 +577,6 @@ async function fetchBlogsData() {
   if (error) {
     console.log(error.message);
   }
-
   return data;
 }
 
@@ -510,7 +586,6 @@ async function fetchCareersData() {
   if (error) {
     console.log(error.message);
   }
-
   return data;
 }
 
@@ -535,36 +610,15 @@ async function initialFetch() {
   }
 }
 
-function mapElements() {
-  for (let key in blogTypeName) {
-    mapToSelect(
-      blogCategories(),
-      `select-blog-${blogTypeName[key].key}-category`
-    );
-  }
-  for (let key in careerTypeName) {
-    mapToSelect(
-      careerCategories(),
-      `select-career-${careerTypeName[key].key}-category`
-    );
-    mapToSelect(
-      countries(),
-      `select-career-${careerTypeName[key].key}-country`
-    );
-  }
-}
-
 function reinitiate() {
-  var table1 = $('#users-table').DataTable();
-  var table2 = $('#blogs-table').DataTable();
-  var table3 = $('#careers-table').DataTable();
-  table1.destroy();
-  table2.destroy();
-  table3.destroy();
+  for (const tableName in tableConfig) {
+    const tableId = tableConfig[tableName].table_id;
+    const table = $(tableId).DataTable();
+    table.destroy();
+  }
   initialFetch();
 }
 
 $(document).ready(function () {
-  mapElements();
   initialFetch();
 });
