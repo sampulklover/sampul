@@ -354,3 +354,59 @@ function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
 }
+
+function saveData(key, data) {
+  try {
+    const jsonData = JSON.stringify(data);
+    localStorage.setItem(key, jsonData);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+function getSavedData(key) {
+  try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
+function roleUIbased(pageName) {
+  const roleUIconfig = {
+    admin: {
+      global: [
+        {
+          element_id: 'sidebar-tab-administrator',
+          visibility: 'block',
+        },
+      ],
+    },
+    user: {
+      global: [
+        {
+          element_id: 'sidebar-tab-administrator',
+          visibility: 'none',
+        },
+      ],
+    },
+  };
+
+  const roleData = getSavedData('masterData');
+  const userRole = roleData?.role;
+
+  if (userRole && roleUIconfig[userRole] && roleUIconfig[userRole][pageName]) {
+    roleUIconfig[userRole][pageName].forEach((config) => {
+      const element = document.getElementById(config.element_id);
+      if (element) {
+        element.style.display = config.visibility;
+      } else {
+        console.error(`Element with ID ${config.element_id} not found`);
+      }
+    });
+  } else {
+    console.error('Invalid role, page, or role/page not found');
+  }
+}

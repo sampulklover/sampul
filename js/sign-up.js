@@ -19,14 +19,14 @@ document
     event.preventDefault();
 
     const email = document.getElementById('wf-sign-up-email').value;
-    const username = document.getElementById('wf-sign-up-name').value;
+    // const username = document.getElementById('wf-sign-up-name').value;
     const password = document.getElementById('wf-sign-up-password').value;
-    const accept_tnc = document.getElementById(
-      'wf-sign-up-accept-privacy'
-    ).value;
-    const accept_marketing = document.getElementById(
-      'wf-sign-up-accept-communications'
-    ).value;
+    // const accept_tnc = document.getElementById(
+    //   'wf-sign-up-accept-privacy'
+    // ).value;
+    // const accept_marketing = document.getElementById(
+    //   'wf-sign-up-accept-communications'
+    // ).value;
 
     const { data, error } = await supabaseClient.auth.signUp({
       email: email,

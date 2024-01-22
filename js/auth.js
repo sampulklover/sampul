@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.52',
+  version: 'v1.0.53',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -16,6 +16,7 @@ const dbName = {
   questions: 'questions',
   careers: 'careers',
   press_blog_posts: 'press_blog_posts',
+  roles: 'roles',
 };
 
 const bucketName = 'images';
@@ -133,6 +134,7 @@ async function signOutUser() {
       throw error;
     }
 
+    localStorage.removeItem('masterData');
     location.href = pageName.index;
   } catch (error) {
     console.log(error);

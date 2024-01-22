@@ -455,6 +455,8 @@ function reinitiate() {
 }
 
 $(document).ready(function () {
+  roleUIbased('global');
+
   // profile
   mapToSelect(maritalStatus(), 'select-profile-edit-marital-status');
   mapToSelect(countries(), 'select-profile-edit-country');
@@ -479,6 +481,4 @@ $(document).ready(function () {
   );
 
   fetchProfile();
-
-  document.getElementById('sidebar-tab-administrator').style.display = 'block';
 });

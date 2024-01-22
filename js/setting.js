@@ -405,6 +405,7 @@ async function fetchInformDeath() {
 }
 
 $(document).ready(function () {
+  roleUIbased('global');
   mapElements();
   fetchProfile();
   fetchInformDeath();

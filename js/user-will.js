@@ -561,5 +561,6 @@ function reinitiate() {
 }
 
 $(document).ready(function () {
+  roleUIbased('global');
   fetchWill();
 });
