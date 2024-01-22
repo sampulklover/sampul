@@ -66,7 +66,7 @@ function blogModalForm(type) {
                 >Featured Image</label>
               <img
                 loading="lazy"
-                src="https://iriedoc.wu.ac.th/support/img/user.png"
+                src=""
                 alt=""
                 style="max-height: 250px"
                 id="preview-blog-${blogTypeName[type].key}-image"

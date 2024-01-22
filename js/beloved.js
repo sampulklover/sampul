@@ -396,6 +396,7 @@ async function fetchbeloved() {
 }
 
 $(document).ready(function () {
+  roleUIbased('global');
   mapElements();
   fetchbeloved();
 });

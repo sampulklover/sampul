@@ -13,6 +13,28 @@ async function handleSignInWithGoogle(response) {
   }
 }
 
+async function loginSuccess() {
+  const userId = await getUserSession();
+
+  if (userId) {
+    const { data, error } = await supabaseClient
+      .from(dbName.roles)
+      .select('*')
+      .eq('uuid', userId)
+      .single();
+
+    if (error) {
+      console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
+    } else {
+      saveData('masterData', {
+        role: data.role,
+      });
+      location.href = pageName.user_account;
+    }
+  }
+}
+
 document
   .getElementById('signinForm')
   .addEventListener('submit', async function (event) {
@@ -30,7 +52,6 @@ document
       console.error('Error', error.message);
       showToast('alert-toast-container', error.message, 'danger');
     } else {
-      location.href = pageName.user_account;
-      showToast('alert-toast-container', 'Success!', 'success');
+      loginSuccess();
     }
   });

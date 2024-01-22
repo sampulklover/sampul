@@ -1,5 +1,9 @@
 const formConfigs = [
   {
+    containerId: 'add-sign-out-modal-container',
+    modalFormFunction: signOutModalForm(),
+  },
+  {
     containerId: 'add-blog-form-container',
     modalFormFunction: blogModalForm(blogTypeName.add.key),
   },
@@ -52,19 +56,6 @@ selectConfigs.forEach((item) => {
   mapToSelect(item.data, item.element_id);
 });
 
-const showModalBtns = [
-  { buttonId: 'new-blog-modal-btn', modalId: '#add-blog-modal' },
-  { buttonId: 'new-career-modal-btn', modalId: '#add-career-modal' },
-];
-
-showModalBtns.forEach((btnConfig) => {
-  document
-    .getElementById(btnConfig.buttonId)
-    .addEventListener('click', function () {
-      $(btnConfig.modalId).modal('show');
-    });
-});
-
 const inputElements = {
   add_blog_modal: {
     writer_name: document.getElementById('input-blog-add-writer-name'),
@@ -108,6 +99,32 @@ const imageElements = {
     edit: document.getElementById('input-blog-edit-image'),
   },
 };
+
+const showModalBtns = [
+  {
+    buttonId: 'new-blog-modal-btn',
+    modalId: '#add-blog-modal',
+    action: () => {
+      imageElements.add_blog_modal.preview.src = emptyBlogImg;
+    },
+  },
+  {
+    buttonId: 'new-career-modal-btn',
+    modalId: '#add-career-modal',
+    action: () => {
+      imageElements.add_blog_modal.preview.src = emptyBlogImg;
+    },
+  },
+];
+
+showModalBtns.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      $(btnConfig.modalId).modal('show');
+      btnConfig.action();
+    });
+});
 
 mapImageElements(imageElements, imageElements);
 
@@ -620,5 +637,6 @@ function reinitiate() {
 }
 
 $(document).ready(function () {
+  roleUIbased('global');
   initialFetch();
 });
