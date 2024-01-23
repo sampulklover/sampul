@@ -136,6 +136,50 @@ function servicePlatforms() {
   return items;
 }
 
+function institutions() {
+  const items = [
+    {
+      name: 'HSBC Bank',
+      value: 'hsbc_bank',
+      img: '',
+    },
+    {
+      name: 'Maybank',
+      value: 'maybank',
+      img: '',
+    },
+    {
+      name: 'Standard Chartered Bank',
+      value: 'standart_chartered_bank',
+      img: '',
+    },
+    {
+      name: 'AiAtakaful',
+      value: 'aia_takaful',
+      img: '',
+    },
+  ];
+
+  return items;
+}
+
+function loanCategories() {
+  const items = [
+    {
+      name: 'Credit Card',
+      value: 'credit_card',
+      img: '',
+    },
+    {
+      name: 'Hire Purchase',
+      value: 'hire_purchase',
+      img: '',
+    },
+  ];
+
+  return items;
+}
+
 function maritalStatus() {
   const items = [
     { name: 'Single', value: 'single' },
@@ -151,6 +195,16 @@ function servicePlatformAccountTypes() {
   const items = [
     { name: 'Digital Account', value: 'digital_account' },
     { name: 'Subscription Account', value: 'subscription_account' },
+  ];
+
+  return items;
+}
+
+function physicalAccountTypes() {
+  const items = [
+    { name: 'Asset', value: 'asset' },
+    { name: 'Loan', value: 'loan' },
+    { name: 'Protection', value: 'protection' },
   ];
 
   return items;

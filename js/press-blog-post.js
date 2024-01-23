@@ -124,11 +124,11 @@ function populatePressBlogPost(item) {
   displayElements.detailsElements.description.innerText = item.description;
 }
 
-async function fetchPressBlogPost(post_id) {
+async function fetchPressBlogPost(unique_id) {
   const { data, error } = await supabaseClient
     .from(dbName.press_blog_posts)
     .select(`*, ${dbName.profiles} ( * )`)
-    .eq('id', post_id)
+    .eq('unique_id', unique_id)
     .single();
 
   if (error) {
@@ -140,10 +140,10 @@ async function fetchPressBlogPost(post_id) {
 }
 
 $(document).ready(function () {
-  const postId = getQueryParam('post_id');
+  const unique_id = getQueryParam('id');
 
-  if (postId) {
-    fetchPressBlogPost(postId);
+  if (unique_id) {
+    fetchPressBlogPost(unique_id);
   } else {
     showToast('alert-toast-container', 'Post ID not found', 'danger');
   }

@@ -35,7 +35,7 @@ async function populatePressBlog(allData = []) {
     records.push(card);
 
     card.addEventListener('click', function () {
-      window.open(`press-blog-post?post_id=${item.id}`, '_blank');
+      window.open(`press-blog-post?id=${item.unique_id}`, '_blank');
     });
   });
 

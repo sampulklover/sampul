@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.53',
+  version: 'v1.0.54',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -9,6 +9,7 @@ const dbName = {
   profiles: 'profiles',
   beloved: 'beloved',
   digital_assets: 'digital_assets',
+  physical_assets: 'physical_assets',
   inform_death: 'inform_death',
   wills: 'wills',
   newsletter: 'newsletter',
@@ -17,6 +18,8 @@ const dbName = {
   careers: 'careers',
   press_blog_posts: 'press_blog_posts',
   roles: 'roles',
+  accounts: 'accounts',
+  products: 'products',
 };
 
 const bucketName = 'images';
