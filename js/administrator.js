@@ -100,28 +100,33 @@ const imageElements = {
   },
 };
 
-const showModalBtns = [
+const buttonConfigs = [
+  {
+    buttonId: 'open-sign-out-modal-btn',
+    action: () => {
+      $('#sign-out-modal').modal('show');
+    },
+  },
   {
     buttonId: 'new-blog-modal-btn',
-    modalId: '#add-blog-modal',
     action: () => {
+      $('#add-blog-modal').modal('show');
       imageElements.add_blog_modal.preview.src = emptyBlogImg;
     },
   },
   {
     buttonId: 'new-career-modal-btn',
-    modalId: '#add-career-modal',
     action: () => {
+      $('#add-career-modal').modal('show');
       imageElements.add_blog_modal.preview.src = emptyBlogImg;
     },
   },
 ];
 
-showModalBtns.forEach((btnConfig) => {
+buttonConfigs.forEach((btnConfig) => {
   document
     .getElementById(btnConfig.buttonId)
     .addEventListener('click', function () {
-      $(btnConfig.modalId).modal('show');
       btnConfig.action();
     });
 });
@@ -181,6 +186,7 @@ document
       .from(dbName.press_blog_posts)
       .insert({
         uuid: userId,
+        uid: generateRandomId(),
         ...addData,
       })
       .select()
@@ -192,7 +198,7 @@ document
       return;
     }
 
-    const directory = `/blog/${returnData.id}/featured/`;
+    const directory = `/blog/${returnData.uid}/featured/`;
     const imageInput = imageElements.add_blog_modal.edit;
 
     await replaceOrAddImage({
@@ -227,6 +233,7 @@ document
 
     const { data, error } = await supabaseClient.from(dbName.careers).insert({
       uuid: userId,
+      uid: generateRandomId(),
       ...addData,
     });
 
@@ -271,7 +278,7 @@ document
       return;
     }
 
-    const directory = `/blog/${returnData.id}/featured/`;
+    const directory = `/blog/${returnData.uid}/featured/`;
     const imageInput = imageElements.edit_blog_modal.edit;
 
     await replaceOrAddImage({
@@ -365,7 +372,7 @@ document
   .getElementById('btn-career-delete-form')
   .addEventListener('click', async function (event) {
     if (confirm(`Are you sure you want to delete this record?`)) {
-      var selectedCard = blogData.find(
+      var selectedCard = careerData.find(
         (item) => item.id === editCurrentCareerId
       );
 

@@ -18,8 +18,12 @@ async function loginSuccess() {
 
   if (userId) {
     const { data, error } = await supabaseClient
-      .from(dbName.roles)
-      .select('*')
+      .from(dbName.profiles)
+      .select(
+        `*,
+        ${dbName.roles}(*),
+        ${dbName.accounts}(*)`
+      )
       .eq('uuid', userId)
       .single();
 
@@ -27,11 +31,18 @@ async function loginSuccess() {
       console.error('Error', error.message);
       showToast('alert-toast-container', error.message, 'danger');
     } else {
-      saveData('masterData', {
-        role: data.role,
-      });
+      const { data: productData, error } = await supabaseClient
+        .from(dbName.products)
+        .select(`*`)
+        .single()
+        .eq('uid', data.accounts.product_uid);
+
+      const masterData = { ...data, products: productData };
+      saveData('masterData', masterData);
       location.href = pageName.user_account;
     }
+
+    return;
   }
 }
 

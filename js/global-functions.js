@@ -394,8 +394,8 @@ function roleUIbased(pageName) {
     },
   };
 
-  const roleData = getSavedData('masterData');
-  const userRole = roleData?.role;
+  const masterData = getSavedData('masterData');
+  const userRole = masterData?.roles.role;
 
   if (userRole && roleUIconfig[userRole] && roleUIconfig[userRole][pageName]) {
     roleUIconfig[userRole][pageName].forEach((config) => {
@@ -409,4 +409,24 @@ function roleUIbased(pageName) {
   } else {
     console.error('Invalid role, page, or role/page not found');
   }
+}
+
+function getAccessControl(pageName) {
+  const masterData = getSavedData('masterData');
+  const authorizedConfig = masterData?.products.access_control;
+  return pageName ? authorizedConfig?.pages[pageName] : authorizedConfig.pages;
+}
+
+function generateRandomId(length = 8) {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let randomId = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charactersLength);
+    randomId += characters.charAt(randomIndex);
+  }
+
+  return randomId;
 }
