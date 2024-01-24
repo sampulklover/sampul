@@ -11,6 +11,7 @@ const inputElements = {
   add_physical_assets_modal: {
     username: document.getElementById('input-physical-assets-add-username'),
     email: document.getElementById('input-physical-assets-add-email'),
+    asset_name: document.getElementById('input-physical-assets-add-asset-name'),
     institution: document.getElementById(
       'select-physical-assets-add-institution'
     ),
@@ -39,6 +40,9 @@ const inputElements = {
   edit_physical_assets_modal: {
     username: document.getElementById('input-physical-assets-edit-username'),
     email: document.getElementById('input-physical-assets-edit-email'),
+    asset_name: document.getElementById(
+      'input-physical-assets-edit-asset-name'
+    ),
     institution: document.getElementById(
       'select-physical-assets-edit-institution'
     ),
@@ -122,6 +126,7 @@ document.getElementById('input-search').addEventListener('input', function () {
       'email',
       'institution',
       'username',
+      'asset_name',
       'instructions_after_death',
     ];
 
@@ -307,14 +312,21 @@ function populateAssets(allData = [], tabName = 'tab_1') {
 
   if (tabName == 'tab_2') {
     const filteredData = allData.filter(function (item) {
-      return item.account_type === 'physical_account';
+      return item.account_type === 'asset';
     });
     allData = filteredData;
   }
 
   if (tabName == 'tab_3') {
     const filteredData = allData.filter(function (item) {
-      return item.account_type === 'subscription_account';
+      return item.account_type === 'loan';
+    });
+    allData = filteredData;
+  }
+
+  if (tabName == 'tab_3') {
+    const filteredData = allData.filter(function (item) {
+      return item.account_type === 'protection';
     });
     allData = filteredData;
   }
@@ -325,15 +337,33 @@ function populateAssets(allData = [], tabName = 'tab_1') {
     const title = divs[0].getElementsByTagName('span');
     const image = divs[0].getElementsByTagName('img');
 
-    const insObject = institutions().find((y) => y.value === item.institution);
-
-    const iadObject = instructionsAfterDeath().find(
-      (y) => y.value === item.instructions_after_death
+    const loanCategoryObj = loanCategories().find(
+      (y) => y.value === item.loan_category
     );
 
-    title[0].innerText = insObject.name;
-    title[1].innerText = iadObject.name;
-    title[2].innerText = `RM ${item.declared_value_myr}`;
+    const institutionObj = institutions().find(
+      (y) => y.value === item.institution
+    );
+
+    const imageUrl = item.image_path
+      ? `${CDNURL}${item.image_path}`
+      : emptyPhysicalImg;
+    image[0].src = imageUrl;
+
+    const startDate = new Date(item.tenure_start_date);
+    const endDate = new Date(item.tenure_end_date);
+    const diffInMonths =
+      (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+      (endDate.getMonth() - startDate.getMonth());
+    const tenure = `${diffInMonths}/${diffInMonths * 3} months`;
+
+    title[0].innerText = item.asset_name;
+    title[1].innerText = loanCategoryObj.name;
+    title[2].innerText = institutionObj.name;
+    title[3].innerText = item.account_no;
+    title[4].innerText = `RM ${item.declared_value_myr}`;
+    title[5].innerText = `${item.rate}%`;
+    title[6].innerText = tenure;
 
     divs[0].addEventListener('click', function () {
       populateToEdit(item.id);

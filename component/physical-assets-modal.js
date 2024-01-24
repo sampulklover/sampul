@@ -151,6 +151,22 @@ function physicalAssetsModalForm(type) {
                 />
               </div>
             </div>
+            <div class="form-field-wrapper">
+              <label for="asset-name" class="field-label"
+                >Asset Name<span class="text-span-9">*</span></label
+              ><input
+                type="text"
+                class="form_input w-input"
+                maxlength="256"
+                name="asset-name"
+                data-name="asset-name"
+                placeholder=""
+                id="input-physical-assets-${
+                  physicalAssetsTypeName[type].key
+                }-asset-name"
+                required=""
+              />
+            </div>
             <div
               id="w-node-_4ac9bd4b-46c5-1204-d604-d2bf44b339b6-e2e93042"
               class="form-content-2"
