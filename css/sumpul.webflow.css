@@ -4843,7 +4843,7 @@
   border: 1px #eaecf0;
   border-bottom-style: solid;
   border-radius: 8px 8px 0 0;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   padding: 16px;
   display: flex;
 }
