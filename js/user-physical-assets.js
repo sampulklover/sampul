@@ -324,7 +324,7 @@ function populateAssets(allData = [], tabName = 'tab_1') {
     allData = filteredData;
   }
 
-  if (tabName == 'tab_3') {
+  if (tabName == 'tab_4') {
     const filteredData = allData.filter(function (item) {
       return item.account_type === 'protection';
     });
