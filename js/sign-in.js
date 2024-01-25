@@ -149,6 +149,12 @@ document
 
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
     });
 
     if (error) {
