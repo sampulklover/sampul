@@ -39,7 +39,7 @@ document
       options: {
         emailRedirectTo: redirectUrl.googleRedirectUrl,
         data: {
-          username: document.getElementById('input-username').value,
+          name: document.getElementById('input-username').value,
         },
       },
     });
@@ -66,6 +66,7 @@ document
     }
 
     processForm(inputElements.add_sign_up, true);
+    document.getElementById('input-username').value = '';
     handleFormResult({
       error,
       useBtn,
