@@ -154,7 +154,7 @@ document
           access_type: 'offline',
           prompt: 'consent',
         },
-        redirectTo: 'http://localhost:3000/provider?refresh=true',
+        redirectTo: redirectUrl.googleRedirectUrl,
       },
     });
 
