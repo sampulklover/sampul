@@ -72,6 +72,11 @@ async function loginSuccess() {
 }
 
 async function setUserData() {
+  const sss = await getUserSession(true);
+  console.log(sss);
+
+  return;
+
   const userId = await getUserSession();
   if (userId) {
     const { data, error: error } = await supabaseClient

@@ -17,7 +17,6 @@ newsletterFormAddAPI();
 
 const inputElements = {
   add_sign_up: {
-    // username: document.getElementById('input-username'),
     email: document.getElementById('input-sign-up-email'),
     password: document.getElementById('input-sign-up-password'),
   },
@@ -37,6 +36,12 @@ document
 
     const { data, error } = await supabaseClient.auth.signUp({
       ...addData,
+      options: {
+        emailRedirectTo: redirectUrl.googleRedirectUrl,
+        data: {
+          username: document.getElementById('input-username').value,
+        },
+      },
     });
 
     if (error) {
