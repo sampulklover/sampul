@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.64',
+  version: 'v1.0.65',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -41,7 +41,7 @@ const companyInfo = {
 };
 
 const redirectUrl = {
-  googleRedirectUrl: 'http://localhost:3000/provider?refresh=true',
+  googleRedirectUrl: 'https://sampul.co/sign-in?refresh=true',
 };
 
 const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
