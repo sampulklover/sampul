@@ -23,21 +23,6 @@ const inputElements = {
   },
 };
 
-async function handleSignInWithGoogle(response) {
-  const { data, error } = await supabaseClient.auth.signInWithOAuth({
-    provider: 'google',
-  });
-
-  if (error) {
-    console.error('Error during Google login:', error.message);
-    showToast('alert-toast-container', error.message, 'danger');
-  } else {
-    console.log('Google login successful!', data);
-    showToast('alert-toast-container', 'Success!', 'success');
-    // Redirect or perform other actions after successful login
-  }
-}
-
 document
   .getElementById('add-sign-up-form')
   .addEventListener('submit', async function (event) {
@@ -83,4 +68,23 @@ document
       successText:
         'Registration successfully submitted. Please check your email for confirmation.',
     });
+  });
+
+document
+  .getElementById('btn-sign-up-google')
+  .addEventListener('click', async function (event) {
+    let useBtn = document.getElementById('btn-sign-up-google');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
+    }
   });

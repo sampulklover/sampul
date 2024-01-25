@@ -102,6 +102,8 @@ async function setUserData() {
     const masterData = { ...data, products: productData };
     saveData('masterData', masterData);
     location.href = pageName.user_account;
+  } else {
+    handleFormResult({ error: { message: '' }, useBtn, defaultBtnText });
   }
 }
 
@@ -127,7 +129,7 @@ document
       return;
     }
 
-    setUserData();
+    setUserData(useBtn, defaultBtnText);
     processForm(inputElements.add_sign_in, true);
     handleFormResult({
       error,
@@ -135,3 +137,30 @@ document
       defaultBtnText,
     });
   });
+
+document
+  .getElementById('btn-sign-in-google')
+  .addEventListener('click', async function (event) {
+    let useBtn = document.getElementById('btn-sign-in-google');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
+    }
+  });
+
+$(document).ready(function () {
+  var urlParams = new URLSearchParams(window.location.search);
+  var code = urlParams.get('refresh');
+  if (code) {
+    setUserData(useBtn, defaultBtnText);
+  }
+});

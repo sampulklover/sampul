@@ -288,8 +288,12 @@ function handleFormResult(options) {
   const { error, useBtn, defaultBtnText, successText = 'Success!' } = options;
 
   if (error) {
-    console.error('Error', error.message);
-    showToast('alert-toast-container', error.message, 'danger');
+    if (error.message) {
+      console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
+    } else {
+      console.error('Error', error);
+    }
   } else {
     showToast('alert-toast-container', successText, 'success');
   }
