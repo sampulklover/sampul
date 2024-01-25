@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.63',
+  version: 'v1.0.64',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -38,6 +38,10 @@ const companyInfo = {
   email: 'hello@sampul.co',
   phone_no: '+6 (03) 123-4567',
   address: 'Cyberjaya, Malaysia',
+};
+
+const redirectUrl = {
+  googleRedirectUrl: 'http://localhost:3000/provider?refresh=true',
 };
 
 const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
