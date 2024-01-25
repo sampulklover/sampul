@@ -298,8 +298,10 @@ function handleFormResult(options) {
     showToast('alert-toast-container', successText, 'success');
   }
 
-  useBtn.disabled = false;
-  useBtn.innerHTML = defaultBtnText;
+  if (useBtn) {
+    useBtn.disabled = false;
+    useBtn.innerHTML = defaultBtnText;
+  }
 }
 
 function toggleVisibility(elements, isVisible) {
