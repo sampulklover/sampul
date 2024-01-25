@@ -154,20 +154,13 @@ document
           access_type: 'offline',
           prompt: 'consent',
         },
+        redirectTo: 'https://sampul.co/sign-in?refresh=true',
       },
     });
-
+    console.log(data);
     if (error) {
       console.error('Error', error.message);
       handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
   });
-
-$(document).ready(function () {
-  var urlParams = new URLSearchParams(window.location.search);
-  var code = urlParams.get('refresh');
-  if (code) {
-    setUserData();
-  }
-});
