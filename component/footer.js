@@ -1,104 +1,203 @@
 function newsletterForm() {
   return `
-    <form
-    id="add-newsletter-form"
-    name="email-form"
-    data-name="Email Form"
-    class="uui-footer01_form"
+  <form id="add-newsletter-form" class="uui-footer02_form">
+  <input
+    type="email"
+    id="input-newsletter-email"
+    class="uui-form_input w-input"
+    maxlength="256"
+    placeholder="Enter your email"
+    required=""
+  />
+  <button
+    type="submit"
+    id="btn-newsletter-add-form"
+    class="uui-button is-button-small w-button"
   >
-    <input
-      type="email"
-      class="form_input w-input"
-      maxlength="256"
-      name="email-2"
-      data-name="Email 2"
-      placeholder="Enter your email"
-      id="input-newsletter-email"
-      required=""
-    />
-    <button type="submit" class="button size-w142" id="btn-newsletter-add-form">
-      Subscribe
-    </button>
-  </form>
+    Subscribe
+  </button>
+</form>
   `;
 }
 
 function footer() {
   return `
-    <footer class="footer_component">
-    <div class="page-padding-main">
-      <div class="container-large">
-        <div class="padding-vertical-xlarge">
-          <div class="w-layout-grid footer_top-wrapper">
-            <div class="footer_left-wrapper">
-              <a href="#" class="uui-footer01_logo-link w-nav-brand">
-                <div class="logo_component">
-                  <img
-                    src="images/Logo-Default.svg"
-                    loading="lazy"
-                    alt="Untitled UI logotext"
-                    class="logo_logotype"
-                  />
+  <div
+  data-w-id="5bf44bd6-19a3-d974-dcf1-e2e7da6c3d3c"
+  class="section no-bottom-padding clip"
+>
+  <div class="wrapper-corner">
+    <footer class="uui-footer02_component">
+      <div class="uui-page-padding">
+        <div class="uui-container-large">
+          <div class="uui-padding-vertical-xlarge">
+            <div class="w-layout-grid uui-footer02_top-wrapper">
+              <div class="w-layout-grid uui-footer02_left-wrapper">
+                <a
+                  id="w-node-_5bf44bd6-19a3-d974-dcf1-e2e7da6c3d44-da6c3d3c"
+                  href="#"
+                  class="uui-footer02_logo-link w-inline-block"
+                >
+                  <div class="uui-logo_component">
+                    <div class="uui-logo_logomark">
+                      <img
+                        src="images/Logomark.svg"
+                        loading="lazy"
+                        alt=""
+                        class="uui-styleguide_logomark-bg"
+                      />
+                      <div class="uui-logo_logomark-blur"></div>
+                    </div>
+                    <img
+                      src="images/Logo.svg"
+                      loading="lazy"
+                      alt="Untitled UI logotext"
+                      class="uui-logo_logotype"
+                    /><img
+                      src="images/untitled-ui-logo.png"
+                      loading="lazy"
+                      alt="Logo"
+                      class="uui-logo_image"
+                    />
+                  </div>
+                </a>
+                <div class="uui-footer02_link-list">
+                  <div class="uui-footer02_link-list-heading">Product</div>
+                  <a href="#" class="uui-footer02_link w-inline-block">
+                    <div>Overview</div>
+                  </a>
+                  <a href="#" class="uui-footer02_link w-inline-block">
+                    <div>Features</div>
+                  </a>
+                  <a
+                    href="solutions.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Solutions</div>
+                    <div class="uui-badge-small-success">
+                      <div>New</div>
+                    </div>
+                  </a>
+                  <a href="#" class="uui-footer02_link w-inline-block">
+                    <div>Tutorials</div>
+                  </a>
+                  <a href="price.html" class="uui-footer02_link w-inline-block">
+                    <div>Pricing</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Releases</div>
+                  </a>
                 </div>
-                <div class="uui-logo_component-3">
-                  <img
-                    src="images/untitled-ui-logo.png"
-                    loading="lazy"
-                    alt="Logo"
-                    class="uui-logo_image-3"
-                  />
+                <div class="uui-footer02_link-list">
+                  <div class="uui-footer02_link-list-heading">Company</div>
+                  <a
+                    href="company.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>About us</div>
+                  </a>
+                  <a href="#" class="uui-footer02_link w-inline-block">
+                    <div>Careers</div>
+                  </a>
+                  <a
+                    href="https://www.sampul.co/post-categories/newsletter"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Press</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>News</div>
+                  </a>
+                  <a
+                    href="https://www.sampul.co/post-categories/newsletter"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Media kit</div>
+                  </a>
+                  <a
+                    href="contact.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Contact</div>
+                  </a>
                 </div>
-              </a>
-              <div class="uui-text-size-medium-5">
-                Join our newsletter to stay up to date on features and
-                releases.
+                <div class="uui-footer02_link-list">
+                  <div class="uui-footer02_link-list-heading">Resources</div>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Blog</div>
+                  </a>
+                  <a
+                    href="https://www.sampul.co/post-categories/newsletter"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Newsletter</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Events</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Help centre</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Tutorial</div>
+                  </a>
+                  <a
+                    href="resources.html"
+                    class="uui-footer02_link w-inline-block"
+                  >
+                    <div>Support</div>
+                  </a>
+                </div>
               </div>
-              <div class="uui-footer01_form-block w-form">
-                ${newsletterForm()}
-                <div class="text-size-small">
-                  We care about your data in our
-                  <a href="#" class="text-style-link">privacy policy</a>.
+              <div class="uui-footer02_right-wrapper">
+                <div class="uui-footer02_heading">Join our newsletter</div>
+                <div class="uui-text-size-small">
+                  Join our newsletter to stay up to date on releases.
+                </div>
+                <div class="uui-footer02_form-block w-form">
+                  ${newsletterForm()}
+                  <div class="uui-text-size-small">
+                    We care about your data in our
+                    <a href="#" class="uui-text-style-link">privacy policy</a>.
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="w-layout-grid footer_menu-wrapper">
-              <div class="footer_link-list">
-                <div class="footer_link-list-heading">Product</div>
-                <a href="about.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Company</div>
-                </a>
-                <a href="career.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Careers</div>
-                  <div class="badge-small-success">
-                    <div class="text-block-21">We&#x27;re hiring!</div>
-                  </div>
-                </a>
-                <a href="#" class="footer_link w-inline-block">
-                  <div class="text-footer">Solutions</div>
-                </a>
-                <a href="pricing.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Pricing</div>
-                </a>
+            <div class="uui-footer02_bottom-wrapper">
+              <div class="uui-footer02_legal-list-wrapper">
+                <div class="uui-text-size-small text-color-gray500">
+                  © 2023 Sampul Sdn. Bhd.
+                </div>
+                <div class="w-layout-grid uui-footer02_legal-list">
+                  <a href="#" class="uui-footer02_legal-link">Terms</a>
+                  <a href="#" class="uui-footer02_legal-link">Privacy</a>
+                  <a href="#" class="uui-footer02_legal-link">Cookies</a>
+                </div>
               </div>
-              <div class="footer_link-list">
-                <div class="footer_link-list-heading">Resources</div>
-                <a href="press-blog.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Blog</div>
-                </a>
-                <a href="press-blog.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Newsletter</div>
-                </a>
-                <a href="user-help.html" class="footer_link w-inline-block">
-                  <div>Help centre</div>
-                </a>
-                <a href="contact.html" class="footer_link w-inline-block">
-                  <div class="text-footer">Contact</div>
-                </a>
-              </div>
-              <div class="footer_link-list">
-                <div class="footer_link-list-heading">Social</div>
-                <a href="#" class="footer_social-link w-inline-block">
-                  <div class="footer_social-icon w-embed">
+              <div class="w-layout-grid uui-footer02_social-list">
+                <a
+                  href="https://www.facebook.com/hellosampul"
+                  class="uui-footer02_social-link w-inline-block"
+                >
+                  <div class="uui-footer02_social-icon w-embed">
                     <svg
                       width="24"
                       height="24"
@@ -112,10 +211,9 @@ function footer() {
                       ></path>
                     </svg>
                   </div>
-                  <div class="text-footer">Facebook</div>
                 </a>
-                <a href="#" class="footer_social-link w-inline-block">
-                  <div class="footer_social-icon w-embed">
+                <a href="#" class="uui-footer02_social-link w-inline-block">
+                  <div class="uui-footer02_social-icon w-embed">
                     <svg
                       width="24"
                       height="24"
@@ -137,10 +235,9 @@ function footer() {
                       ></path>
                     </svg>
                   </div>
-                  <div class="text-footer">Instagram</div>
                 </a>
-                <a href="#" class="footer_social-link w-inline-block">
-                  <div class="footer_social-icon w-embed">
+                <a href="#" class="uui-footer02_social-link w-inline-block">
+                  <div class="uui-footer02_social-icon w-embed">
                     <svg
                       width="24"
                       height="24"
@@ -154,10 +251,12 @@ function footer() {
                       ></path>
                     </svg>
                   </div>
-                  <div class="text-footer">Twitter</div>
                 </a>
-                <a href="#" class="footer_social-link w-inline-block">
-                  <div class="footer_social-icon w-embed">
+                <a
+                  href="https://www.linkedin.com/company/sampul"
+                  class="uui-footer02_social-link w-inline-block"
+                >
+                  <div class="uui-footer02_social-icon w-embed">
                     <svg
                       width="24"
                       height="24"
@@ -171,25 +270,15 @@ function footer() {
                       ></path>
                     </svg>
                   </div>
-                  <div class="text-footer">LinkedIn</div>
                 </a>
               </div>
             </div>
           </div>
-          <div class="footer_bottom-wrapper">
-            <div class="text-size-small text-color-gray500">
-              © 2023 Sampul. All rights reserved.
-            </div>
-            <div class="w-layout-grid footer_legal-list">
-              <a href="legal.html" class="uui-footer01_legal-link">Terms</a>
-              <a href="legal.html" class="uui-footer01_legal-link">Privacy</a>
-              <a href="legal.html" class="uui-footer01_legal-link">Cookies</a>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </div>
+</div>
   `;
 }
 

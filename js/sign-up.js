@@ -1,3 +1,28 @@
+const formConfigs = [
+  {
+    containerId: 'nav-bar-container',
+    formFunction: navBar(),
+  },
+  {
+    containerId: 'footer-container',
+    formFunction: footer(),
+  },
+];
+
+formConfigs.forEach((item) => {
+  document.getElementById(item.containerId).innerHTML = item.formFunction;
+});
+
+newsletterFormAddAPI();
+
+const inputElements = {
+  add_sign_up: {
+    // username: document.getElementById('input-username'),
+    email: document.getElementById('input-sign-up-email'),
+    password: document.getElementById('input-sign-up-password'),
+  },
+};
+
 async function handleSignInWithGoogle(response) {
   const { data, error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'google',
@@ -14,29 +39,48 @@ async function handleSignInWithGoogle(response) {
 }
 
 document
-  .getElementById('signupForm')
+  .getElementById('add-sign-up-form')
   .addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    const email = document.getElementById('wf-sign-up-email').value;
-    // const username = document.getElementById('wf-sign-up-name').value;
-    const password = document.getElementById('wf-sign-up-password').value;
-    // const accept_tnc = document.getElementById(
-    //   'wf-sign-up-accept-privacy'
-    // ).value;
-    // const accept_marketing = document.getElementById(
-    //   'wf-sign-up-accept-communications'
-    // ).value;
+    let useBtn = document.getElementById('btn-sign-up-add-form');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const addData = processForm(inputElements.add_sign_up, false);
 
     const { data, error } = await supabaseClient.auth.signUp({
-      email: email,
-      password: password,
+      ...addData,
     });
 
     if (error) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
-    } else {
-      showToast('alert-toast-container', 'Success!', 'success');
+      handleFormResult({ error, useBtn, defaultBtnText });
+      return;
     }
+
+    if (
+      data.user &&
+      data.user.identities &&
+      data.user.identities.length === 0
+    ) {
+      authError = {
+        name: 'AuthApiError',
+        message: 'User already exists',
+      };
+
+      console.error('Error', authError.message);
+      handleFormResult({ error: authError, useBtn, defaultBtnText });
+      return;
+    }
+
+    processForm(inputElements.add_sign_up, true);
+    handleFormResult({
+      error,
+      useBtn,
+      defaultBtnText,
+      successText:
+        'Registration successfully submitted. Please check your email for confirmation.',
+    });
   });
