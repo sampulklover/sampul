@@ -70,6 +70,7 @@ async function loginSuccess() {
     return;
   }
 }
+
 async function setUserData() {
   const userId = await getUserSession();
   if (userId) {
@@ -103,7 +104,7 @@ async function setUserData() {
     saveData('masterData', masterData);
     location.href = pageName.user_account;
   } else {
-    handleFormResult({ error: { message: '' }, useBtn, defaultBtnText });
+    handleFormResult({ error: { message: '' } });
   }
 }
 
@@ -129,7 +130,7 @@ document
       return;
     }
 
-    setUserData(useBtn, defaultBtnText);
+    setUserData();
     processForm(inputElements.add_sign_in, true);
     handleFormResult({
       error,
@@ -161,6 +162,6 @@ $(document).ready(function () {
   var urlParams = new URLSearchParams(window.location.search);
   var code = urlParams.get('refresh');
   if (code) {
-    setUserData(useBtn, defaultBtnText);
+    setUserData();
   }
 });
