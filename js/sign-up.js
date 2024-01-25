@@ -85,6 +85,7 @@ document
           access_type: 'offline',
           prompt: 'consent',
         },
+        redirectTo: 'https://sampul.co/sign-in?refresh=true',
       },
     });
 
