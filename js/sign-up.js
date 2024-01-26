@@ -88,7 +88,7 @@ document
       provider: 'google',
       options: {
         queryParams: {
-          access_type: 'offline',
+          // access_type: 'offline',
           prompt: 'consent',
         },
         redirectTo: redirectUrl.googleRedirectUrl,
