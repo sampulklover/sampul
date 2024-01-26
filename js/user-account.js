@@ -81,40 +81,86 @@ const imageElements = {
   },
 };
 
-document
-  .getElementById('open-edit-profile-btn')
-  .addEventListener('click', function (event) {
-    $('#edit-profile-modal').modal('show');
-  });
+const buttonConfigs = [
+  {
+    buttonId: 'open-edit-profile-btn',
+    action: () => {
+      $('#edit-profile-modal').modal('show');
+    },
+  },
+  {
+    buttonId: 'open-add-beloved-btn',
+    action: () => {
+      $('#add-beloved-modal').modal('show');
+      changeModalType('co_sampul', belovedTypeName.add.key);
+    },
+  },
+  {
+    buttonId: 'open-add-digital-assets-btn',
+    action: () => {
+      $('#add-digital-assets-modal').modal('show');
+    },
+  },
+  {
+    buttonId: 'open-add-digital-assets-btn-2',
+    action: () => {
+      $('#add-digital-assets-modal').modal('show');
+      inputElements.add_digital_assets_modal.account_type =
+        servicePlatformAccountTypes()[0].value;
+    },
+  },
+  {
+    buttonId: 'open-add-digital-assets-btn-3',
+    action: () => {
+      $('#add-digital-assets-modal').modal('show');
+      inputElements.add_digital_assets_modal.account_type =
+        servicePlatformAccountTypes()[1].value;
+    },
+  },
+  {
+    buttonId: 'toggle-getting-started-btn',
+    action: () => {
+      toggleGetStartedContainer(false);
+    },
+  },
+];
 
-document
-  .getElementById('open-add-beloved-btn')
-  .addEventListener('click', function (event) {
-    $('#add-beloved-modal').modal('show');
-    changeModalType('co_sampul', belovedTypeName.add.key);
-  });
+function toggleGetStartedContainer(isOnload = false) {
+  const container = document.getElementById('getting-started-container');
+  const toggleBtn = document.getElementById('toggle-getting-started-btn');
+  const uiView = getSavedData('ui_view') || {};
 
-document
-  .getElementById('open-add-digital-assets-btn')
-  .addEventListener('click', function (event) {
-    $('#add-digital-assets-modal').modal('show');
-  });
+  if (isOnload) {
+    if (
+      uiView &&
+      uiView.user_account &&
+      uiView.user_account.show_started_container
+    ) {
+      container.style.height = '100%';
+      toggleBtn.innerText = 'Hide';
+    }
+  } else {
+    const showContainer = container.style.height === '0px';
 
-document
-  .getElementById('open-add-digital-assets-btn-2')
-  .addEventListener('click', function (event) {
-    $('#add-digital-assets-modal').modal('show');
-    inputElements.add_digital_assets_modal.account_type =
-      servicePlatformAccountTypes()[0].value;
-  });
+    container.style.height = showContainer ? '100%' : '0px';
+    toggleBtn.innerText = showContainer ? 'Hide' : 'Show';
 
-document
-  .getElementById('open-add-digital-assets-btn-3')
-  .addEventListener('click', function (event) {
-    $('#add-digital-assets-modal').modal('show');
-    inputElements.add_digital_assets_modal.account_type =
-      servicePlatformAccountTypes()[1].value;
-  });
+    saveData('ui_view', {
+      ...uiView,
+      user_account: {
+        show_started_container: showContainer,
+      },
+    });
+  }
+}
+
+buttonConfigs.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      btnConfig.action();
+    });
+});
 
 function changeModalType(titleKey, type) {
   document.getElementById(`modal-beloved-${type}-title`).innerText =
@@ -456,6 +502,10 @@ function reinitiate() {
 
 $(document).ready(function () {
   roleUIbased('global');
+
+  setTimeout(() => {
+    toggleGetStartedContainer(true);
+  }, 500);
 
   // profile
   mapToSelect(maritalStatus(), 'select-profile-edit-marital-status');
