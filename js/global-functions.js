@@ -285,12 +285,22 @@ async function deleteImage(options) {
 }
 
 function handleFormResult(options) {
-  const { error, useBtn, defaultBtnText, successText = 'Success!' } = options;
+  const {
+    error,
+    useBtn,
+    defaultBtnText,
+    successText = 'Success!',
+    failedText = '',
+  } = options;
 
   if (error) {
     if (error.message) {
       console.error('Error', error.message);
-      showToast('alert-toast-container', error.message, 'danger');
+      showToast(
+        'alert-toast-container',
+        failedText ? failedText : error.message,
+        'danger'
+      );
     } else {
       console.error('Error', error);
     }

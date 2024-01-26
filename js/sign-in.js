@@ -7,6 +7,10 @@ const formConfigs = [
     containerId: 'footer-container',
     formFunction: footer(),
   },
+  {
+    containerId: 'reverify-email-container',
+    formFunction: reverifyEmailModalForm(),
+  },
 ];
 
 formConfigs.forEach((item) => {
@@ -17,9 +21,11 @@ newsletterFormAddAPI();
 
 const inputElements = {
   add_sign_in: {
-    // username: document.getElementById('input-username'),
     email: document.getElementById('input-sign-in-email'),
     password: document.getElementById('input-sign-in-password'),
+  },
+  add_reverify_email: {
+    email: document.getElementById('input-reverify-email'),
   },
 };
 
@@ -108,6 +114,45 @@ async function setUserData() {
   }
 }
 
+async function openResendVerificationModal() {
+  inputElements.add_reverify_email.email.value =
+    inputElements.add_sign_in.email.value;
+  $('#reverify-email-modal').modal('show');
+}
+
+document
+  .getElementById('add-reverify-email-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let useBtn = document.getElementById('btn-reverify-add-form');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const { data, error } = await supabaseClient.auth.resend({
+      type: 'signup',
+      email: inputElements.add_reverify_email.email.value,
+      options: {
+        emailRedirectTo: redirectUrl.googleRedirectUrl,
+      },
+    });
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error });
+      return;
+    }
+
+    $('#reverify-email-modal').modal('hide');
+    handleFormResult({
+      error,
+      useBtn,
+      defaultBtnText,
+      successText: 'Confirmation email has been sent, please check your inbox.',
+    });
+  });
+
 document
   .getElementById('add-sign-in-form')
   .addEventListener('submit', async function (event) {
@@ -125,8 +170,18 @@ document
     });
 
     if (error) {
-      console.error('Error', error.message);
-      handleFormResult({ error, useBtn, defaultBtnText });
+      if (error.message === 'Email not confirmed') {
+        let errorMessage = `Email not yet confirmed. Check your inbox for the confirmation link or <b onClick="openResendVerificationModal()" style=" text-decoration: underline; cursor: pointer;">click here to resend verification</b>.`;
+
+        handleFormResult({
+          error,
+          useBtn,
+          defaultBtnText,
+          failedText: errorMessage,
+        });
+      } else {
+        handleFormResult({ error, useBtn, defaultBtnText });
+      }
       return;
     }
 
@@ -159,7 +214,6 @@ document
     });
 
     if (error) {
-      console.error('Error', error.message);
       handleFormResult({ error, useBtn, defaultBtnText });
       return;
     }
