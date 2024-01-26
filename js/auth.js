@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.69',
+  version: 'v1.0.70',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -26,7 +26,7 @@ const bucketName = 'images';
 
 const pageName = {
   index: 'index',
-  log_in: 'log-in',
+  log_in: 'sign-in',
   user_account: 'user-account',
   beloved: 'beloved',
   user_will: 'user_will',
@@ -42,6 +42,7 @@ const companyInfo = {
 
 const redirectUrl = {
   googleRedirectUrl: 'https://sampul.co/sign-in?refresh=true',
+  updatePasswordRedirectUrl: 'https://sampul.co/update-password',
 };
 
 const emptyUserImg = `https://image.pngaaa.com/291/5335291-middle.png`;
