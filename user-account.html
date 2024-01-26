@@ -111,15 +111,6 @@
                 </div>
               </div>
             </div>
-            <div id="edit-profile-modal-container">
-              <!-- auto generate -->
-            </div>
-            <div id="add-beloved-modal-container">
-              <!-- auto generate -->
-            </div>
-            <div id="add-digital-assets-modal-container">
-              <!-- auto generate -->
-            </div>
             <div class="smpl_section-content wf-section">
               <section class="section_layout13">
                 <div class="content_overview_digitalaccounts-copy">
@@ -132,118 +123,131 @@
                       </div>
                     </div>
                     <div class="dropdown-4-copy">
-                      <a href="#" class="button-link-gray">Hide</a>
+                      <button
+                        type="button"
+                        class="button-link-gray"
+                        id="toggle-getting-started-btn"
+                      >
+                        Show
+                      </button>
                     </div>
                   </div>
                 </div>
                 <div
-                  data-duration-in="400"
-                  data-duration-out="200"
-                  data-current="Tab 1"
-                  data-easing="ease"
-                  class="layout13_component w-tabs"
+                  id="getting-started-container"
+                  style="
+                    transition: height 0.5s ease;
+                    overflow: hidden;
+                    height: 0px;
+                  "
                 >
                   <div
-                    id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b2f4-71f8de8a"
-                    class="layout13_tabs-menu w-tab-menu"
-                  >
-                    <a
-                      data-w-tab="Tab 1"
-                      class="layout13_tabs-link w-inline-block w-tab-link w--current"
-                    >
-                      <div class="div-block-43">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div
-                            class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-primary700"
-                          >
-                            1
-                          </div>
-                        </div>
-                        <div
-                          class="smpl_text-lg-semibold flexchild-align-centre"
-                        >
-                          Complete profile
-                        </div>
-                      </div>
-                    </a>
-                    <a
-                      data-w-tab="Tab 2"
-                      id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b2fd-71f8de8a"
-                      class="layout13_tabs-link w-inline-block w-tab-link"
-                    >
-                      <div class="div-block-43">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div
-                            class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-gray700"
-                          >
-                            2
-                          </div>
-                        </div>
-                        <div
-                          class="smpl_text-lg-semibold flexchild-align-centre"
-                        >
-                          Appoint your Co-Sampul
-                        </div>
-                      </div>
-                    </a>
-                    <a
-                      data-w-tab="Tab 3"
-                      class="layout13_tabs-link w-inline-block w-tab-link"
-                    >
-                      <div class="div-block-43">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div
-                            class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-primary700"
-                          >
-                            3
-                          </div>
-                        </div>
-                        <div
-                          class="smpl_text-lg-semibold flexchild-align-centre"
-                        >
-                          Setup your first digital assets
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b30d-71f8de8a"
-                    class="tabs-content-2 w-tab-content"
+                    data-duration-in="400"
+                    data-duration-out="200"
+                    data-current="Tab 1"
+                    data-easing="ease"
+                    class="layout13_component w-tabs"
                   >
                     <div
-                      data-w-tab="Tab 1"
-                      class="tab-pane w-tab-pane w--tab-active"
+                      id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b2f4-71f8de8a"
+                      class="layout13_tabs-menu w-tab-menu"
                     >
-                      <div class="div-block-43-copy">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div class="icon-featured-medium w-embed">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewbox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
+                      <a
+                        data-w-tab="Tab 1"
+                        class="layout13_tabs-link w-inline-block w-tab-link w--current"
+                      >
+                        <div class="div-block-43">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div
+                              class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-primary700"
                             >
-                              <path
-                                d="M9 15.5H7.5C6.10444 15.5 5.40665 15.5 4.83886 15.6722C3.56045 16.06 2.56004 17.0605 2.17224 18.3389C2 18.9067 2 19.6044 2 21M14.5 7.5C14.5 9.98528 12.4853 12 10 12C7.51472 12 5.5 9.98528 5.5 7.5C5.5 5.01472 7.51472 3 10 3C12.4853 3 14.5 5.01472 14.5 7.5ZM11 21L14.1014 20.1139C14.2499 20.0715 14.3241 20.0502 14.3934 20.0184C14.4549 19.9902 14.5134 19.9558 14.5679 19.9158C14.6293 19.8707 14.6839 19.8161 14.7932 19.7068L21.25 13.25C21.9404 12.5597 21.9404 11.4403 21.25 10.75C20.5597 10.0596 19.4404 10.0596 18.75 10.75L12.2932 17.2068C12.1839 17.3161 12.1293 17.3707 12.0842 17.4321C12.0442 17.4866 12.0098 17.5451 11.9816 17.6066C11.9497 17.6759 11.9285 17.7501 11.8861 17.8987L11 21Z"
-                                stroke="#3118D3"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></path>
-                            </svg>
+                              1
+                            </div>
+                          </div>
+                          <div
+                            class="smpl_text-lg-semibold flexchild-align-centre"
+                          >
+                            Complete profile
                           </div>
                         </div>
-                        <div class="smpl_text-lg-semibold text-align-left">
-                          Complete profile
+                      </a>
+                      <a
+                        data-w-tab="Tab 2"
+                        id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b2fd-71f8de8a"
+                        class="layout13_tabs-link w-inline-block w-tab-link"
+                      >
+                        <div class="div-block-43">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div
+                              class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-gray700"
+                            >
+                              2
+                            </div>
+                          </div>
+                          <div
+                            class="smpl_text-lg-semibold flexchild-align-centre"
+                          >
+                            Appoint your Co-Sampul
+                          </div>
                         </div>
-                        <div class="smpl_text-sm-regular max-width-full">
-                          Complete the information on your profile and get
-                          verified to generate and download your wasiat/will
+                      </a>
+                      <a
+                        data-w-tab="Tab 3"
+                        class="layout13_tabs-link w-inline-block w-tab-link"
+                      >
+                        <div class="div-block-43">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div
+                              class="smpl_text-lg-semibold align-center flexchild-align-centre text-color-primary700"
+                            >
+                              3
+                            </div>
+                          </div>
+                          <div
+                            class="smpl_text-lg-semibold flexchild-align-centre"
+                          >
+                            Setup your first digital assets
+                          </div>
                         </div>
-                        <div class="container-large">
-                          <div class="modal-actions">
-                            <div class="content-22">
+                      </a>
+                    </div>
+                    <div
+                      id="w-node-dd19cbbd-0ccf-fca5-51f0-dc965ed3b30d-71f8de8a"
+                      class="tabs-content-2 w-tab-content"
+                    >
+                      <div
+                        data-w-tab="Tab 1"
+                        class="tab-pane w-tab-pane w--tab-active"
+                      >
+                        <div class="div-block-43-copy">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div class="icon-featured-medium w-embed">
+                              <svg
+                                width="24"
+                                height="24"
+                                viewbox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9 15.5H7.5C6.10444 15.5 5.40665 15.5 4.83886 15.6722C3.56045 16.06 2.56004 17.0605 2.17224 18.3389C2 18.9067 2 19.6044 2 21M14.5 7.5C14.5 9.98528 12.4853 12 10 12C7.51472 12 5.5 9.98528 5.5 7.5C5.5 5.01472 7.51472 3 10 3C12.4853 3 14.5 5.01472 14.5 7.5ZM11 21L14.1014 20.1139C14.2499 20.0715 14.3241 20.0502 14.3934 20.0184C14.4549 19.9902 14.5134 19.9558 14.5679 19.9158C14.6293 19.8707 14.6839 19.8161 14.7932 19.7068L21.25 13.25C21.9404 12.5597 21.9404 11.4403 21.25 10.75C20.5597 10.0596 19.4404 10.0596 18.75 10.75L12.2932 17.2068C12.1839 17.3161 12.1293 17.3707 12.0842 17.4321C12.0442 17.4866 12.0098 17.5451 11.9816 17.6066C11.9497 17.6759 11.9285 17.7501 11.8861 17.8987L11 21Z"
+                                  stroke="#3118D3"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </svg>
+                            </div>
+                          </div>
+                          <div class="smpl_text-lg-semibold text-align-left">
+                            Complete profile
+                          </div>
+                          <div class="smpl_text-sm-regular max-width-full">
+                            Complete the information on your profile and get
+                            verified to generate and download your wasiat/will
+                          </div>
+                          <div class="container-large">
+                            <div class="modal-actions">
                               <button
                                 type="button"
                                 class="button beloved-block"
@@ -251,49 +255,40 @@
                               >
                                 Edit Profile
                               </button>
-                              <button
-                                type="button"
-                                class="button-secondary-gray size-w142"
-                                id="tab-1-next-btn"
-                              >
-                                Next
-                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div data-w-tab="Tab 2" class="tab-pane w-tab-pane">
-                      <div class="div-block-43-copy">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div class="icon-featured-medium w-embed">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewbox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M19 21V15M16 18H22M12 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
-                                stroke="#3118D3"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></path>
-                            </svg>
+                      <div data-w-tab="Tab 2" class="tab-pane w-tab-pane">
+                        <div class="div-block-43-copy">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div class="icon-featured-medium w-embed">
+                              <svg
+                                width="24"
+                                height="24"
+                                viewbox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M19 21V15M16 18H22M12 15H8C6.13623 15 5.20435 15 4.46927 15.3045C3.48915 15.7105 2.71046 16.4892 2.30448 17.4693C2 18.2044 2 19.1362 2 21M15.5 3.29076C16.9659 3.88415 18 5.32131 18 7C18 8.67869 16.9659 10.1159 15.5 10.7092M13.5 7C13.5 9.20914 11.7091 11 9.5 11C7.29086 11 5.5 9.20914 5.5 7C5.5 4.79086 7.29086 3 9.5 3C11.7091 3 13.5 4.79086 13.5 7Z"
+                                  stroke="#3118D3"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                        <div class="smpl_text-lg-semibold text-align-left">
-                          Appoit your Co-Sampul
-                        </div>
-                        <div class="smpl_text-sm-regular">
-                          Co-Sampul is your trusted person for whom which all
-                          information in this Sampul will be passed on.
-                        </div>
-                        <div class="container-large">
-                          <div class="modal-actions">
-                            <div class="content-22">
+                          <div class="smpl_text-lg-semibold text-align-left">
+                            Appoit your Co-Sampul
+                          </div>
+                          <div class="smpl_text-sm-regular">
+                            Co-Sampul is your trusted person for whom which all
+                            information in this Sampul will be passed on.
+                          </div>
+                          <div class="container-large">
+                            <div class="modal-actions">
                               <button
                                 type="button"
                                 class="button beloved-block"
@@ -301,49 +296,41 @@
                               >
                                 Add Co-Sampul
                               </button>
-                              <button
-                                type="button"
-                                class="button-secondary-gray size-w142"
-                              >
-                                Next
-                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div data-w-tab="Tab 3" class="tab-pane w-tab-pane">
-                      <div class="div-block-43-copy">
-                        <div class="smpl-icon-featured-outline-large">
-                          <div class="icon-featured-medium w-embed">
-                            <svg
-                              width="24"
-                              height="24"
-                              viewbox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M6 21H9M15 21H18M17.5 6.5V14.5M3 6.2L3 14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18L17.8 18C18.9201 18 19.4802 18 19.908 17.782C20.2843 17.5903 20.5903 17.2843 20.782 16.908C21 16.4802 21 15.9201 21 14.8V6.2C21 5.0799 21 4.51984 20.782 4.09202C20.5903 3.7157 20.2843 3.40974 19.908 3.21799C19.4802 3 18.9201 3 17.8 3L6.2 3C5.0799 3 4.51984 3 4.09202 3.21799C3.7157 3.40973 3.40973 3.71569 3.21799 4.09202C3 4.51984 3 5.07989 3 6.2ZM11.5 10.5C11.5 11.8807 10.3807 13 9 13C7.61929 13 6.5 11.8807 6.5 10.5C6.5 9.11929 7.61929 8 9 8C10.3807 8 11.5 9.11929 11.5 10.5Z"
-                                stroke="#3118D3"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              ></path>
-                            </svg>
+                      <div data-w-tab="Tab 3" class="tab-pane w-tab-pane">
+                        <div class="div-block-43-copy">
+                          <div class="smpl-icon-featured-outline-large">
+                            <div class="icon-featured-medium w-embed">
+                              <svg
+                                width="24"
+                                height="24"
+                                viewbox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M6 21H9M15 21H18M17.5 6.5V14.5M3 6.2L3 14.8C3 15.9201 3 16.4802 3.21799 16.908C3.40973 17.2843 3.71569 17.5903 4.09202 17.782C4.51984 18 5.07989 18 6.2 18L17.8 18C18.9201 18 19.4802 18 19.908 17.782C20.2843 17.5903 20.5903 17.2843 20.782 16.908C21 16.4802 21 15.9201 21 14.8V6.2C21 5.0799 21 4.51984 20.782 4.09202C20.5903 3.7157 20.2843 3.40974 19.908 3.21799C19.4802 3 18.9201 3 17.8 3L6.2 3C5.0799 3 4.51984 3 4.09202 3.21799C3.7157 3.40973 3.40973 3.71569 3.21799 4.09202C3 4.51984 3 5.07989 3 6.2ZM11.5 10.5C11.5 11.8807 10.3807 13 9 13C7.61929 13 6.5 11.8807 6.5 10.5C6.5 9.11929 7.61929 8 9 8C10.3807 8 11.5 9.11929 11.5 10.5Z"
+                                  stroke="#3118D3"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                        <div class="smpl_text-lg-semibold text-align-left">
-                          Setup your first digital assets
-                        </div>
-                        <div class="smpl_text-sm-regular">
-                          List and register all your Digital Assets, keep track
-                          of your assets, monitor the performance of your assets
-                          and keep track of their value
-                        </div>
-                        <div class="container-large">
-                          <div class="modal-actions">
-                            <div class="content-22">
+                          <div class="smpl_text-lg-semibold text-align-left">
+                            Setup your first digital assets
+                          </div>
+                          <div class="smpl_text-sm-regular">
+                            List and register all your Digital Assets, keep
+                            track of your assets, monitor the performance of
+                            your assets and keep track of their value
+                          </div>
+                          <div class="container-large">
+                            <div class="modal-actions">
                               <button
                                 type="button"
                                 class="button beloved-block"
@@ -351,21 +338,12 @@
                               >
                                 Add Digital Asset
                               </button>
-                              <button
-                                type="button"
-                                class="button-secondary-gray size-w142"
-                              >
-                                Next
-                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="page-padding-10">
-                  <div class="container-large-10"></div>
                 </div>
               </section>
             </div>
@@ -1774,6 +1752,15 @@
     <script src="js/webflow.js" type="text/javascript"></script>
     <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
     <!-- our functions -->
+    <div id="edit-profile-modal-container">
+      <!-- auto generate -->
+    </div>
+    <div id="add-beloved-modal-container">
+      <!-- auto generate -->
+    </div>
+    <div id="add-digital-assets-modal-container">
+      <!-- auto generate -->
+    </div>
     <div id="alert-toast-container">
       <!-- auto generate -->
     </div>
