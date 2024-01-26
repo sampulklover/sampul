@@ -25,6 +25,11 @@ document
       .classList.remove('hidden');
   });
 
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
+};
+
 const inputElements = {
   add_digital_assets_modal: {
     username: document.getElementById('input-digital-assets-add-username'),
@@ -395,4 +400,8 @@ $(document).ready(function () {
   mapElements();
   fetchAssets();
   fetchbeloved();
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });

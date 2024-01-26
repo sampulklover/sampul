@@ -1,26 +1,36 @@
-document.getElementById('add-sign-out-modal-container').innerHTML =
-  signOutModalForm();
+const formConfigs = [
+  {
+    containerId: 'add-sign-out-modal-container',
+    formFunction: signOutModalForm(),
+  },
+  {
+    containerId: 'edit-profile-modal-container',
+    formFunction: profileModalForm(profileTypeName.edit.key),
+  },
+  {
+    containerId: 'add-beloved-modal-container',
+    formFunction: belovedModalForm(belovedTypeName.add.key),
+  },
+  {
+    containerId: 'add-digital-assets-modal-container',
+    formFunction: digitalAssetsModalForm(digitalAssetsTypeName.add.key),
+  },
+];
 
-document.getElementById('edit-profile-modal-container').innerHTML =
-  profileModalForm(profileTypeName.edit.key);
-
-document.getElementById('add-beloved-modal-container').innerHTML =
-  belovedModalForm(belovedTypeName.add.key);
-
-document.getElementById('add-digital-assets-modal-container').innerHTML =
-  digitalAssetsModalForm(digitalAssetsTypeName.add.key);
-
-document
-  .getElementById('open-sign-out-modal-btn')
-  .addEventListener('click', function () {
-    $('#sign-out-modal').modal('show');
-  });
+formConfigs.forEach((item) => {
+  document.getElementById(item.containerId).innerHTML = item.formFunction;
+});
 
 const displayElements = {
   username: document.getElementById('username'),
   count_digital: document.getElementById('count-digital-account'),
   count_subscription: document.getElementById('count-subscription-account'),
   last_updated: document.getElementById('last-updated-will'),
+};
+
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
 };
 
 const inputElements = {
@@ -83,6 +93,12 @@ const imageElements = {
 
 const buttonConfigs = [
   {
+    buttonId: 'open-sign-out-modal-btn',
+    action: () => {
+      $('#sign-out-modal').modal('show');
+    },
+  },
+  {
     buttonId: 'open-edit-profile-btn',
     action: () => {
       $('#edit-profile-modal').modal('show');
@@ -125,6 +141,14 @@ const buttonConfigs = [
   },
 ];
 
+buttonConfigs.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      btnConfig.action();
+    });
+});
+
 function toggleGetStartedContainer(isOnload = false) {
   const container = document.getElementById('getting-started-container');
   const toggleBtn = document.getElementById('toggle-getting-started-btn');
@@ -158,14 +182,6 @@ function toggleGetStartedContainer(isOnload = false) {
     });
   }
 }
-
-buttonConfigs.forEach((btnConfig) => {
-  document
-    .getElementById(btnConfig.buttonId)
-    .addEventListener('click', function () {
-      btnConfig.action();
-    });
-});
 
 function changeModalType(titleKey, type) {
   document.getElementById(`modal-beloved-${type}-title`).innerText =
@@ -392,6 +408,15 @@ async function fetchProfile() {
         }));
         mapToSelect(modifiedData, `select-digital-assets-add-beloved`);
       }
+
+      var myData = getSavedData('masterData');
+      if (myData) {
+        saveData('masterData', {
+          ...myData,
+          username: singleData.username,
+          image_path: singleData.image_path,
+        });
+      }
     }
   }
 }
@@ -536,4 +561,9 @@ $(document).ready(function () {
   );
 
   fetchProfile();
+
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });

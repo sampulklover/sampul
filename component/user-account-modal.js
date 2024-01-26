@@ -198,7 +198,6 @@ function profileModalForm(type) {
                   name="address-2"
                   placeholder="Address 2 (optional)"
                   id="input-profile-${profileTypeName[type].key}-address-2"
-                  required=""
                 />
                 <div class="form-content-2">
                   <input

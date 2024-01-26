@@ -11,6 +11,11 @@ document
 
 document.getElementById('sampul-will-logo').src = sampulWillLogo;
 
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
+};
+
 const displayElements = {
   willElements: {
     nric_name: document.getElementById('view-certificate-nric-name'),
@@ -563,4 +568,9 @@ function reinitiate() {
 $(document).ready(function () {
   roleUIbased('global');
   fetchWill();
+
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });

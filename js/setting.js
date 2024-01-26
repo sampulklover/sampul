@@ -7,6 +7,11 @@ document
     $('#sign-out-modal').modal('show');
   });
 
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
+};
+
 const inputElements = {
   profileForms: {
     username: document.getElementById('input-username'),
@@ -250,6 +255,15 @@ async function fetchProfile() {
           }
         }
       }
+
+      var myData = getSavedData('masterData');
+      if (myData) {
+        saveData('masterData', {
+          ...myData,
+          username: data.username,
+          image_path: data.image_path,
+        });
+      }
     }
   }
 }
@@ -409,4 +423,9 @@ $(document).ready(function () {
   mapElements();
   fetchProfile();
   fetchInformDeath();
+
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });
