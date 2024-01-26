@@ -128,7 +128,7 @@ const buttonConfigs = [
 function toggleGetStartedContainer(isOnload = false) {
   const container = document.getElementById('getting-started-container');
   const toggleBtn = document.getElementById('toggle-getting-started-btn');
-  const uiView = getSavedData('ui_view') || {};
+  const uiView = getSavedData('ui_view');
 
   if (isOnload) {
     if (
@@ -136,6 +136,11 @@ function toggleGetStartedContainer(isOnload = false) {
       uiView.user_account &&
       uiView.user_account.show_started_container
     ) {
+      container.style.height = '100%';
+      toggleBtn.innerText = 'Hide';
+    }
+
+    if (uiView == null) {
       container.style.height = '100%';
       toggleBtn.innerText = 'Hide';
     }
