@@ -36,6 +36,11 @@ function changeModalType(typeName, type) {
     type_title[typeName].subtitle;
 }
 
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
+};
+
 const inputElements = {
   add_beloved_modal: {
     nric_name: document.getElementById('input-beloved-add-nric-name'),
@@ -399,4 +404,9 @@ $(document).ready(function () {
   roleUIbased('global');
   mapElements();
   fetchbeloved();
+
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });

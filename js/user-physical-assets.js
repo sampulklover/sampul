@@ -7,6 +7,11 @@ document.getElementById('add-physical-assets-form-container').innerHTML =
 document.getElementById('edit-physical-assets-form-container').innerHTML =
   physicalAssetsModalForm(physicalAssetsTypeName.edit.key);
 
+const displayElementsSidebar = {
+  image_path: document.getElementById('sidebar-profile-image'),
+  username: document.getElementById('sidebar-profile-username'),
+};
+
 const inputElements = {
   add_physical_assets_modal: {
     username: document.getElementById('input-physical-assets-add-username'),
@@ -495,4 +500,9 @@ $(document).ready(function () {
   mapElements();
   fetchAssets();
   fetchbeloved();
+
+  var saveData = getSavedData('masterData');
+  if (saveData) {
+    mapViewElements(saveData, displayElementsSidebar);
+  }
 });
