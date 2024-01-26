@@ -11,6 +11,10 @@ const formConfigs = [
     containerId: 'reverify-email-container',
     formFunction: reverifyEmailModalForm(),
   },
+  {
+    containerId: 'forgot-password-container',
+    formFunction: forgotPasswordModalForm(),
+  },
 ];
 
 formConfigs.forEach((item) => {
@@ -19,6 +23,23 @@ formConfigs.forEach((item) => {
 
 newsletterFormAddAPI();
 
+const buttonConfigs = [
+  {
+    buttonId: 'btn-forgot-password',
+    action: () => {
+      $('#forgot-password-modal').modal('show');
+    },
+  },
+];
+
+buttonConfigs.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      btnConfig.action();
+    });
+});
+
 const inputElements = {
   add_sign_in: {
     email: document.getElementById('input-sign-in-email'),
@@ -26,6 +47,9 @@ const inputElements = {
   },
   add_reverify_email: {
     email: document.getElementById('input-reverify-email'),
+  },
+  add_forgot_password: {
+    email: document.getElementById('input-forgot-password-email'),
   },
 };
 
@@ -150,6 +174,39 @@ document
       useBtn,
       defaultBtnText,
       successText: 'Confirmation email has been sent, please check your inbox.',
+    });
+  });
+
+document
+  .getElementById('add-forgot-password-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let useBtn = document.getElementById('btn-forgot-password-add-form');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const { data, error } = await supabaseClient.auth.resetPasswordForEmail(
+      inputElements.add_forgot_password.email.value,
+      {
+        redirectTo: redirectUrl.updatePasswordRedirectUrl,
+      }
+    );
+
+    if (error) {
+      console.error('Error', error.message);
+      handleFormResult({ error });
+      return;
+    }
+
+    $('#forgot-password-modal').modal('hide');
+    handleFormResult({
+      error,
+      useBtn,
+      defaultBtnText,
+      successText:
+        'Password recovery email has been sent, please check your inbox.',
     });
   });
 
