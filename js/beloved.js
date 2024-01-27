@@ -80,8 +80,8 @@ document.getElementById('input-search').addEventListener('input', function () {
     );
   });
 
-  populateBeloved(filteredData, typeList.co_sampul);
-  populateBeloved(filteredData, typeList.future_owner);
+  populateBeloved(filteredData, typeList.co_sampul, true);
+  populateBeloved(filteredData, typeList.future_owner, true);
 });
 
 document
@@ -325,7 +325,7 @@ function toggleAddBelovedBtn(type, data) {
   }
 }
 
-function populateBeloved(allData = [], type) {
+function populateBeloved(allData = [], type, searching = false) {
   const listLoader = document.getElementById(`${type.pre_text}-list-loader`);
   const listEmpty = document.getElementById(`${type.pre_text}-list-empty`);
   const listContainer = document.getElementById(
@@ -364,7 +364,9 @@ function populateBeloved(allData = [], type) {
     }
   });
 
-  toggleAddBelovedBtn(type, records);
+  if (!searching) {
+    toggleAddBelovedBtn(type, records);
+  }
 
   listLoader.classList.add('hidden');
 
