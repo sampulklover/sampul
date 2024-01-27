@@ -300,9 +300,30 @@ function populateToEdit(id) {
 }
 
 const typeList = {
-  co_sampul: { pre_text: 'co-sampul', key: 'co_sampul' },
-  future_owner: { pre_text: 'future-owner', key: 'future_owner' },
+  co_sampul: {
+    pre_text: 'co-sampul',
+    key: 'co_sampul',
+    btnModalId: 'open-co-sampul-modal-btn',
+    insert_limit: 2,
+  },
+  future_owner: {
+    pre_text: 'future-owner',
+    key: 'future_owner',
+    btnModalId: 'open-future-owner-modal-btn',
+    insert_limit: null,
+  },
 };
+
+function toggleAddBelovedBtn(type, data) {
+  const { insert_limit, btnModalId } = type;
+  const btnModal = document.getElementById(btnModalId);
+
+  if (insert_limit && data.length >= insert_limit) {
+    btnModal.classList.add('hidden');
+  } else {
+    btnModal.classList.remove('hidden');
+  }
+}
 
 function populateBeloved(allData = [], type) {
   const listLoader = document.getElementById(`${type.pre_text}-list-loader`);
@@ -342,6 +363,8 @@ function populateBeloved(allData = [], type) {
       records.push(card);
     }
   });
+
+  toggleAddBelovedBtn(type, records);
 
   listLoader.classList.add('hidden');
 
