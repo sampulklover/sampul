@@ -46,6 +46,13 @@ const inputElements = {
     country: document.getElementById('input-inform-death-country'),
     image_path: document.getElementById('preview-inform-death-image'),
   },
+  planForm: {
+    package: document.getElementById('select-plan-package'),
+    order_id: document.getElementById('input-plan-order-id'),
+    nric_name: document.getElementById('input-plan-nric-name'),
+    email: document.getElementById('input-plan-email'),
+    phone_no: document.getElementById('input-plan-phone-no'),
+  },
 };
 
 document
@@ -417,6 +424,73 @@ async function fetchInformDeath() {
     }
   }
 }
+
+document
+  .getElementById('plan-form')
+  .addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    let useBtn = document.getElementById('save-plan-btn');
+    let defaultBtnText = useBtn.innerHTML;
+    useBtn.disabled = true;
+    useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
+
+    const addData = processForm(inputElements.planForm, false);
+    const hashedString = sha256(
+      senangPay.secretKey +
+        decodeURIComponent(
+          document.getElementById('select-plan-package').value
+        ) +
+        decodeURIComponent(document.getElementById('input-plan-order-id').value)
+    );
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ hash: hashedString, ...addData }),
+    };
+
+    console.log(
+      'options',
+      options,
+      'api',
+      `${senangPay.recurringAPi}${senangPay.merchantId}`
+    );
+
+    fetch(`${senangPay.recurringAPi}${senangPay.merchantId}`, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Response from server:', data);
+      })
+      .catch((error) => {
+        console.error('Error submitting data:', error);
+      });
+
+    // const { data: returnData, error } = await supabaseClient
+    //   .from(dbName.press_blog_posts)
+    //   .insert({
+    //     uuid: userId,
+    //     uid: generateRandomId(),
+    //     ...addData,
+    //   })
+    //   .select()
+    //   .single();
+
+    // if (error) {
+    //   console.error('Error', error.message);
+    //   handleFormResult({ error, useBtn, defaultBtnText });
+    //   return;
+    // }
+
+    // handleFormResult({ error, useBtn, defaultBtnText });
+  });
 
 $(document).ready(function () {
   roleUIbased('global');

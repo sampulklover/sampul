@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.76',
+  version: 'v1.0.77',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -52,6 +52,12 @@ const emptyBlogImg = `https://d1lf7jq9a5epx3.cloudfront.net/wp-content/uploads/s
 const emptyQrCodeImg = `https://mydatamerge.com/wp-content/uploads/qrcode_placeholder-300x300.png`;
 const sampulWillLogo = `https://rfzblaianldrfwdqdijl.supabase.co/storage/v1/object/public/website/sampul_logo.png`;
 const emptyPhysicalImg = `https://archive.org/download/placeholder-image/placeholder-image.jpg`;
+
+const senangPay = {
+  secretKey: '42175368798',
+  merchantId: '643170643986746',
+  recurringAPi: 'https://api.sandbox.senangpay.my/recurring/payment/',
+};
 
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJmemJsYWlhbmxkcmZ3ZHFkaWpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQwMDM5OTMsImV4cCI6MjAxOTU3OTk5M30.QOxPgVvOV0Efon8aleoAnlNKgkI2XwEPgIgz76_oIBU';
