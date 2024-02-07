@@ -90,7 +90,9 @@ const displayElements = {
 const downloadWillBtn = document.getElementById('download-will-btn');
 const genereateWillBtn = document.getElementById('generate-will-btn');
 const genereateWillBtn2 = document.getElementById('generate-will-btn-2');
+
 var proceed = true;
+var myWillData = null;
 
 downloadWillBtn.addEventListener('click', async function (event) {
   let useBtn = document.getElementById('download-will-btn');
@@ -141,7 +143,7 @@ function showErrorAlert(type) {
 
 function updateElementsView(data) {
   if (data?.profiles) {
-    displayElements.willElements.nric_name.innerText = data.profiles.nric_name;
+    displayElements.willElements.nric_name.innerText = data.nric_name;
     displayElements.willElements.label_code.innerText = data.label_code;
     displayElements.willElements.will_code.innerText = data.will_code;
     displayElements.willElements.last_updated.innerText = formatTimestamp(
@@ -268,6 +270,7 @@ async function generating(btnId) {
     const updateData = {
       label_code: generateLabelId(),
       last_updated: updatedTime,
+      nric_name: myWillData.profiles.nric_name,
     };
 
     const addData = {
@@ -422,6 +425,7 @@ async function fetchWill() {
     ]);
 
     updateElementsView({ ...willData, beloved: belovedData });
+    myWillData = willData;
     populateToAllDigitalAssetsTable(digitalAssetsData, belovedData);
   } catch (error) {
     console.error('Error', error.message);
