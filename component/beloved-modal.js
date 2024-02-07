@@ -108,7 +108,7 @@ function belovedModalForm(type) {
                   class="form_input w-input"
                   maxlength="256"
                   name="nickname"
-                  placeholder=""
+                  placeholder="e.g. Along, Angah, Acik"
                   id="input-beloved-${belovedTypeName[type].key}-nickname"
                   required=""
                 />

@@ -4,6 +4,10 @@ const formConfigs = [
     modalFormFunction: signOutModalForm(),
   },
   {
+    containerId: 'edit-user-form-container',
+    modalFormFunction: userModalForm(userTypeName.edit.key),
+  },
+  {
     containerId: 'add-blog-form-container',
     modalFormFunction: blogModalForm(blogTypeName.add.key),
   },
@@ -57,6 +61,10 @@ selectConfigs.forEach((item) => {
 });
 
 const inputElements = {
+  edit_user_modal: {
+    username: document.getElementById('input-user-edit-username'),
+    email: document.getElementById('input-user-edit-email'),
+  },
   add_blog_modal: {
     writer_name: document.getElementById('input-blog-add-writer-name'),
     title: document.getElementById('input-blog-add-title'),
@@ -133,9 +141,11 @@ buttonConfigs.forEach((btnConfig) => {
 
 mapImageElements(imageElements, imageElements);
 
+var userData = [];
 var blogData = [];
 var careerData = [];
 
+var editCurrentUserId = null;
 var editCurrentBlogId = null;
 var editCurrentCareerId = null;
 
@@ -164,6 +174,34 @@ function populateToEditCareer(id) {
   if (selectedCard) {
     for (const key in inputElements.edit_career_modal) {
       inputElements.edit_career_modal[key].value = selectedCard[key];
+    }
+  }
+}
+
+function populateToEditUser(id) {
+  editCurrentCareerId = id;
+  $('#edit-user-modal').modal('show');
+  var selectedCard = userData.find((item) => item.id === id);
+  if (selectedCard) {
+    for (const key in inputElements.edit_user_modal) {
+      inputElements.edit_user_modal[key].value = selectedCard[key];
+    }
+
+    $('#view-user-edit-beloved-list').empty();
+
+    if (selectedCard.beloved.length === 0) {
+      $('#view-user-edit-beloved-list').append(
+        '<li class="list-group-item"><small class="crop-text" style="text-align: center">No results found.</small></li>'
+      );
+    } else {
+      var listItems = selectedCard.beloved.map(function (item, index) {
+        let content = `<small class="crop-text">${item.nric_name}</small>
+          <small class="crop-text">${item.email}</small>`;
+
+        return `<li class="list-group-item"><span>${content}</span></li>`;
+      });
+
+      $('#view-user-edit-beloved-list').append(listItems.join(''));
     }
   }
 }
@@ -441,6 +479,16 @@ const tableConfig = {
           `;
         },
       },
+      {
+        title: '<small class="smpl_text-xs-medium">Action</small>',
+        data: 'id',
+        render: function (data, type, row, meta) {
+          return `<div class="custom-table-cell pointer-on-hover" onclick="populateToEditUser(${data})" >
+                    <div class="smpl_text-sm-semibold text-color-primary700">More</div>
+                  </div>
+          `;
+        },
+      },
     ],
   },
   blogs: {
@@ -495,7 +543,7 @@ const tableConfig = {
         title: '<small class="smpl_text-xs-medium">Action</small>',
         data: 'id',
         render: function (data, type, row, meta) {
-          return `<div class="custom-table-cell" onclick="populateToEditBlog(${data})" >
+          return `<div class="custom-table-cell pointer-on-hover" onclick="populateToEditBlog(${data})" >
                     <div class="smpl_text-sm-semibold text-color-primary700">More</div>
                   </div>
           `;
@@ -545,7 +593,7 @@ const tableConfig = {
         title: '<small class="smpl_text-xs-medium">Action</small>',
         data: 'id',
         render: function (data, type, row, meta) {
-          return `<div class="custom-table-cell" onclick="populateToEditCareer(${data})" >
+          return `<div class="custom-table-cell pointer-on-hover" onclick="populateToEditCareer(${data})" >
                     <div class="smpl_text-sm-semibold text-color-primary700">More</div>
                   </div>
           `;
@@ -585,7 +633,7 @@ function populateToCareersTable(tableData) {
 async function fetchUsersData() {
   const { data, error } = await supabaseClient
     .from(dbName.profiles)
-    .select('*');
+    .select(`*, ${dbName.beloved} ( * )`);
 
   if (error) {
     console.log(error.message);
@@ -626,6 +674,7 @@ async function initialFetch() {
     populateToBlogsTable(blogsData);
     populateToCareersTable(careersData);
 
+    userData = usersData;
     blogData = blogsData;
     careerData = careersData;
   } catch (error) {

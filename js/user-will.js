@@ -1,15 +1,43 @@
 window.jsPDF = window.jspdf.jsPDF; // required for jspdf
-
-document.getElementById('add-sign-out-modal-container').innerHTML =
-  signOutModalForm();
-
-document
-  .getElementById('open-sign-out-modal-btn')
-  .addEventListener('click', function () {
-    $('#sign-out-modal').modal('show');
-  });
-
 document.getElementById('sampul-will-logo').src = sampulWillLogo;
+
+const formConfigs = [
+  {
+    containerId: 'add-sign-out-modal-container',
+    modalFormFunction: signOutModalForm(),
+  },
+  {
+    containerId: 'share-modal-form-container',
+    modalFormFunction: shareModalForm(),
+  },
+];
+
+formConfigs.forEach((item) => {
+  document.getElementById(item.containerId).innerHTML = item.modalFormFunction;
+});
+
+const buttonConfigs = [
+  {
+    buttonId: 'open-sign-out-modal-btn',
+    action: () => {
+      $('#sign-out-modal').modal('show');
+    },
+  },
+  {
+    buttonId: 'open-share-modal-btn',
+    action: () => {
+      $('#share-modal').modal('show');
+    },
+  },
+];
+
+buttonConfigs.forEach((btnConfig) => {
+  document
+    .getElementById(btnConfig.buttonId)
+    .addEventListener('click', function () {
+      btnConfig.action();
+    });
+});
 
 const displayElementsSidebar = {
   image_path: document.getElementById('sidebar-profile-image'),
@@ -88,7 +116,7 @@ downloadWillBtn.addEventListener('click', async function (event) {
         },
         callback: function () {
           // This code will run after PDF generation is complete
-          pdf.save('my_will.pdf');
+          pdf.save('will.pdf');
           resolve();
         },
       });
@@ -139,6 +167,11 @@ function updateElementsView(data) {
       data.last_updated
     );
     displayElements.detailsElements.nric_no_2.innerText = data.profiles.nric_no;
+
+    if (data.will_code) {
+      var url = `${webInfo.parentUrl}/${pageName.view_will}?will_id=${data.will_code}`;
+      shareModalAction(url, 'Will Certificate');
+    }
   }
   if (data?.beloved) {
     if (data.beloved.length !== 0) {
@@ -234,8 +267,12 @@ async function generating(btnId) {
 
     const updateData = {
       label_code: generateLabelId(),
-      will_code: generateWillId(),
       last_updated: updatedTime,
+    };
+
+    const addData = {
+      ...updateData,
+      will_code: generateWillId(),
     };
 
     const { data: checkExist, error: errorCheckExist } = await supabaseClient
@@ -269,7 +306,7 @@ async function generating(btnId) {
         .from(dbName.wills)
         .upsert({
           uuid: userId,
-          ...updateData,
+          ...addData,
         })
         .select()
         .single();
@@ -309,7 +346,7 @@ async function generateQRCode(data, useBtn, defaultBtnText) {
   var container = document.getElementById('qr-code-container');
   container.innerHTML = '';
 
-  var url = `${webInfo.parentUrl}/${pageName.user_will}?will_id=${will_id}`;
+  var url = `${webInfo.parentUrl}/${pageName.view_will}?will_id=${will_id}`;
   var qrcode = new QRCode(container, {
     text: url,
     width: 150,

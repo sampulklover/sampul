@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.0.78',
+  version: 'v1.1.0',
   parentUrl: 'https://www.sampul.com',
 };
 
@@ -20,6 +20,8 @@ const dbName = {
   roles: 'roles',
   accounts: 'accounts',
   products: 'products',
+  payment_session: 'payment_session',
+  extra_wishes: 'extra_wishes',
 };
 
 const bucketName = 'images';
@@ -29,7 +31,8 @@ const pageName = {
   log_in: 'sign-in',
   user_account: 'user-account',
   beloved: 'beloved',
-  user_will: 'user_will',
+  user_will: 'user-will',
+  view_will: 'view-will',
 };
 
 const companyInfo = {
@@ -54,7 +57,7 @@ const sampulWillLogo = `https://rfzblaianldrfwdqdijl.supabase.co/storage/v1/obje
 const emptyPhysicalImg = `https://archive.org/download/placeholder-image/placeholder-image.jpg`;
 
 const senangPay = {
-  secretKey: '42175368798',
+  secretKey: '6421-177',
   merchantId: '643170643986746',
   recurringAPi: 'https://api.sandbox.senangpay.my/recurring/payment/',
 };

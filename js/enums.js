@@ -193,8 +193,8 @@ function maritalStatus() {
 
 function servicePlatformAccountTypes() {
   const items = [
-    { name: 'Digital Account', value: 'digital_account' },
-    { name: 'Subscription Account', value: 'subscription_account' },
+    { name: 'Non-Subscription', value: 'non_subscription' },
+    { name: 'Subscription', value: 'subscription' },
   ];
 
   return items;
@@ -239,11 +239,9 @@ function declaredValues() {
 function instructionsAfterDeath() {
   const options = [
     { name: 'Faraid', value: 'faraid' },
-    { name: 'Hibah', value: 'hibah' },
-    {
-      name: '1/3 N/W (Distribute 1/3 to Non-Faraid Heirs)',
-      value: 'distribute',
-    },
+    { name: 'Transfer', value: 'transfer' },
+    { name: 'Gift', value: 'gift' },
+    { name: 'Non-Waris', value: 'non_waris' },
   ];
 
   return options;
@@ -334,6 +332,26 @@ function blogCategories() {
     { name: 'Will', value: 'will' },
     { name: 'Muamalat', value: 'muamalat' },
     { name: 'Harta Pusaka', value: 'harta_pusaka' },
+  ];
+
+  return options;
+}
+
+function charityBodies() {
+  const options = [
+    { name: 'Body A', value: 'body_a' },
+    { name: 'Body B', value: 'body_b' },
+    { name: 'Body C', value: 'body_c' },
+  ];
+
+  return options;
+}
+
+function waqfBodies() {
+  const options = [
+    { name: 'Body A', value: 'body_a' },
+    { name: 'Body B', value: 'body_b' },
+    { name: 'Body C', value: 'body_c' },
   ];
 
   return options;

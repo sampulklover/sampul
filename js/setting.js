@@ -435,31 +435,28 @@ document
     useBtn.disabled = true;
     useBtn.innerHTML = spinnerLoading(useBtn.innerHTML);
 
-    const addData = processForm(inputElements.planForm, false);
-    const hashedString = sha256(
-      senangPay.secretKey +
-        decodeURIComponent(
-          document.getElementById('select-plan-package').value
-        ) +
-        decodeURIComponent(document.getElementById('input-plan-order-id').value)
-    );
+    console.log(`${senangPay.recurringAPi}${senangPay.merchantId}`);
+    const userId = await getUserSession();
+    const addData = {
+      recurring_id: '170652994334',
+      order_id: '667788',
+      name: 'Hafiz',
+      email: 'clickerhizers@gmail.com',
+      phone: '017423212',
+      hash: '9811cd47a2b23902090b0ec8bc5ccdb7837eb6105317bc0227b0057c39e4811c',
+    };
 
+    // Define options for the fetch request
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ hash: hashedString, ...addData }),
+      body: JSON.stringify(addData),
     };
 
-    console.log(
-      'options',
-      options,
-      'api',
-      `${senangPay.recurringAPi}${senangPay.merchantId}`
-    );
-
-    fetch(`${senangPay.recurringAPi}${senangPay.merchantId}`, options)
+    // Make the fetch request
+    fetch('https://x8ki-letl-twmt.n7.xano.io/api:mHY0z6q4/test', options)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -467,11 +464,62 @@ document
         return response.json();
       })
       .then((data) => {
-        console.log('Response from server:', data);
+        const newWindow = window.open();
+        newWindow.document.write(data.response.result);
       })
       .catch((error) => {
-        console.error('Error submitting data:', error);
+        console.error('There was a problem with the request:', error);
       });
+
+    // const { data, error } = await supabaseClient
+    //   .from(dbName.payment_session)
+    //   .insert({
+    //     uuid: userId,
+    //     ...addData,
+    //   });
+
+    // console.log('data', data);
+
+    // if (error) {
+    //   console.error('Error', error.message);
+    //   handleFormResult({ error, useBtn, defaultBtnText });
+    //   return;
+    // }
+
+    // handleFormResult({ error, useBtn, defaultBtnText });
+
+    // const addData = processForm(inputElements.planForm, false);
+    // const hashedString = sha256(
+    //   senangPay.secretKey +
+    //     decodeURIComponent(
+    //       document.getElementById('select-plan-package').value
+    //     ) +
+    //     decodeURIComponent(document.getElementById('input-plan-order-id').value)
+    // );
+    // console.log('hashedString', hashedString);
+
+    // console.log(`${senangPay.recurringAPi}${senangPay.merchantId}`);
+    // const options = {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({ hash: hashedString, ...addData }),
+    // };
+
+    // fetch(`${senangPay.recurringAPi}${senangPay.merchantId}`, options)
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     console.log('Response from server:', data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error submitting data:', error);
+    // });
 
     // const { data: returnData, error } = await supabaseClient
     //   .from(dbName.press_blog_posts)
@@ -492,6 +540,139 @@ document
     // handleFormResult({ error, useBtn, defaultBtnText });
   });
 
+var currentPlanUid = null;
+
+function populateBilling(allData = []) {
+  const listLoader = document.getElementById('billing-list-loader');
+  const listEmpty = document.getElementById('billing-list-empty');
+  const listContainer = document.getElementById('billing-list-container');
+  const listBody = document.getElementById('billing-list-body');
+
+  var records = [];
+
+  allData.forEach((item) => {
+    const card = listBody.cloneNode(true);
+    const divs = card.getElementsByTagName('div');
+    const title = divs[0].getElementsByTagName('span');
+
+    title[0].innerHTML = item.title;
+    title[1].innerHTML = `RM ${item.price_myr}`;
+    title[2].innerHTML = item.duration;
+    title[3].innerHTML = item.description;
+
+    if (currentPlanUid === item.uid) {
+      card.style.border = '1px solid blue';
+      card.setAttribute('data-selected', 'true');
+    }
+
+    divs[0].addEventListener('click', function () {
+      const prevSelectedCard = listContainer.querySelector(
+        '[data-selected="true"]'
+      );
+      if (prevSelectedCard) {
+        prevSelectedCard.style.border = '';
+        prevSelectedCard.removeAttribute('data-selected');
+      }
+
+      card.style.border = '1px solid blue';
+      card.setAttribute('data-selected', 'true');
+
+      currentPlanUid = item.uid;
+    });
+
+    records.push(card);
+  });
+
+  listLoader.classList.add('hidden');
+
+  if (records.length === 0) {
+    listEmpty.classList.remove('hidden');
+    listContainer.classList.add('hidden');
+  } else {
+    listEmpty.classList.add('hidden');
+    listContainer.classList.remove('hidden');
+
+    while (listContainer.firstChild) {
+      listContainer.removeChild(listContainer.firstChild);
+    }
+    records.forEach((item) => {
+      listContainer.appendChild(item);
+    });
+  }
+}
+
+async function fetchBilling(accountData) {
+  const userId = await getUserSession();
+
+  if (userId) {
+    const { data, error } = await supabaseClient
+      .from(dbName.products)
+      .select('*');
+
+    if (error) {
+      console.error('Error', error.message);
+      showToast('alert-toast-container', error.message, 'danger');
+    } else {
+      populateBilling(data, accountData);
+    }
+  }
+}
+
+function populateToAllBillingHistoryTable(tableData) {
+  const tableColumns = [
+    {
+      title: '<small class="smpl_text-xs-medium">Invoice</small>',
+      data: 'id',
+      render: function (data, type, row, meta) {
+        return `<div class="custom-table-cell">
+                  <div class="text-sm-regular-8">${data}</div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Amount</small>',
+      data: 'id',
+      render: function (data, type, row, meta) {
+        return `<div class="custom-table-cell">
+                  <div class="text-sm-regular-8">${data}</div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Date</small>',
+      data: 'id',
+      render: function (data, type, row, meta) {
+        return `<div class="custom-table-cell">
+                  <div class="text-sm-regular-8">${data}</div>
+              </div>
+        `;
+      },
+    },
+    {
+      title: '<small class="smpl_text-xs-medium">Status</small>',
+      data: 'id',
+      render: function (data, type, row, meta) {
+        return `<div class="custom-table-cell">
+                  <div class="text-sm-regular-8">${data}</div>
+              </div>
+        `;
+      },
+    },
+  ];
+
+  const tableLoader = document.getElementById(
+    'all-billing-history-table-loader'
+  );
+  populateToTable(
+    '#all-billing-history-table',
+    tableData,
+    tableColumns,
+    tableLoader
+  );
+}
+
 $(document).ready(function () {
   roleUIbased('global');
   mapElements();
@@ -501,5 +682,8 @@ $(document).ready(function () {
   var saveData = getSavedData('masterData');
   if (saveData) {
     mapViewElements(saveData, displayElementsSidebar);
+    currentPlanUid = saveData?.accounts?.product_uid;
+    fetchBilling();
+    populateToAllBillingHistoryTable();
   }
 });

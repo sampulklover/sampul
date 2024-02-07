@@ -208,6 +208,8 @@
   transform-origin: 0%;
   display: block;
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .cloneable-area {
@@ -16984,9 +16986,9 @@
   justify-content: flex-end;
   align-self: auto;
   align-items: flex-start;
-  padding-bottom: 24px;
+  /* padding-bottom: 24px;
   padding-left: 24px;
-  padding-right: 24px;
+  padding-right: 24px; */
   display: flex;
 }
 
@@ -29632,7 +29634,7 @@
     flex-direction: column;
   }
 
-  .content-22 {
+  /* .content-22 {
     grid-column-gap: 12px;
     grid-row-gap: 12px;
     grid-template-rows: auto auto;
@@ -29640,7 +29642,7 @@
     grid-auto-columns: 1fr;
     justify-items: end;
     display: flex;
-  }
+  } */
 
   .slider {
     padding-left: 0;
@@ -34667,7 +34669,7 @@
     flex-direction: column;
   }
 
-  .content-22 {
+  /* .content-22 {
     grid-column-gap: 12px;
     grid-row-gap: 12px;
     flex-direction: column;
@@ -34677,7 +34679,7 @@
     padding-left: 0;
     padding-right: 0;
     display: flex;
-  }
+  } */
 
   .row-4, .div-block-13 {
     flex-direction: column;
