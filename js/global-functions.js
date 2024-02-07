@@ -153,7 +153,16 @@ function populateToTable(
 function mapValueElements(source, target) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
-      if (typeof source[key] === 'object') {
+      if (Array.isArray(source[key]) === true) {
+        if (target[key]) {
+          for (var i = 0; i < target[key].options.length; i++) {
+            var optionValue = target[key].options[i].value;
+            if (source[key].includes(optionValue)) {
+              target[key].options[i].selected = true;
+            }
+          }
+        }
+      } else if (typeof source[key] === 'object') {
         for (const nestedKey in source[key]) {
           if (target[nestedKey]) {
             target[nestedKey].value = source[key][nestedKey];
@@ -186,7 +195,9 @@ function mapViewElements(source, target) {
           }
         }
       } else if (target[key]) {
-        if (target[key].tagName === 'IMG') {
+        if (key == 'last_updated') {
+          target[key].innerText = formatTimestamp(source[key]);
+        } else if (target[key].tagName === 'IMG') {
           target[key].src = `${CDNURL}${source[key]}`;
         } else {
           target[key].innerText = source[key];
@@ -335,7 +346,17 @@ function processForm(elements, clearFields = false) {
   } else {
     for (const key in elements) {
       if (key !== 'image_path') {
-        addData[key] = elements[key].value;
+        if (elements[key].tagName == 'SELECT' && elements[key].multiple) {
+          var selectedValues = [];
+          for (var i = 0; i < elements[key].length; i++) {
+            if (elements[key][i].selected) {
+              selectedValues.push(elements[key][i].value);
+            }
+          }
+          addData[key] = selectedValues;
+        } else {
+          addData[key] = elements[key].value;
+        }
       }
     }
   }
@@ -445,4 +466,21 @@ function generateRandomId(length = 8) {
   }
 
   return randomId;
+}
+
+function listFilter(inputId, listId) {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById(inputId);
+  filter = input.value.toUpperCase();
+  ul = document.getElementById(listId);
+  li = ul.getElementsByTagName('li');
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName('span')[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = '';
+    } else {
+      li[i].style.display = 'none';
+    }
+  }
 }

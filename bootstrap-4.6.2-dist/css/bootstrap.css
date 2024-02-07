@@ -2525,10 +2525,12 @@ textarea.form-control {
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
+  /* padding: 0.375rem 0.75rem; */
+  padding: 0.625rem 1.125rem ;
   font-size: 1rem;
   line-height: 1.5;
-  border-radius: 0.25rem;
+  /* border-radius: 0.25rem; */
+  border-radius: 0.5rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -2563,14 +2565,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #3118d3;
+  border-color: #533de9;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: #6842f4;
+  border-color: #6842f4;
 }
 
 .btn-primary:focus, .btn-primary.focus {
