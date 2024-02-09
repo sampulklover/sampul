@@ -1,7 +1,7 @@
 const { createClient } = supabase;
 
 const webInfo = {
-  version: 'v1.1.4',
+  version: 'v1.1.5',
   parentUrl: 'https://www.sampul.co',
 };
 
