@@ -40,7 +40,7 @@ const inputElements = {
     account_type: document.getElementById('select-digital-assets-add-type'),
     frequency: document.getElementById('select-digital-assets-add-frequency'),
     declared_value_myr: document.getElementById(
-      'select-digital-assets-add-declared-value'
+      'input-digital-assets-add-declared-value'
     ),
     instructions_after_death: document.getElementById(
       'select-digital-assets-add-instructions-after-death'
@@ -57,7 +57,7 @@ const inputElements = {
     account_type: document.getElementById('select-digital-assets-edit-type'),
     frequency: document.getElementById('select-digital-assets-edit-frequency'),
     declared_value_myr: document.getElementById(
-      'select-digital-assets-edit-declared-value'
+      'input-digital-assets-edit-declared-value'
     ),
     instructions_after_death: document.getElementById(
       'select-digital-assets-edit-instructions-after-death'
@@ -235,14 +235,14 @@ function populateAssets(allData = [], tabName = 'tab_1') {
 
   if (tabName == 'tab_2') {
     const filteredData = allData.filter(function (item) {
-      return item.account_type === 'digital_account';
+      return item.account_type === 'non_subscription';
     });
     allData = filteredData;
   }
 
   if (tabName == 'tab_3') {
     const filteredData = allData.filter(function (item) {
-      return item.account_type === 'subscription_account';
+      return item.account_type === 'subscription';
     });
     allData = filteredData;
   }
@@ -261,17 +261,13 @@ function populateAssets(allData = [], tabName = 'tab_1') {
       (y) => y.value === item.instructions_after_death
     );
 
-    const dvObject = declaredValues().find(
-      (y) => y.value === item.declared_value_myr
-    );
-
     if (spObject.img) {
       image[0].src = spObject.img;
     }
 
     title[0].innerText = spObject.name;
     title[1].innerText = iadObject.name;
-    title[2].innerText = dvObject.name;
+    title[2].innerText = `RM ${item.declared_value_myr}`;
 
     divs[0].addEventListener('click', function () {
       populateToEdit(item.id);
@@ -340,10 +336,6 @@ function mapElements() {
     mapToSelect(
       servicePlatformFrequencies(),
       `select-digital-assets-${digitalAssetsTypeName[key].key}-frequency`
-    );
-    mapToSelect(
-      declaredValues(),
-      `select-digital-assets-${digitalAssetsTypeName[key].key}-declared-value`
     );
     mapToSelect(
       instructionsAfterDeath(),
