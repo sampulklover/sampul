@@ -23,7 +23,11 @@ formConfigs.forEach((item) => {
 
 const displayElements = {
   username: document.getElementById('username'),
+  count_value_digital: document.getElementById('count-value-digital-account'),
   count_digital: document.getElementById('count-digital-account'),
+  count_value_subscription: document.getElementById(
+    'count-value-subscription-account'
+  ),
   count_subscription: document.getElementById('count-subscription-account'),
   last_updated: document.getElementById('last-updated-will'),
 };
@@ -70,7 +74,7 @@ const inputElements = {
     account_type: document.getElementById('select-digital-assets-add-type'),
     frequency: document.getElementById('select-digital-assets-add-frequency'),
     declared_value_myr: document.getElementById(
-      'select-digital-assets-add-declared-value'
+      'input-digital-assets-add-declared-value'
     ),
     instructions_after_death: document.getElementById(
       'select-digital-assets-add-instructions-after-death'
@@ -377,16 +381,25 @@ async function fetchProfile() {
       singleData.subscription_account = [];
 
       singleData.digital_assets.forEach((item) => {
-        if (item.account_type === 'digital_account') {
+        if (item.account_type === 'non_subscription') {
           singleData.digital_account.push(item);
         }
-        if (item.account_type === 'subscription_account') {
+        if (item.account_type === 'subscription') {
           singleData.subscription_account.push(item);
         }
       });
 
       singleData.count_digital = singleData.digital_account.length;
       singleData.count_subscription = singleData.subscription_account.length;
+      singleData.count_value_digital = singleData.digital_account.reduce(
+        (acc, val) => acc + val.declared_value_myr,
+        0
+      );
+      singleData.count_value_subscription =
+        singleData.subscription_account.reduce(
+          (acc, val) => acc + val.declared_value_myr,
+          0
+        );
 
       mapViewElements(singleData, displayElements);
       handleTableData(singleData);
@@ -424,7 +437,7 @@ async function fetchProfile() {
 function populateToAllDigitalAssetsTable(tableData, key) {
   const tableColumns = [
     {
-      title: '<small class="smpl_text-xs-medium">Subscriptions</small>',
+      title: '<small class="smpl_text-xs-medium">Platforms</small>',
       data: 'uui',
       render: function (data, type, row, meta) {
         let platform = servicePlatforms().find(
@@ -452,12 +465,11 @@ function populateToAllDigitalAssetsTable(tableData, key) {
       title: '<small class="smpl_text-xs-medium">Value</small>',
       data: 'uui',
       render: function (data, type, row, meta) {
-        let declaredValue = declaredValues().find(
-          (item) => item.value === row.declared_value_myr
-        );
-        const declaredValueName = declaredValue?.name || '';
+        const declaredValue = row.declared_value_myr
+          ? `RM ${row.declared_value_myr}`
+          : '';
         return `<div class="custom-table-cell">
-                  <div class="text-sm-regular-8 crop-text">${declaredValueName}</div>
+                  <div class="text-sm-regular-8 crop-text">${declaredValue}</div>
               </div>
         `;
       },
@@ -554,7 +566,6 @@ $(document).ready(function () {
     servicePlatformFrequencies(),
     'select-digital-assets-add-frequency'
   );
-  mapToSelect(declaredValues(), 'select-digital-assets-add-declared-value');
   mapToSelect(
     instructionsAfterDeath(),
     'select-digital-assets-add-instructions-after-death'

@@ -203,17 +203,20 @@ function digitalAssetsModalForm(type) {
               <div class="form-field-wrapper">
                 <label for="Declared-value-4" class="field-label"
                   >Declared Value (MYR)<span class="text-span-6">*</span></label
-                ><select
-                  id="select-digital-assets-${
-                    digitalAssetsTypeName[type].key
-                  }-declared-value"
-                  name="Declared-value-3"
-                  data-name="Declared Value 3"
-                  required=""
-                  class="form_input w-select"
                 >
-                  <!-- auto generate -->
-                </select>
+                <input
+                type="number" 
+                step="0.01"
+                class="form_input w-input"
+                maxlength="256"
+                name="declared-value"
+                data-name="declared-value"
+                placeholder=""
+                id="input-digital-assets-${
+                  digitalAssetsTypeName[type].key
+                }-declared-value"
+                required=""
+                />
               </div>
             </div>
             <div class="form-field-wrapper">
